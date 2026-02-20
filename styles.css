@@ -246,6 +246,10 @@ header p {
     background-image: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(101, 67, 33, 0.3)), url('https://images.unsplash.com/photo-1551632811-561732d1e306?w=400&h=300&fit=crop&crop=center');
 }
 
+.swimming-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(33, 150, 243, 0.3), rgba(30, 136, 229, 0.3)), url('https://images.unsplash.com/photo-1530549387789-4c1017266635?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80');
+}
+
 /* Footer */
 footer {
     background: #2c3e50;
