@@ -1,0 +1,238 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header styles */
+header {
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    color: white;
+    text-align: center;
+    padding: 60px 0;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Hero section */
+.hero {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Tiles section */
+.tiles-section {
+    margin-bottom: 60px;
+}
+
+.tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.tile {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+.tile:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.tile-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.tile-icon img {
+    width: 40px;
+    height: 40px;
+    filter: brightness(0) invert(1);
+}
+
+.tile h3 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.tile p {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.tile-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+.tile-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+    background: linear-gradient(135deg, #2980b9, #3498db);
+}
+
+/* Specific tile colors */
+.tile:nth-child(1) .tile-icon {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.tile:nth-child(2) .tile-icon {
+    background: linear-gradient(135deg, #27ae60, #229954);
+}
+
+.tile:nth-child(3) .tile-icon {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.tile:nth-child(4) .tile-icon {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+.tile:nth-child(5) .tile-icon {
+    background: linear-gradient(135deg, #1abc9c, #16a085);
+}
+
+.tile:nth-child(6) .tile-icon {
+    background: linear-gradient(135deg, #e67e22, #d35400);
+}
+
+/* Footer */
+footer {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 60px;
+}
+
+footer p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.5rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .tiles-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .tile {
+        padding: 25px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 40px 0;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .hero h2 {
+        font-size: 1.8rem;
+    }
+
+    .tile h3 {
+        font-size: 1.3rem;
+    }
+
+    .tile-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .tile-icon img {
+        width: 30px;
+        height: 30px;
+    }
+}
