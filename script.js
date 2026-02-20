@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
             factElement.style.opacity = '0';
 
             setTimeout(() => {
-                factElement.textContent = diabetesFacts[currentFactIndex];
+                factElement.textContent = "DID YOU KNOW? " + diabetesFacts[currentFactIndex];
                 factElement.style.transform = 'translateX(100px)';
 
                 setTimeout(() => {
