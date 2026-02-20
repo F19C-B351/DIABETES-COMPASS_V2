@@ -225,6 +225,27 @@ header p {
     background-image: linear-gradient(135deg, rgba(52, 73, 94, 0.3), rgba(44, 62, 80, 0.3)), url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop&crop=center');
 }
 
+/* Physical Activities Page Tiles */
+.yoga-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(156, 39, 176, 0.3), rgba(123, 31, 162, 0.3)), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center');
+}
+
+.running-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(244, 67, 54, 0.3), rgba(183, 28, 28, 0.3)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center');
+}
+
+.cycling-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(255, 193, 7, 0.3), rgba(255, 152, 0, 0.3)), url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center');
+}
+
+.group-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(56, 142, 60, 0.3)), url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=400&h=300&fit=crop&crop=center');
+}
+
+.hiking-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(101, 67, 33, 0.3)), url('https://images.unsplash.com/photo-1551632811-561732d1e306?w=400&h=300&fit=crop&crop=center');
+}
+
 /* Footer */
 footer {
     background: #2c3e50;
