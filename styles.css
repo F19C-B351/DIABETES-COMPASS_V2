@@ -9,7 +9,10 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
-    background-color: #f8f9fa;
+    background: linear-gradient(rgba(248, 249, 250, 0.95), rgba(248, 249, 250, 0.95)),
+        url('images/Diabetes Compass.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
 }
 
 .container {
