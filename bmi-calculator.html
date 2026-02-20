@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI & Calorie Calculator - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="#contribute" class="nav-link">Contribute</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>BMI & Calorie Calculator</h1>
+                    <p>Track your health metrics for better diabetes management</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero">
+                <h2>Monitor Your Health Journey</h2>
+                <p>Calculate your BMI and daily calorie needs to support your diabetes management goals.</p>
+            </section>
+
+            <section class="calculator-section">
+                <div class="calculator-grid">
+                    <!-- BMI Calculator -->
+                    <div class="calculator-card">
+                        <h3>BMI Calculator</h3>
+                        <div class="calculator-form">
+                            <div class="input-group">
+                                <label for="height">Height (cm):</label>
+                                <input type="number" id="height" placeholder="Enter your height in cm">
+                            </div>
+                            <div class="input-group">
+                                <label for="weight">Weight (kg):</label>
+                                <input type="number" id="weight" placeholder="Enter your weight in kg">
+                            </div>
+                            <button onclick="calculateBMI()" class="calc-button">Calculate BMI</button>
+                            <div id="bmi-result" class="result-display"></div>
+                        </div>
+                    </div>
+
+                    <!-- Calorie Calculator -->
+                    <div class="calculator-card">
+                        <h3>Daily Calorie Calculator</h3>
+                        <div class="calculator-form">
+                            <div class="input-group">
+                                <label for="age">Age:</label>
+                                <input type="number" id="age" placeholder="Enter your age">
+                            </div>
+                            <div class="input-group">
+                                <label for="gender">Gender:</label>
+                                <select id="gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="activity">Activity Level:</label>
+                                <select id="activity">
+                                    <option value="">Select Activity Level</option>
+                                    <option value="1.2">Sedentary (little/no exercise)</option>
+                                    <option value="1.375">Light (light exercise 1-3 days/week)</option>
+                                    <option value="1.55">Moderate (moderate exercise 3-5 days/week)</option>
+                                    <option value="1.725">Very Active (hard exercise 6-7 days/week)</option>
+                                    <option value="1.9">Extremely Active (very hard exercise/physical job)</option>
+                                </select>
+                            </div>
+                            <button onclick="calculateCalories()" class="calc-button">Calculate Calories</button>
+                            <div id="calorie-result" class="result-display"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BMI Information Section -->
+            <section class="info-section">
+                <h2>Understanding BMI for Diabetes Management</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>BMI Categories</h4>
+                        <ul>
+                            <li><strong>Underweight:</strong> BMI below 18.5</li>
+                            <li><strong>Normal weight:</strong> BMI 18.5-24.9</li>
+                            <li><strong>Overweight:</strong> BMI 25-29.9</li>
+                            <li><strong>Obese:</strong> BMI 30 and above</li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h4>Diabetes & Weight</h4>
+                        <p>Maintaining a healthy weight is crucial for diabetes management. Even a small weight loss of
+                            5-10% can significantly improve blood sugar control and reduce the risk of diabetes
+                            complications.</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Healthy Goals</h4>
+                        <p>Work with your healthcare provider to set realistic weight and calorie goals. Gradual,
+                            sustainable changes in diet and physical activity are most effective for long-term diabetes
+                            management.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const resultDiv = document.getElementById('bmi-result');
+
+            if (!height || !weight || height <= 0 || weight <= 0) {
+                resultDiv.innerHTML = '<p style="color: #e74c3c;">Please enter valid height and weight values.</p>';
+                return;
+            }
+
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+
+            let category = '';
+            let color = '';
+
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                color = '#3498db';
+            } else if (bmi < 25) {
+                category = 'Normal weight';
+                color = '#27ae60';
+            } else if (bmi < 30) {
+                category = 'Overweight';
+                color = '#f39c12';
+            } else {
+                category = 'Obese';
+                color = '#e74c3c';
+            }
+
+            resultDiv.innerHTML = `
+                <div class="result-content">
+                    <h4>Your BMI Result</h4>
+                    <p><strong>BMI: ${bmi.toFixed(1)}</strong></p>
+                    <p style="color: ${color}; font-weight: bold;">${category}</p>
+                    <p><em>Consult with your healthcare provider for personalized advice on diabetes management.</em></p>
+                </div>
+            `;
+        }
+
+        function calculateCalories() {
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const age = parseFloat(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const activity = parseFloat(document.getElementById('activity').value);
+            const resultDiv = document.getElementById('calorie-result');
+
+            if (!height || !weight || !age || !gender || !activity) {
+                resultDiv.innerHTML = '<p style="color: #e74c3c;">Please fill in all fields to calculate daily calories.</p>';
+                return;
+            }
+
+            let bmr;
+            if (gender === 'male') {
+                bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+            } else {
+                bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+            }
+
+            const totalCalories = Math.round(bmr * activity);
+            const diabeticCalories = Math.round(totalCalories * 0.85); // 15% reduction for diabetes management
+
+            resultDiv.innerHTML = `
+                <div class="result-content">
+                    <h4>Your Daily Calorie Needs</h4>
+                    <p><strong>Maintenance Calories: ${totalCalories}</strong></p>
+                    <p><strong>Recommended for Diabetes: ${diabeticCalories}</strong></p>
+                    <p><em>This is a general estimate. Consult your healthcare provider or dietitian for personalized dietary recommendations.</em></p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+
+</html>
