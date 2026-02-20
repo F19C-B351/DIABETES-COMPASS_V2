@@ -94,139 +94,57 @@ header p {
     margin-top: 40px;
 }
 
-.tile {
+.nav-tile {
+    display: block;
     background: white;
     border-radius: 15px;
-    padding: 0;
-    text-align: center;
+    text-decoration: none;
+    color: inherit;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     border: 1px solid #e9ecef;
     overflow: hidden;
+    height: 300px;
 }
 
-.tile:hover {
+.nav-tile:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: inherit;
 }
 
-.tile-image {
+.tile-photo {
     width: 100%;
     height: 200px;
-    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border-radius: 15px 15px 0 0;
-    position: relative;
-}
-
-.tile-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.tile:hover .tile-image img {
+.nav-tile:hover .tile-photo {
     transform: scale(1.05);
 }
 
-.tile-icon {
-    width: 60px;
-    height: 60px;
-    margin: -30px auto 20px;
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2;
-    border: 4px solid white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+.tile-content {
+    padding: 20px 30px;
+    text-align: center;
 }
 
-.tile h3,
-.tile p,
-.tile-link {
-    margin-left: 30px;
-    margin-right: 30px;
-}
-
-.tile h3 {
-    margin-bottom: 15px;
-    margin-top: 10px;
-}
-
-.tile p {
-    margin-bottom: 25px;
-}
-
-.tile-link {
-    margin-bottom: 30px;
-}
-
-.tile-icon img {
-    width: 40px;
-    height: 40px;
-    filter: brightness(0) invert(1);
-}
-
-.tile h3 {
+.tile-content h3 {
     font-size: 1.5rem;
     color: #2c3e50;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-weight: 600;
 }
 
-.tile p {
+.tile-content p {
     color: #666;
-    margin-bottom: 25px;
     font-size: 1rem;
     line-height: 1.6;
-}
-
-.tile-link {
-    display: inline-block;
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
-    text-decoration: none;
-    padding: 12px 30px;
-    border-radius: 25px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.9rem;
-}
-
-.tile-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-    background: linear-gradient(135deg, #2980b9, #3498db);
-}
-
-/* Specific tile colors */
-.tile:nth-child(1) .tile-icon {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-}
-
-.tile:nth-child(2) .tile-icon {
-    background: linear-gradient(135deg, #27ae60, #229954);
-}
-
-.tile:nth-child(3) .tile-icon {
-    background: linear-gradient(135deg, #9b59b6, #8e44ad);
-}
-
-.tile:nth-child(4) .tile-icon {
-    background: linear-gradient(135deg, #f39c12, #e67e22);
-}
-
-.tile:nth-child(5) .tile-icon {
-    background: linear-gradient(135deg, #1abc9c, #16a085);
-}
-
-.tile:nth-child(6) .tile-icon {
-    background: linear-gradient(135deg, #e67e22, #d35400);
+    margin: 0;
 }
 
 /* Footer */
@@ -280,25 +198,16 @@ footer p {
         gap: 20px;
     }
 
-    .tile {
-        padding: 0;
+    .nav-tile {
+        height: 280px;
     }
 
-    .tile-image {
+    .tile-photo {
         height: 180px;
     }
 
-    .tile-icon {
-        width: 50px;
-        height: 50px;
-        margin: -25px auto 15px;
-    }
-
-    .tile h3,
-    .tile p,
-    .tile-link {
-        margin-left: 25px;
-        margin-right: 25px;
+    .tile-content {
+        padding: 15px 20px;
     }
 
     .container {
@@ -324,22 +233,19 @@ footer p {
         font-size: 1.8rem;
     }
 
-    .tile h3 {
+    .tile-content h3 {
         font-size: 1.3rem;
     }
 
-    .tile-image {
+    .nav-tile {
+        height: 250px;
+    }
+
+    .tile-photo {
         height: 150px;
     }
 
-    .tile-icon {
-        width: 45px;
-        height: 45px;
-        margin: -22px auto 15px;
-    }
-
-    .tile-icon img {
-        width: 25px;
-        height: 25px;
+    .tile-content {
+        padding: 12px 15px;
     }
 }
