@@ -1,14 +1,62 @@
-// Diabetes Compass - Interactive Home Page
+// Diabetes Compass - Interactive Home Page with Contextual Banner
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Diabetes Facts Banner Functionality
-    const diabetesFacts = [
-        "Over 422 million people worldwide have diabetes, and this number is rapidly increasing every year.",
-        "Type 2 diabetes accounts for about 90% of all diabetes cases and can often be prevented through healthy lifestyle choices.",
-        "Regular physical activity can reduce the risk of developing type 2 diabetes by up to 58%.",
-        "People with diabetes have a 2-4 times higher risk of heart disease, making cardiovascular care crucial.",
-        "Early detection and proper management can help prevent or delay diabetes complications significantly."
-    ];
+    // Contextual Diabetes Facts Banner Functionality
+    const diabetesFactsContextual = {
+        morning: [
+            "Good morning! Starting your day with a protein-rich breakfast helps maintain stable blood sugar levels throughout the morning.",
+            "Morning tip: A 10-minute walk after breakfast can reduce post-meal blood sugar spikes by up to 30%.",
+            "Did you know? Morning sunlight exposure for 15-20 minutes can help regulate your circadian rhythm and improve glucose metabolism."
+        ],
+        afternoon: [
+            "Afternoon reminder: If you're feeling tired, it might be your blood sugar. Stay hydrated and consider a healthy snack.",
+            "Lunch fact: Eating vegetables first during meals can slow glucose absorption and improve blood sugar control.",
+            "Midday tip: Stress management through deep breathing can lower cortisol and help stabilize blood glucose levels."
+        ],
+        evening: [
+            "Evening insight: A light dinner 3 hours before bed can improve overnight glucose control and sleep quality.",
+            "Dinner tip: Adding cinnamon to your meals may help improve insulin sensitivity - try it with yogurt or oatmeal!",
+            "Good evening! Gentle stretching or yoga before bed can reduce morning blood sugar levels."
+        ],
+        general: [
+            "Over 422 million people worldwide have diabetes, and this number is rapidly increasing every year.",
+            "Type 2 diabetes accounts for about 90% of all diabetes cases and can often be prevented through healthy lifestyle choices.",
+            "Regular physical activity can reduce the risk of developing type 2 diabetes by up to 58%.",
+            "People with diabetes have a 2-4 times higher risk of heart disease, making cardiovascular care crucial.",
+            "Early detection and proper management can help prevent or delay diabetes complications significantly."
+        ],
+        seasonal: {
+            winter: "Winter tip: Indoor activities like dancing, yoga, or home workouts can help maintain fitness when it's cold outside.",
+            spring: "Spring renewal: This is a great time to start a diabetes-friendly garden with fresh herbs and vegetables!",
+            summer: "Summer safety: Stay extra hydrated as heat can affect blood sugar levels. Check levels more frequently.",
+            fall: "Fall preparation: Use this season to establish healthy routines that will carry you through the holidays."
+        }
+    };
+
+    function getContextualFacts() {
+        const hour = new Date().getHours();
+        const month = new Date().getMonth();
+
+        let timeContext;
+        if (hour < 12) timeContext = 'morning';
+        else if (hour < 18) timeContext = 'afternoon';
+        else timeContext = 'evening';
+
+        let season;
+        if (month >= 2 && month <= 4) season = 'spring';
+        else if (month >= 5 && month <= 7) season = 'summer';
+        else if (month >= 8 && month <= 10) season = 'fall';
+        else season = 'winter';
+
+        // Mix contextual and general facts
+        let facts = [...diabetesFactsContextual[timeContext]];
+        facts.push(diabetesFactsContextual.seasonal[season]);
+        facts.push(...diabetesFactsContextual.general.slice(0, 2));
+
+        return facts;
+    }
+
+    const diabetesFacts = getContextualFacts();
 
     let currentFactIndex = 0;
     let factInterval;
@@ -21,16 +69,32 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateFact(index) {
         if (factElement) {
             currentFactIndex = index;
-            factElement.style.opacity = '0.5';
+
+            // Enhanced slide-out animation
+            factElement.style.transform = 'translateX(-100px)';
+            factElement.style.opacity = '0';
 
             setTimeout(() => {
                 factElement.textContent = diabetesFacts[currentFactIndex];
-                factElement.style.opacity = '1';
-            }, 250);
+                factElement.style.transform = 'translateX(100px)';
 
-            // Update indicators
+                setTimeout(() => {
+                    factElement.style.transform = 'translateX(0)';
+                    factElement.style.opacity = '1';
+                }, 50);
+            }, 300);
+
+            // Update indicators with stagger animation
             indicators.forEach((indicator, i) => {
-                indicator.classList.toggle('active', i === currentFactIndex);
+                setTimeout(() => {
+                    indicator.classList.toggle('active', i === currentFactIndex);
+                    if (i === currentFactIndex) {
+                        indicator.style.transform = 'scale(1.4) rotate(180deg)';
+                        setTimeout(() => {
+                            indicator.style.transform = 'scale(1.3)';
+                        }, 200);
+                    }
+                }, i * 100);
             });
         }
     }
@@ -46,7 +110,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function startAutoRotation() {
-        factInterval = setInterval(nextFact, 5000); // Change fact every 5 seconds
+        factInterval = setInterval(() => {
+            // Add banner pulse before fact change
+            const banner = document.querySelector('.did-you-know-banner');
+            if (banner) {
+                banner.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    banner.style.transform = 'scale(1)';
+                }, 200);
+            }
+            nextFact();
+        }, 6000); // Slower rotation for contextual reading
     }
 
     function stopAutoRotation() {
@@ -55,8 +129,31 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Initialize contextual banner
+    function initializeContextualBanner() {
+        const banner = document.querySelector('.did-you-know-banner');
+        const hour = new Date().getHours();
+
+        // Apply contextual styling based on time of day
+        if (hour < 12) {
+            banner.classList.add('banner-morning');
+        } else if (hour < 18) {
+            banner.classList.add('banner-afternoon');
+        } else {
+            banner.classList.add('banner-evening');
+        }
+
+        // Add particle effects
+        if (!banner.querySelector('.banner-particles')) {
+            const particles = document.createElement('div');
+            particles.className = 'banner-particles';
+            banner.appendChild(particles);
+        }
+    }
+
     // Initialize banner if elements exist
     if (factElement) {
+        initializeContextualBanner();
         updateFact(0);
         startAutoRotation();
 
