@@ -239,7 +239,7 @@ header p {
 }
 
 .group-tile .tile-photo {
-    background-image: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(56, 142, 60, 0.3)), url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=400&h=300&fit=crop&crop=center');
+    background-image: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(56, 142, 60, 0.3)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80');
 }
 
 .hiking-tile .tile-photo {
