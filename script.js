@@ -1,6 +1,99 @@
 // Diabetes Compass - Interactive Home Page
 document.addEventListener('DOMContentLoaded', function () {
 
+    // Diabetes Facts Banner Functionality
+    const diabetesFacts = [
+        "Over 422 million people worldwide have diabetes, and this number is rapidly increasing every year.",
+        "Type 2 diabetes accounts for about 90% of all diabetes cases and can often be prevented through healthy lifestyle choices.",
+        "Regular physical activity can reduce the risk of developing type 2 diabetes by up to 58%.",
+        "People with diabetes have a 2-4 times higher risk of heart disease, making cardiovascular care crucial.",
+        "Early detection and proper management can help prevent or delay diabetes complications significantly."
+    ];
+
+    let currentFactIndex = 0;
+    let factInterval;
+
+    const factElement = document.getElementById('diabetes-fact');
+    const prevBtn = document.getElementById('prev-fact');
+    const nextBtn = document.getElementById('next-fact');
+    const indicators = document.querySelectorAll('.indicator');
+
+    function updateFact(index) {
+        if (factElement) {
+            currentFactIndex = index;
+            factElement.style.opacity = '0.5';
+
+            setTimeout(() => {
+                factElement.textContent = diabetesFacts[currentFactIndex];
+                factElement.style.opacity = '1';
+            }, 250);
+
+            // Update indicators
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === currentFactIndex);
+            });
+        }
+    }
+
+    function nextFact() {
+        const nextIndex = (currentFactIndex + 1) % diabetesFacts.length;
+        updateFact(nextIndex);
+    }
+
+    function prevFact() {
+        const prevIndex = (currentFactIndex - 1 + diabetesFacts.length) % diabetesFacts.length;
+        updateFact(prevIndex);
+    }
+
+    function startAutoRotation() {
+        factInterval = setInterval(nextFact, 5000); // Change fact every 5 seconds
+    }
+
+    function stopAutoRotation() {
+        if (factInterval) {
+            clearInterval(factInterval);
+        }
+    }
+
+    // Initialize banner if elements exist
+    if (factElement) {
+        updateFact(0);
+        startAutoRotation();
+
+        // Add event listeners
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                stopAutoRotation();
+                nextFact();
+                startAutoRotation();
+            });
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                stopAutoRotation();
+                prevFact();
+                startAutoRotation();
+            });
+        }
+
+        // Indicator click events
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                stopAutoRotation();
+                updateFact(index);
+                startAutoRotation();
+            });
+        });
+
+        // Pause auto-rotation on hover
+        const banner = document.querySelector('.did-you-know-banner');
+        if (banner) {
+            banner.addEventListener('mouseenter', stopAutoRotation);
+            banner.addEventListener('mouseleave', startAutoRotation);
+        }
+    }
+
     // Add smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
