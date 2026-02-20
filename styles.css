@@ -30,6 +30,26 @@ header {
     margin-bottom: 40px;
 }
 
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.header-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.header-text {
+    text-align: left;
+}
+
 header h1 {
     font-size: 3rem;
     margin-bottom: 10px;
@@ -40,7 +60,7 @@ header p {
     font-size: 1.2rem;
     opacity: 0.9;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0;
 }
 
 /* Hero section */
@@ -225,6 +245,20 @@ footer p {
 
 /* Responsive design */
 @media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .header-text {
+        text-align: center;
+    }
+
+    .header-logo {
+        width: 60px;
+        height: 60px;
+    }
+
     header h1 {
         font-size: 2.5rem;
     }
@@ -275,6 +309,11 @@ footer p {
 @media (max-width: 480px) {
     header {
         padding: 40px 0;
+    }
+
+    .header-logo {
+        width: 50px;
+        height: 50px;
     }
 
     header h1 {
