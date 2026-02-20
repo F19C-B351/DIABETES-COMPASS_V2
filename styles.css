@@ -147,6 +147,31 @@ header p {
     margin: 0;
 }
 
+/* Specific tile photo backgrounds */
+.about-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(41, 128, 185, 0.3)), url('https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop&crop=center');
+}
+
+.nutrition-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(41, 128, 185, 0.3)), url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop&crop=center');
+}
+
+.treatments-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(155, 89, 182, 0.3), rgba(142, 68, 173, 0.3)), url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop&crop=center');
+}
+
+.doctor-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.3)), url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=300&fit=crop&crop=center');
+}
+
+.exercise-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.3)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center');
+}
+
+.events-tile .tile-photo {
+    background-image: linear-gradient(135deg, rgba(52, 73, 94, 0.3), rgba(44, 62, 80, 0.3)), url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop&crop=center');
+}
+
 /* Footer */
 footer {
     background: #2c3e50;
