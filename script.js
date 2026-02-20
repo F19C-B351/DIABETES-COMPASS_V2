@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     addMobileMenuToggle();
     window.addEventListener('resize', addMobileMenuToggle);
 
-    // Add error handling for missing images
+    // Add error handling for missing images (both tile images and icons)
     document.querySelectorAll('.tile-icon img').forEach(img => {
         img.addEventListener('error', function () {
             // Create a fallback icon using CSS
@@ -87,6 +87,24 @@ document.addEventListener('DOMContentLoaded', function () {
             icon.innerHTML = '<div class="fallback-icon">📋</div>';
             icon.querySelector('.fallback-icon').style.fontSize = '40px';
         });
+    });
+
+    // Add error handling for tile images
+    document.querySelectorAll('.tile-image img').forEach(img => {
+        img.addEventListener('error', function () {
+            // Create a fallback gradient background
+            const imageContainer = this.parentElement;
+            imageContainer.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+            imageContainer.innerHTML = '<div class="fallback-text" style="display:flex;align-items:center;justify-content:center;height:100%;color:white;font-weight:bold;">Image Unavailable</div>';
+        });
+
+        // Add subtle loading effect
+        img.addEventListener('load', function () {
+            this.style.opacity = '1';
+        });
+
+        img.style.transition = 'opacity 0.3s ease';
+        img.style.opacity = '0';
     });
 
     // Add hover effects for better user experience
