@@ -231,11 +231,11 @@ header p {
 }
 
 .running-tile .tile-photo {
-    background-image: linear-gradient(135deg, rgba(244, 67, 54, 0.3), rgba(183, 28, 28, 0.3)), url('https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=300&fit=crop&crop=center');
+    background-image: linear-gradient(135deg, rgba(244, 67, 54, 0.3), rgba(183, 28, 28, 0.3)), url('https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&w=400&h=300&fit=crop&crop=center');
 }
 
 .cycling-tile .tile-photo {
-    background-image: linear-gradient(135deg, rgba(255, 193, 7, 0.3), rgba(255, 152, 0, 0.3)), url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center');
+    background-image: linear-gradient(135deg, rgba(255, 193, 7, 0.3), rgba(255, 152, 0, 0.3)), url('https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80');
 }
 
 .group-tile .tile-photo {
