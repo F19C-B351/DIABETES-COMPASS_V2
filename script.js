@@ -552,6 +552,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // Special handling for ChatGPT requests
         if (message.toLowerCase().includes('yes, ask chatgpt')) {
             handleChatGPTRequest();
+        } else if (message.toLowerCase().includes('copy question again')) {
+            const success = copyToClipboardWithFeedback(lastUnansweredQuestion);
+            const copyMessage = success ?
+                `✅ Question copied again: "${lastUnansweredQuestion}"\n\nYou can now paste it (Ctrl+V) into ChatGPT!` :
+                `📋 Please copy this question manually:\n\n"${lastUnansweredQuestion}"\n\nSelect the text above and use Ctrl+C to copy.`;
+
+            addMessage(copyMessage, false, true);
+            setTimeout(() => addFollowUpButtons(["Open ChatGPT", "Show me website features", "Physical activities info"]), 100);
+        } else if (message.toLowerCase().includes('open chatgpt')) {
+            window.open('https://chat.openai.com/', '_blank');
+            addMessage("🚀 ChatGPT opened in new tab! Don't forget to paste your question.", false);
         } else if (message.toLowerCase().includes('no, help with website info')) {
             const helpMessage = "I can help you with our Diabetes Compass website features: " + chatbotData.websiteFeatures.join(", ") + ". What would you like to know about?";
             addMessage(helpMessage, false, true);
@@ -569,20 +580,175 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleChatGPTRequest() {
         const typingIndicator = showTyping();
 
+        // Create a popup window with the question for easy copy
+        const questionPopup = createQuestionPopup(lastUnansweredQuestion);
+
         setTimeout(() => {
             typingIndicator.remove();
-            
-            // Copy the question to clipboard
-            copyToClipboard(lastUnansweredQuestion);
-            
-            // Open ChatGPT in new tab
-            window.open('https://chat.openai.com/', '_blank');
-            
-            const chatgptMessage = "🚀 Opening ChatGPT in a new tab...\n\n✅ I've copied your question to the clipboard: \"" + lastUnansweredQuestion + "\"\n\nSimply paste it (Ctrl+V) in the ChatGPT chat box when the page loads!\n\nFeel free to ask me about our Diabetes Compass website when you return. 😊";
+
+            // Copy the question to clipboard with user feedback
+            copyToClipboardWithFeedback(lastUnansweredQuestion);
+
+            // Open ChatGPT in new tab with delay to ensure popup is visible
+            setTimeout(() => {
+                window.open('https://chat.openai.com/', '_blank');
+            }, 500);
+
+            const chatgptMessage = `🚀 Opening ChatGPT in a new tab...\n\n📋 Your question: "${lastUnansweredQuestion}"\n\n✅ Question copied to clipboard! Just paste (Ctrl+V) when ChatGPT loads.\n📝 A popup window also shows your question for easy reference.\n\nFeel free to ask me about our Diabetes Compass website when you return! 😊`;
 
             addMessage(chatgptMessage, false, true);
-            setTimeout(() => addFollowUpButtons(["Show me website features", "Physical activities info", "BMI calculator help"]), 100);
+            setTimeout(() => addFollowUpButtons(["Copy question again", "Show me website features", "Physical activities info"]), 100);
         }, 1000);
+    }
+
+    // Create popup window with the question
+    function createQuestionPopup(question) {
+        const popup = window.open('', 'questionPopup', 'width=400,height=300,top=100,left=100,scrollbars=yes,resizable=yes');
+
+        if (popup) {
+            popup.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Your Question for ChatGPT</title>
+                    <style>
+                        body { 
+                            font-family: Arial, sans-serif; 
+                            padding: 20px; 
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            color: white;
+                            margin: 0;
+                        }
+                        .container {
+                            background: rgba(255,255,255,0.1);
+                            padding: 20px;
+                            border-radius: 10px;
+                            backdrop-filter: blur(10px);
+                        }
+                        h2 { margin-top: 0; text-align: center; }
+                        .question-box {
+                            background: rgba(255,255,255,0.2);
+                            padding: 15px;
+                            border-radius: 8px;
+                            margin: 15px 0;
+                            word-wrap: break-word;
+                            border: 1px solid rgba(255,255,255,0.3);
+                        }
+                        .copy-btn {
+                            background: #4CAF50;
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            font-size: 14px;
+                            margin: 10px 5px;
+                            transition: background 0.3s ease;
+                        }
+                        .copy-btn:hover { background: #45a049; }
+                        .instructions {
+                            background: rgba(255,255,255,0.1);
+                            padding: 15px;
+                            border-radius: 8px;
+                            margin: 15px 0;
+                            font-size: 14px;
+                        }
+                        .close-btn {
+                            background: #f44336;
+                            color: white;
+                            border: none;
+                            padding: 8px 15px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            float: right;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h2>🤖 Question for ChatGPT</h2>
+                        <div class="question-box" id="questionText">${question}</div>
+                        <button class="copy-btn" onclick="copyQuestion()">📋 Copy Question</button>
+                        <button class="copy-btn" onclick="openChatGPT()">🚀 Go to ChatGPT</button>
+                        <button class="close-btn" onclick="window.close()">✕ Close</button>
+                        <div class="instructions">
+                            <strong>Instructions:</strong><br>
+                            1. Click "Copy Question" or select and copy the text above<br>
+                            2. Click "Go to ChatGPT" or switch to the ChatGPT tab<br>
+                            3. Paste your question (Ctrl+V) in the ChatGPT input box<br>
+                            4. Press Enter to send your question
+                        </div>
+                    </div>
+                    
+                    <script>
+                        function copyQuestion() {
+                            const questionText = document.getElementById('questionText').textContent;
+                            
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText(questionText).then(function() {
+                                    alert('✅ Question copied to clipboard!');
+                                }).catch(function(err) {
+                                    selectText();
+                                });
+                            } else {
+                                selectText();
+                            }
+                        }
+                        
+                        function selectText() {
+                            const questionElement = document.getElementById('questionText');
+                            const range = document.createRange();
+                            range.selectNode(questionElement);
+                            window.getSelection().removeAllRanges();
+                            window.getSelection().addRange(range);
+                            
+                            try {
+                                document.execCommand('copy');
+                                alert('✅ Question copied to clipboard!');
+                            } catch (err) {
+                                alert('Please manually select and copy the question text.');
+                            }
+                        }
+                        
+                        function openChatGPT() {
+                            window.open('https://chat.openai.com/', '_blank');
+                        }
+                        
+                        // Auto-select text on load for easy copying
+                        window.onload = function() {
+                            setTimeout(() => {
+                                copyQuestion();
+                            }, 500);
+                        };
+                    </script>
+                </body>
+                </html>
+            `);
+            popup.document.close();
+        }
+
+        return popup;
+    }
+
+    // Copy text to clipboard helper function with improved feedback
+    function copyToClipboardWithFeedback(text) {
+        let copySuccess = false;
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    copySuccess = true;
+                    console.log('✅ Question copied to clipboard successfully');
+                })
+                .catch(err => {
+                    console.log('Modern clipboard failed, trying fallback:', err);
+                    copySuccess = fallbackCopyToClipboard(text);
+                });
+        } else {
+            copySuccess = fallbackCopyToClipboard(text);
+        }
+
+        return copySuccess;
     }
 
     // Copy text to clipboard helper function
@@ -609,14 +775,17 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
-        
+
+        let successful = false;
         try {
-            document.execCommand('copy');
+            successful = document.execCommand('copy');
+            console.log('✅ Fallback clipboard succeeded');
         } catch (err) {
-            console.log('Fallback clipboard failed:', err);
+            console.log('❌ Fallback clipboard failed:', err);
         }
-        
+
         document.body.removeChild(textArea);
+        return successful;
     }
 
     // Handle user message
