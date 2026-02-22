@@ -446,7 +446,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return typingDiv;
     }
 
-    // Process user message
+    // Process user message - Site content only
     function processMessage(userMessage) {
         const message = userMessage.toLowerCase();
 
@@ -458,49 +458,86 @@ document.addEventListener('DOMContentLoaded', function () {
             conversationContext.shift();
         }
 
-        // Find best response
+        // Find best response from site content only
         let response = null;
         let followUp = [];
+        let foundMatch = false;
 
-        // Check for exact matches first
-        for (const [key, data] of Object.entries(chatbotData.responses)) {
+        // Check for exact matches in site content
+        for (const [key, data] of Object.entries(chatbotData.siteContent)) {
             if (message.includes(key.toLowerCase()) ||
                 key.toLowerCase().includes(message) ||
                 message.includes(key.replace(/\s+/g, ''))) {
                 response = data.response;
                 followUp = data.followUp;
+                foundMatch = true;
                 break;
             }
         }
 
-        // Check for keyword matches
-        if (!response) {
-            const keywords = {
-                'hello|hi|hey|good morning|good evening': () => chatbotData.greetings[Math.floor(Math.random() * chatbotData.greetings.length)],
-                'help|support|assist': () => "I'm here to help with diabetes questions! You can ask me about diet, exercise, blood sugar, medications, or any diabetes-related topics.",
-                'thank|thanks|appreciate': () => "You're very welcome! I'm always here to help with your diabetes questions. Take care! 😊",
-                'bye|goodbye|see you': () => "Goodbye! Remember, I'm always here when you need diabetes support. Take care of yourself! 👋",
-                'pain|hurt|emergency|urgent': () => chatbotData.responses.emergency.response,
-                'food|eat|meal|nutrition|carb': () => chatbotData.responses["diet tips"].response,
-                'activity|workout|physical|run|walk': () => chatbotData.responses.exercise.response,
-                'glucose|sugar|level|monitor|test': () => chatbotData.responses["blood sugar"].response,
-                'insulin|pill|metformin|drug': () => chatbotData.responses.medication.response,
-                'symptom|sign|feel|sick': () => chatbotData.responses["diabetes symptoms"].response
+        // Check for site-specific keyword matches
+        if (!foundMatch) {
+            const siteKeywords = {
+                'hello|hi|hey|good morning|good evening': () => {
+                    foundMatch = true;
+                    return chatbotData.greetings[Math.floor(Math.random() * chatbotData.greetings.length)];
+                },
+                'help|support|assist': () => {
+                    foundMatch = true;
+                    return "I can help you navigate our Diabetes Compass website! I know about our physical activities, BMI calculator, navigation menu, and diabetes resources available on the site.";
+                },
+                'what can you do|what do you know|capabilities': () => {
+                    foundMatch = true;
+                    return "I can help with information from our Diabetes Compass website: " + chatbotData.websiteFeatures.join(", ") + ".";
+                },
+                'thank|thanks|appreciate': () => {
+                    foundMatch = true;
+                    return "You're welcome! I'm here to help you navigate our Diabetes Compass website. 😊";
+                },
+                'bye|goodbye|see you': () => {
+                    foundMatch = true;
+                    return "Goodbye! Feel free to explore more of our Diabetes Compass website. Take care! 👋";
+                },
+                'yoga|running|cycling|hiking|swimming|group activities': () => {
+                    foundMatch = true;
+                    return chatbotData.siteContent["physical activities"].response;
+                },
+                'bmi|body mass index|weight|calculate': () => {
+                    foundMatch = true;
+                    return chatbotData.siteContent["bmi calculator"].response;
+                },
+                'menu|navigation|navigate|contact|contribute|doctor': () => {
+                    foundMatch = true;
+                    return chatbotData.siteContent.navigation.response;
+                },
+                'tile|tiles|homepage|main page': () => {
+                    foundMatch = true;
+                    return chatbotData.siteContent.tiles.response;
+                },
+                'nutrition|diet|food|eating': () => {
+                    foundMatch = true;
+                    return chatbotData.siteContent.nutrition.response;
+                },
+                'diabetes|blood sugar|glucose': () => {
+                    foundMatch = true;
+                    return chatbotData.siteContent["diabetes basics"].response;
+                }
             };
 
-            for (const [pattern, responseFunc] of Object.entries(keywords)) {
+            for (const [pattern, responseFunc] of Object.entries(siteKeywords)) {
                 const regex = new RegExp(pattern, 'i');
                 if (regex.test(message)) {
                     response = responseFunc();
+                    followUp = ["Explore our physical activities", "Check our BMI calculator", "Learn about our site navigation"];
                     break;
                 }
             }
         }
 
-        // Fallback response
-        if (!response) {
-            response = chatbotData.fallbacks[Math.floor(Math.random() * chatbotData.fallbacks.length)];
-            followUp = ["Tell me about diabetes", "Diet tips for diabetes", "Exercise for diabetes", "Blood sugar management"];
+        // If no site-specific content matches, offer ChatGPT
+        if (!foundMatch || !response) {
+            response = chatbotData.chatgptOffer;
+            followUp = ["Yes, ask ChatGPT", "No, help with website info", "Show me what you know"];
         }
 
         return { response, followUp };
@@ -509,11 +546,45 @@ document.addEventListener('DOMContentLoaded', function () {
     // Handle quick action buttons
     function handleQuickAction(message) {
         addMessage(message, true);
-        handleUserMessage(message);
+
+        // Special handling for ChatGPT requests
+        if (message.toLowerCase().includes('yes, ask chatgpt')) {
+            handleChatGPTRequest();
+        } else if (message.toLowerCase().includes('no, help with website info')) {
+            const helpMessage = "I can help you with our Diabetes Compass website features: " + chatbotData.websiteFeatures.join(", ") + ". What would you like to know about?";
+            addMessage(helpMessage, false, true);
+            setTimeout(() => addFollowUpButtons(["Physical activities", "BMI calculator", "About us", "Navigation help"]), 100);
+        } else if (message.toLowerCase().includes('show me what you know')) {
+            const knowledgeMessage = "Here's what I know about our Diabetes Compass website:\n\n• Physical Activities (Yoga, Running, Cycling, Group Activities, Hiking, Swimming)\n• BMI Calculator for health tracking\n• Navigation menu (Contact Us, Contribute, Need a doctor?)\n• Homepage tiles with diabetes resources\n• Basic diabetes information relevant to our site";
+            addMessage(knowledgeMessage, false, true);
+            setTimeout(() => addFollowUpButtons(["Tell me about physical activities", "Explain navigation", "About diabetes basics"]), 100);
+        } else {
+            handleUserMessage(message);
+        }
+    }
+
+    // Handle ChatGPT request simulation
+    function handleChatGPTRequest() {
+        const typingIndicator = showTyping();
+
+        setTimeout(() => {
+            typingIndicator.remove();
+            const chatgptMessage = "I would love to ask ChatGPT for you, but I'm currently designed to work only with our Diabetes Compass website content. For questions beyond our site, I recommend:\n\n• Visiting chat.openai.com directly\n• Consulting with healthcare professionals\n• Checking reputable medical websites\n\nIs there anything about our Diabetes Compass website I can help you with instead?";
+
+            addMessage(chatgptMessage, false, true);
+            setTimeout(() => addFollowUpButtons(["Show me website features", "Physical activities info", "BMI calculator help"]), 100);
+        }, 1500);
     }
 
     // Handle user message
     function handleUserMessage(userMessage) {
+        // Check for ChatGPT response first
+        if (userMessage.toLowerCase().includes('yes, ask chatgpt') ||
+            userMessage.toLowerCase().includes('ask chatgpt')) {
+            handleChatGPTRequest();
+            return;
+        }
+
         const typingIndicator = showTyping();
 
         setTimeout(() => {
