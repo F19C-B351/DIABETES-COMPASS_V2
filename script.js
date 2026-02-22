@@ -322,4 +322,244 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Dia Chatbot Functionality
+    const chatbotData = {
+        greetings: [
+            "Hello! I'm Dia, your friendly diabetes assistant. What would you like to know?",
+            "Hi there! I'm here to help you with diabetes-related questions. How can I assist you today?",
+            "Welcome! I'm Dia, ready to support you on your diabetes journey. What can I help you with?"
+        ],
+        responses: {
+            "about diabetes": {
+                response: "Diabetes is a group of metabolic disorders characterized by high blood sugar levels. There are mainly two types: Type 1 (autoimmune, usually diagnosed in childhood) and Type 2 (often lifestyle-related, more common in adults). Early detection and proper management are key to living well with diabetes.",
+                followUp: ["Would you like to know about diabetes symptoms?", "Want to learn about diabetes management?", "Need information about diabetes types?"]
+            },
+            "diabetes symptoms": {
+                response: "Common diabetes symptoms include: frequent urination, excessive thirst, unexplained weight loss, fatigue, blurred vision, slow-healing wounds, and frequent infections. If you experience these symptoms, please consult a healthcare provider for proper diagnosis.",
+                followUp: ["Want to know about diabetes management?", "Need information about blood sugar levels?", "Interested in prevention tips?"]
+            },
+            "diet tips": {
+                response: "Here are key diabetes diet tips: Choose whole grains over refined carbs, include plenty of vegetables, lean proteins, and healthy fats. Monitor portion sizes, limit sugary drinks and processed foods. Consider the plate method: 1/2 vegetables, 1/4 lean protein, 1/4 whole grains.",
+                followUp: ["Want meal planning ideas?", "Need information about carb counting?", "Interested in healthy recipes?"]
+            },
+            "exercise": {
+                response: "Regular exercise is fantastic for diabetes management! Aim for 150 minutes of moderate activity weekly. Great options include walking, swimming, cycling, and strength training. Exercise helps lower blood sugar, improve insulin sensitivity, and boost overall health.",
+                followUp: ["Want specific exercise routines?", "Need tips for blood sugar during exercise?", "Interested in our Physical Activities page?"]
+            },
+            "blood sugar": {
+                response: "Blood sugar management involves regular monitoring, medication adherence, healthy eating, regular exercise, and stress management. Target ranges vary, but generally: before meals 80-130 mg/dL, 2 hours after meals <180 mg/dL. Always follow your doctor's specific targets.",
+                followUp: ["Want to know about glucose monitors?", "Need tips for high/low blood sugar?", "Interested in A1C information?"]
+            },
+            "medication": {
+                response: "Diabetes medications work in different ways - some increase insulin production, others improve insulin sensitivity, or slow glucose absorption. Always take medications as prescribed, never skip doses, and discuss any side effects with your healthcare provider immediately.",
+                followUp: ["Need information about insulin?", "Want to know about side effects?", "Questions about dosing schedules?"]
+            },
+            "complications": {
+                response: "Diabetes complications can include heart disease, nerve damage, kidney problems, eye damage, and poor wound healing. The good news? Most complications are preventable with good blood sugar control, regular check-ups, and healthy lifestyle choices.",
+                followUp: ["Want prevention strategies?", "Need information about warning signs?", "Interested in screening schedules?"]
+            },
+            "emergency": {
+                response: "⚠️ If you're experiencing diabetic emergency symptoms (severe high/low blood sugar, ketones, confusion), seek immediate medical attention! Call emergency services if needed. For non-emergencies, contact your healthcare provider.",
+                followUp: ["Want to know emergency symptoms?", "Need first aid information?", "Want emergency contact tips?"]
+            }
+        },
+        fallbacks: [
+            "I understand you're asking about diabetes care. While I try to help, please remember to always consult with healthcare professionals for medical advice.",
+            "That's a great question! For specific medical concerns, I'd recommend speaking with your doctor or diabetes care team.",
+            "I'd love to help more! For detailed medical guidance, your healthcare provider is the best resource."
+        ]
+    };
+
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const chatbotContainer = document.getElementById('chatbot-container');
+    const chatbotClose = document.getElementById('chatbot-close');
+    const chatbotMessages = document.getElementById('chatbot-messages');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const chatbotSend = document.getElementById('chatbot-send');
+
+    let conversationContext = [];
+
+    // Toggle chatbot
+    function toggleChatbot() {
+        chatbotContainer.classList.toggle('active');
+        if (chatbotContainer.classList.contains('active')) {
+            chatbotInput.focus();
+        }
+    }
+
+    // Add message to chat
+    function addMessage(content, isUser = false, hasFollowUp = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+
+        messageDiv.innerHTML = `
+            <div class="message-avatar">${isUser ? '👤' : '🤖'}</div>
+            <div class="message-content">
+                <p>${content}</p>
+                ${hasFollowUp ? '<div class="quick-actions" id="follow-up-actions"></div>' : ''}
+            </div>
+        `;
+
+        chatbotMessages.appendChild(messageDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+        return messageDiv;
+    }
+
+    // Add follow-up buttons
+    function addFollowUpButtons(followUpQuestions) {
+        const followUpContainer = document.getElementById('follow-up-actions');
+        if (followUpContainer) {
+            followUpQuestions.forEach(question => {
+                const button = document.createElement('button');
+                button.className = 'quick-btn';
+                button.textContent = question;
+                button.onclick = () => handleQuickAction(question);
+                followUpContainer.appendChild(button);
+            });
+        }
+    }
+
+    // Show typing indicator
+    function showTyping() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message bot-message typing-message';
+        typingDiv.innerHTML = `
+            <div class="message-avatar">🤖</div>
+            <div class="message-content">
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        `;
+        chatbotMessages.appendChild(typingDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        return typingDiv;
+    }
+
+    // Process user message
+    function processMessage(userMessage) {
+        const message = userMessage.toLowerCase();
+
+        // Add to conversation context
+        conversationContext.push(message);
+
+        // Keep only last 5 messages for context
+        if (conversationContext.length > 5) {
+            conversationContext.shift();
+        }
+
+        // Find best response
+        let response = null;
+        let followUp = [];
+
+        // Check for exact matches first
+        for (const [key, data] of Object.entries(chatbotData.responses)) {
+            if (message.includes(key.toLowerCase()) ||
+                key.toLowerCase().includes(message) ||
+                message.includes(key.replace(/\s+/g, ''))) {
+                response = data.response;
+                followUp = data.followUp;
+                break;
+            }
+        }
+
+        // Check for keyword matches
+        if (!response) {
+            const keywords = {
+                'hello|hi|hey|good morning|good evening': () => chatbotData.greetings[Math.floor(Math.random() * chatbotData.greetings.length)],
+                'help|support|assist': () => "I'm here to help with diabetes questions! You can ask me about diet, exercise, blood sugar, medications, or any diabetes-related topics.",
+                'thank|thanks|appreciate': () => "You're very welcome! I'm always here to help with your diabetes questions. Take care! 😊",
+                'bye|goodbye|see you': () => "Goodbye! Remember, I'm always here when you need diabetes support. Take care of yourself! 👋",
+                'pain|hurt|emergency|urgent': () => chatbotData.responses.emergency.response,
+                'food|eat|meal|nutrition|carb': () => chatbotData.responses["diet tips"].response,
+                'activity|workout|physical|run|walk': () => chatbotData.responses.exercise.response,
+                'glucose|sugar|level|monitor|test': () => chatbotData.responses["blood sugar"].response,
+                'insulin|pill|metformin|drug': () => chatbotData.responses.medication.response,
+                'symptom|sign|feel|sick': () => chatbotData.responses["diabetes symptoms"].response
+            };
+
+            for (const [pattern, responseFunc] of Object.entries(keywords)) {
+                const regex = new RegExp(pattern, 'i');
+                if (regex.test(message)) {
+                    response = responseFunc();
+                    break;
+                }
+            }
+        }
+
+        // Fallback response
+        if (!response) {
+            response = chatbotData.fallbacks[Math.floor(Math.random() * chatbotData.fallbacks.length)];
+            followUp = ["Tell me about diabetes", "Diet tips for diabetes", "Exercise for diabetes", "Blood sugar management"];
+        }
+
+        return { response, followUp };
+    }
+
+    // Handle quick action buttons
+    function handleQuickAction(message) {
+        addMessage(message, true);
+        handleUserMessage(message);
+    }
+
+    // Handle user message
+    function handleUserMessage(userMessage) {
+        const typingIndicator = showTyping();
+
+        setTimeout(() => {
+            typingIndicator.remove();
+            const { response, followUp } = processMessage(userMessage);
+            const botMessage = addMessage(response, false, followUp.length > 0);
+
+            if (followUp.length > 0) {
+                setTimeout(() => addFollowUpButtons(followUp), 100);
+            }
+        }, Math.random() * 1000 + 500); // Random delay to simulate thinking
+    }
+
+    // Send message
+    function sendMessage() {
+        const message = chatbotInput.value.trim();
+        if (message) {
+            addMessage(message, true);
+            chatbotInput.value = '';
+            handleUserMessage(message);
+        }
+    }
+
+    // Event listeners
+    if (chatbotToggle) {
+        chatbotToggle.addEventListener('click', toggleChatbot);
+    }
+
+    if (chatbotClose) {
+        chatbotClose.addEventListener('click', toggleChatbot);
+    }
+
+    if (chatbotSend) {
+        chatbotSend.addEventListener('click', sendMessage);
+    }
+
+    if (chatbotInput) {
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    }
+
+    // Handle initial quick action buttons
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('quick-btn')) {
+            const message = e.target.getAttribute('data-message');
+            if (message) {
+                addMessage(message, true);
+                handleUserMessage(message);
+            }
+        }
+    });
+
 });
