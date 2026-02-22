@@ -387,6 +387,197 @@ document.addEventListener('DOMContentLoaded', function () {
     let conversationContext = [];
     let lastUnansweredQuestion = '';
 
+    // Create animated Dia avatar
+    function createDiaAvatar(state = 'idle') {
+        const avatarStates = {
+            idle: {
+                emoji: '😊',
+                animation: 'dia-idle',
+                color: '#4CAF50'
+            },
+            thinking: {
+                emoji: '🤔',
+                animation: 'dia-thinking', 
+                color: '#FF9800'
+            },
+            speaking: {
+                emoji: '😄',
+                animation: 'dia-speaking',
+                color: '#2196F3'
+            },
+            excited: {
+                emoji: '🎉',
+                animation: 'dia-excited',
+                color: '#E91E63'
+            }
+        };
+
+        const currentState = avatarStates[state] || avatarStates.idle;
+        
+        return `
+            <div class="dia-avatar ${currentState.animation}" style="--avatar-color: ${currentState.color}">
+                <div class="dia-face">
+                    <div class="dia-emoji">${currentState.emoji}</div>
+                    <div class="dia-glow"></div>
+                </div>
+                <div class="dia-pulse"></div>
+            </div>
+        `;
+    }
+
+    // Add Dia avatar styles to document
+    function addDiaAvatarStyles() {
+        if (document.getElementById('dia-avatar-styles')) return;
+        
+        const styles = document.createElement('style');
+        styles.id = 'dia-avatar-styles';
+        styles.textContent = `
+            .dia-avatar {
+                position: relative;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--avatar-color, #4CAF50), rgba(255,255,255,0.2));
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                overflow: visible;
+            }
+            
+            .dia-face {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2;
+            }
+            
+            .dia-emoji {
+                font-size: 20px;
+                line-height: 1;
+                filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+            }
+            
+            .dia-glow {
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--avatar-color, #4CAF50), transparent);
+                opacity: 0.3;
+                z-index: 1;
+            }
+            
+            .dia-pulse {
+                position: absolute;
+                top: -5px;
+                left: -5px;
+                right: -5px;
+                bottom: -5px;
+                border-radius: 50%;
+                border: 2px solid var(--avatar-color, #4CAF50);
+                opacity: 0;
+                z-index: 1;
+            }
+            
+            /* Idle Animation */
+            .dia-idle {
+                animation: dia-gentle-float 3s ease-in-out infinite;
+            }
+            
+            .dia-idle .dia-pulse {
+                animation: dia-gentle-pulse 4s ease-in-out infinite;
+            }
+            
+            @keyframes dia-gentle-float {
+                0%, 100% { transform: translateY(0px) scale(1); }
+                50% { transform: translateY(-3px) scale(1.02); }
+            }
+            
+            @keyframes dia-gentle-pulse {
+                0%, 100% { transform: scale(1); opacity: 0; }
+                50% { transform: scale(1.2); opacity: 0.3; }
+            }
+            
+            /* Thinking Animation */
+            .dia-thinking {
+                animation: dia-think-wobble 1s ease-in-out infinite;
+            }
+            
+            .dia-thinking .dia-emoji {
+                animation: dia-think-rotate 2s ease-in-out infinite;
+            }
+            
+            @keyframes dia-think-wobble {
+                0%, 100% { transform: rotate(-2deg); }
+                50% { transform: rotate(2deg); }
+            }
+            
+            @keyframes dia-think-rotate {
+                0%, 50%, 100% { transform: rotate(0deg); }
+                25% { transform: rotate(-10deg); }
+                75% { transform: rotate(10deg); }
+            }
+            
+            /* Speaking Animation */
+            .dia-speaking {
+                animation: dia-speak-bounce 0.6s ease-in-out infinite;
+            }
+            
+            .dia-speaking .dia-glow {
+                animation: dia-speak-glow 0.8s ease-in-out infinite;
+            }
+            
+            @keyframes dia-speak-bounce {
+                0%, 100% { transform: scale(1) rotate(0deg); }
+                25% { transform: scale(1.1) rotate(-2deg); }
+                75% { transform: scale(1.05) rotate(2deg); }
+            }
+            
+            @keyframes dia-speak-glow {
+                0%, 100% { opacity: 0.3; transform: scale(1); }
+                50% { opacity: 0.6; transform: scale(1.1); }
+            }
+            
+            /* Excited Animation */
+            .dia-excited {
+                animation: dia-excited-shake 0.5s ease-in-out infinite;
+            }
+            
+            .dia-excited .dia-pulse {
+                animation: dia-excited-pulse 0.3s ease-in-out infinite;
+            }
+            
+            @keyframes dia-excited-shake {
+                0%, 100% { transform: translateX(0px); }
+                25% { transform: translateX(-2px) rotate(-3deg); }
+                75% { transform: translateX(2px) rotate(3deg); }
+            }
+            
+            @keyframes dia-excited-pulse {
+                0%, 100% { transform: scale(1); opacity: 0; }
+                50% { transform: scale(1.5); opacity: 0.5; }
+            }
+            
+            /* Message avatar specific styles */
+            .message-avatar .dia-avatar {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .message-avatar .dia-emoji {
+                font-size: 18px;
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+
     // Toggle chatbot
     function toggleChatbot() {
         chatbotContainer.classList.toggle('active');
@@ -395,13 +586,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Add message to chat
-    function addMessage(content, isUser = false, hasFollowUp = false) {
+    // Add message to chat with dynamic avatar state
+    function addMessage(content, isUser = false, hasFollowUp = false, avatarState = 'speaking') {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
 
+        // Determine appropriate avatar state based on content
+        if (!isUser && !avatarState) {
+            if (content.includes('🚀') || content.includes('✅')) {
+                avatarState = 'excited';
+            } else if (content.includes('?') && content.includes('ChatGPT')) {
+                avatarState = 'thinking';
+            } else {
+                avatarState = 'speaking';
+            }
+        }
+
         messageDiv.innerHTML = `
-            <div class="message-avatar">${isUser ? '👤' : '🤖'}</div>
+            <div class="message-avatar">${isUser ? '👤' : createDiaAvatar(avatarState)}</div>
             <div class="message-content">
                 <p>${content}</p>
                 ${hasFollowUp ? '<div class="quick-actions" id="follow-up-actions"></div>' : ''}
@@ -433,7 +635,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message bot-message typing-message';
         typingDiv.innerHTML = `
-            <div class="message-avatar">🤖</div>
+            <div class="message-avatar">${createDiaAvatar('thinking')}</div>
             <div class="message-content">
                 <div class="typing-indicator">
                     <div class="typing-dot"></div>
@@ -463,6 +665,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let response = null;
         let followUp = [];
         let foundMatch = false;
+        let avatarState = 'speaking';
 
         // Check for exact matches in site content
         for (const [key, data] of Object.entries(chatbotData.siteContent)) {
@@ -481,54 +684,93 @@ document.addEventListener('DOMContentLoaded', function () {
             const siteKeywords = {
                 'hello|hi|hey|good morning|good evening': () => {
                     foundMatch = true;
-                    return chatbotData.greetings[Math.floor(Math.random() * chatbotData.greetings.length)];
+                    return {
+                        text: chatbotData.greetings[Math.floor(Math.random() * chatbotData.greetings.length)],
+                        avatarState: 'excited'
+                    };
                 },
                 'help|support|assist': () => {
                     foundMatch = true;
-                    return "I can help you navigate our Diabetes Compass website! I know about our physical activities, BMI calculator, navigation menu, and diabetes resources available on the site.";
+                    return {
+                        text: "I can help you navigate our Diabetes Compass website! I know about our physical activities, BMI calculator, navigation menu, and diabetes resources available on the site.",
+                        avatarState: 'idle'
+                    };
                 },
                 'what can you do|what do you know|capabilities': () => {
                     foundMatch = true;
-                    return "I can help with information from our Diabetes Compass website: " + chatbotData.websiteFeatures.join(", ") + ".";
+                    return {
+                        text: "I can help with information from our Diabetes Compass website: " + chatbotData.websiteFeatures.join(", ") + ".",
+                        avatarState: 'speaking'
+                    };
                 },
                 'thank|thanks|appreciate': () => {
                     foundMatch = true;
-                    return "You're welcome! I'm here to help you navigate our Diabetes Compass website. 😊";
+                    return {
+                        text: "You're welcome! I'm here to help you navigate our Diabetes Compass website. 😊",
+                        avatarState: 'excited'
+                    };
                 },
                 'bye|goodbye|see you': () => {
                     foundMatch = true;
-                    return "Goodbye! Feel free to explore more of our Diabetes Compass website. Take care! 👋";
+                    return {
+                        text: "Goodbye! Feel free to explore more of our Diabetes Compass website. Take care! 👋",
+                        avatarState: 'excited'
+                    };
                 },
                 'yoga|running|cycling|hiking|swimming|group activities': () => {
                     foundMatch = true;
-                    return chatbotData.siteContent["physical activities"].response;
+                    return {
+                        text: chatbotData.siteContent["physical activities"].response,
+                        avatarState: 'excited'
+                    };
                 },
                 'bmi|body mass index|weight|calculate': () => {
                     foundMatch = true;
-                    return chatbotData.siteContent["bmi calculator"].response;
+                    return {
+                        text: chatbotData.siteContent["bmi calculator"].response,
+                        avatarState: 'speaking'
+                    };
                 },
                 'menu|navigation|navigate|contact|contribute|doctor': () => {
                     foundMatch = true;
-                    return chatbotData.siteContent.navigation.response;
+                    return {
+                        text: chatbotData.siteContent.navigation.response,
+                        avatarState: 'speaking'
+                    };
                 },
                 'tile|tiles|homepage|main page': () => {
                     foundMatch = true;
-                    return chatbotData.siteContent.tiles.response;
+                    return {
+                        text: chatbotData.siteContent.tiles.response,
+                        avatarState: 'speaking'
+                    };
                 },
                 'nutrition|diet|food|eating': () => {
                     foundMatch = true;
-                    return chatbotData.siteContent.nutrition.response;
+                    return {
+                        text: chatbotData.siteContent.nutrition.response,
+                        avatarState: 'speaking'
+                    };
                 },
                 'diabetes|blood sugar|glucose': () => {
                     foundMatch = true;
-                    return chatbotData.siteContent["diabetes basics"].response;
+                    return {
+                        text: chatbotData.siteContent["diabetes basics"].response,
+                        avatarState: 'speaking'
+                    };
                 }
             };
 
             for (const [pattern, responseFunc] of Object.entries(siteKeywords)) {
                 const regex = new RegExp(pattern, 'i');
                 if (regex.test(message)) {
-                    response = responseFunc();
+                    const result = responseFunc();
+                    if (typeof result === 'string') {
+                        response = result;
+                    } else {
+                        response = result.text;
+                        avatarState = result.avatarState;
+                    }
                     followUp = ["Explore our physical activities", "Check our BMI calculator", "Learn about our site navigation"];
                     break;
                 }
@@ -539,10 +781,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!foundMatch || !response) {
             lastUnansweredQuestion = userMessage; // Store for ChatGPT redirect
             response = chatbotData.chatgptOffer;
+            avatarState = 'thinking';
             followUp = ["Yes, ask ChatGPT", "No, help with website info", "Show me what you know"];
         }
 
-        return { response, followUp };
+        return { response, followUp, avatarState };
     }
 
     // Handle quick action buttons
@@ -801,8 +1044,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         setTimeout(() => {
             typingIndicator.remove();
-            const { response, followUp } = processMessage(userMessage);
-            const botMessage = addMessage(response, false, followUp.length > 0);
+            const { response, followUp, avatarState } = processMessage(userMessage);
+            const botMessage = addMessage(response, false, followUp.length > 0, avatarState || 'speaking');
 
             if (followUp.length > 0) {
                 setTimeout(() => addFollowUpButtons(followUp), 100);
@@ -819,6 +1062,43 @@ document.addEventListener('DOMContentLoaded', function () {
             handleUserMessage(message);
         }
     }
+
+    // Initialize Dia avatar styles
+    addDiaAvatarStyles();
+
+    // Initialize Dia avatars in existing HTML elements
+    function initializeDiaAvatars() {
+        // Header avatar
+        const headerAvatar = document.getElementById('header-dia-avatar');
+        if (headerAvatar) {
+            headerAvatar.innerHTML = createDiaAvatar('idle');
+        }
+
+        // Welcome message avatar
+        const welcomeAvatar = document.getElementById('welcome-dia-avatar');
+        if (welcomeAvatar) {
+            welcomeAvatar.innerHTML = createDiaAvatar('excited');
+        }
+
+        // Toggle button avatar
+        const toggleAvatar = document.getElementById('toggle-dia-avatar');
+        if (toggleAvatar) {
+            toggleAvatar.innerHTML = createDiaAvatar('idle');
+            // Add hover effect to toggle button
+            const toggleButton = document.getElementById('chatbot-toggle');
+            if (toggleButton) {
+                toggleButton.addEventListener('mouseenter', () => {
+                    toggleAvatar.innerHTML = createDiaAvatar('excited');
+                });
+                toggleButton.addEventListener('mouseleave', () => {
+                    toggleAvatar.innerHTML = createDiaAvatar('idle');
+                });
+            }
+        }
+    }
+
+    // Initialize avatars when DOM is ready
+    initializeDiaAvatars();
 
     // Event listeners
     if (chatbotToggle) {
