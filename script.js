@@ -385,6 +385,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const chatbotSend = document.getElementById('chatbot-send');
 
     let conversationContext = [];
+    let lastUnansweredQuestion = '';
 
     // Toggle chatbot
     function toggleChatbot() {
@@ -536,6 +537,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // If no site-specific content matches, offer ChatGPT
         if (!foundMatch || !response) {
+            lastUnansweredQuestion = userMessage; // Store for ChatGPT redirect
             response = chatbotData.chatgptOffer;
             followUp = ["Yes, ask ChatGPT", "No, help with website info", "Show me what you know"];
         }
@@ -563,17 +565,58 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Handle ChatGPT request simulation
+    // Handle ChatGPT request - redirect with question
     function handleChatGPTRequest() {
         const typingIndicator = showTyping();
 
         setTimeout(() => {
             typingIndicator.remove();
-            const chatgptMessage = "I would love to ask ChatGPT for you, but I'm currently designed to work only with our Diabetes Compass website content. For questions beyond our site, I recommend:\n\n• Visiting chat.openai.com directly\n• Consulting with healthcare professionals\n• Checking reputable medical websites\n\nIs there anything about our Diabetes Compass website I can help you with instead?";
+            
+            // Copy the question to clipboard
+            copyToClipboard(lastUnansweredQuestion);
+            
+            // Open ChatGPT in new tab
+            window.open('https://chat.openai.com/', '_blank');
+            
+            const chatgptMessage = "🚀 Opening ChatGPT in a new tab...\n\n✅ I've copied your question to the clipboard: \"" + lastUnansweredQuestion + "\"\n\nSimply paste it (Ctrl+V) in the ChatGPT chat box when the page loads!\n\nFeel free to ask me about our Diabetes Compass website when you return. 😊";
 
             addMessage(chatgptMessage, false, true);
             setTimeout(() => addFollowUpButtons(["Show me website features", "Physical activities info", "BMI calculator help"]), 100);
-        }, 1500);
+        }, 1000);
+    }
+
+    // Copy text to clipboard helper function
+    function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            // Modern clipboard API
+            navigator.clipboard.writeText(text).catch(err => {
+                console.log('Clipboard write failed:', err);
+                fallbackCopyToClipboard(text);
+            });
+        } else {
+            // Fallback for older browsers
+            fallbackCopyToClipboard(text);
+        }
+    }
+
+    // Fallback clipboard function
+    function fallbackCopyToClipboard(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+        } catch (err) {
+            console.log('Fallback clipboard failed:', err);
+        }
+        
+        document.body.removeChild(textArea);
     }
 
     // Handle user message
