@@ -129,6 +129,42 @@
         </div>
     </footer>
 
+    <!-- Dia Chatbot -->
+    <div class="chatbot-container" id="chatbot-container">
+        <div class="chatbot-header">
+            <div class="chatbot-avatar">💬</div>
+            <div class="chatbot-info">
+                <h3>Dia</h3>
+                <span class="chatbot-status">Your Diabetes Assistant</span>
+            </div>
+            <button class="chatbot-close" id="chatbot-close">&times;</button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <div class="message bot-message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <p>Hi! I'm Dia, your diabetes assistant. How can I help you today?</p>
+                    <div class="quick-actions">
+                        <button class="quick-btn" data-message="Tell me about diabetes">About Diabetes</button>
+                        <button class="quick-btn" data-message="Diet tips for diabetes">Diet Tips</button>
+                        <button class="quick-btn" data-message="Exercise for diabetes">Exercise</button>
+                        <button class="quick-btn" data-message="Blood sugar management">Blood Sugar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Ask me anything about diabetes..." autocomplete="off">
+            <button id="chatbot-send">📤</button>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle" id="chatbot-toggle">
+        <span class="toggle-icon">💬</span>
+        <span class="toggle-text">Chat with Dia</span>
+    </button>
+
     <script src="script.js"></script>
 </body>
 
