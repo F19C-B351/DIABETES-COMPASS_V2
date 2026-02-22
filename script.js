@@ -322,51 +322,58 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Dia Chatbot Functionality
+    // Dia Chatbot Functionality - Site-specific information only
     const chatbotData = {
         greetings: [
-            "Hello! I'm Dia, your friendly diabetes assistant. What would you like to know?",
-            "Hi there! I'm here to help you with diabetes-related questions. How can I assist you today?",
-            "Welcome! I'm Dia, ready to support you on your diabetes journey. What can I help you with?"
+            "Hello! I'm Dia, your diabetes assistant. I can help with information available on our Diabetes Compass website. What would you like to know?",
+            "Hi there! I'm here to help you with diabetes information from our website. How can I assist you today?",
+            "Welcome! I'm Dia, ready to help you navigate our diabetes resources. What can I help you with?"
         ],
-        responses: {
-            "about diabetes": {
-                response: "Diabetes is a group of metabolic disorders characterized by high blood sugar levels. There are mainly two types: Type 1 (autoimmune, usually diagnosed in childhood) and Type 2 (often lifestyle-related, more common in adults). Early detection and proper management are key to living well with diabetes.",
-                followUp: ["Would you like to know about diabetes symptoms?", "Want to learn about diabetes management?", "Need information about diabetes types?"]
+        siteContent: {
+            // Information about the website itself
+            "about us": {
+                response: "Diabetes Compass is your comprehensive guide to diabetes care and management. Our website provides information, resources, and support to help you navigate your diabetes journey with tiles covering nutrition, latest treatments, finding doctors, physical activities, and more.",
+                followUp: ["What specific area interests you?", "Want to explore our physical activities?", "Need information about our BMI calculator?"]
             },
-            "diabetes symptoms": {
-                response: "Common diabetes symptoms include: frequent urination, excessive thirst, unexplained weight loss, fatigue, blurred vision, slow-healing wounds, and frequent infections. If you experience these symptoms, please consult a healthcare provider for proper diagnosis.",
-                followUp: ["Want to know about diabetes management?", "Need information about blood sugar levels?", "Interested in prevention tips?"]
+            "physical activities": {
+                response: "Our Physical Activities section includes diabetes-friendly exercises like Yoga (improves flexibility and blood sugar control), Running (great cardio for diabetes), Cycling (low-impact exercise), Group Activities (social support), Hiking (outdoor fitness), and Swimming (full-body workout). All activities are designed for people with diabetes.",
+                followUp: ["Want specific exercise tips?", "Need information about blood sugar during exercise?", "Interested in group activities?"]
             },
-            "diet tips": {
-                response: "Here are key diabetes diet tips: Choose whole grains over refined carbs, include plenty of vegetables, lean proteins, and healthy fats. Monitor portion sizes, limit sugary drinks and processed foods. Consider the plate method: 1/2 vegetables, 1/4 lean protein, 1/4 whole grains.",
-                followUp: ["Want meal planning ideas?", "Need information about carb counting?", "Interested in healthy recipes?"]
+            "bmi calculator": {
+                response: "Our website features an interactive BMI calculator to help you track your health metrics. BMI is important for diabetes management as maintaining a healthy weight can improve blood sugar control and reduce complications.",
+                followUp: ["Want tips for healthy weight management?", "Need diet information?", "Interested in exercise for weight control?"]
             },
-            "exercise": {
-                response: "Regular exercise is fantastic for diabetes management! Aim for 150 minutes of moderate activity weekly. Great options include walking, swimming, cycling, and strength training. Exercise helps lower blood sugar, improve insulin sensitivity, and boost overall health.",
-                followUp: ["Want specific exercise routines?", "Need tips for blood sugar during exercise?", "Interested in our Physical Activities page?"]
+            "navigation": {
+                response: "You can navigate our site using the menu which includes: Contact Us (get in touch with our team), Contribute (share your diabetes journey), Need a doctor? (find healthcare providers), and access to all our main sections through the tile interface.",
+                followUp: ["Need contact information?", "Want to contribute your story?", "Looking for a doctor?"]
             },
-            "blood sugar": {
-                response: "Blood sugar management involves regular monitoring, medication adherence, healthy eating, regular exercise, and stress management. Target ranges vary, but generally: before meals 80-130 mg/dL, 2 hours after meals <180 mg/dL. Always follow your doctor's specific targets.",
-                followUp: ["Want to know about glucose monitors?", "Need tips for high/low blood sugar?", "Interested in A1C information?"]
+            "tiles": {
+                response: "Our homepage features informative tiles covering: About Us, Nutrition, Latest Treatments, Find the Best Doctors, Physical Activities, Events, and Check Your BMI. Each tile provides specialized diabetes information and resources.",
+                followUp: ["Which tile interests you most?", "Want nutrition information?", "Need latest treatment info?"]
             },
-            "medication": {
-                response: "Diabetes medications work in different ways - some increase insulin production, others improve insulin sensitivity, or slow glucose absorption. Always take medications as prescribed, never skip doses, and discuss any side effects with your healthcare provider immediately.",
-                followUp: ["Need information about insulin?", "Want to know about side effects?", "Questions about dosing schedules?"]
+            // Basic diabetes information that would be on the site
+            "diabetes basics": {
+                response: "Based on our website content: Diabetes is a condition affecting blood sugar levels. Our site covers Type 1 (autoimmune) and Type 2 (lifestyle-related) diabetes, with resources for management, nutrition, exercise, and finding healthcare providers.",
+                followUp: ["Want to explore our nutrition section?", "Need exercise information?", "Looking for doctors?"]
             },
-            "complications": {
-                response: "Diabetes complications can include heart disease, nerve damage, kidney problems, eye damage, and poor wound healing. The good news? Most complications are preventable with good blood sugar control, regular check-ups, and healthy lifestyle choices.",
-                followUp: ["Want prevention strategies?", "Need information about warning signs?", "Interested in screening schedules?"]
-            },
-            "emergency": {
-                response: "⚠️ If you're experiencing diabetic emergency symptoms (severe high/low blood sugar, ketones, confusion), seek immediate medical attention! Call emergency services if needed. For non-emergencies, contact your healthcare provider.",
-                followUp: ["Want to know emergency symptoms?", "Need first aid information?", "Want emergency contact tips?"]
+            "nutrition": {
+                response: "Our nutrition section emphasizes diabetes-friendly eating: choosing whole grains, including vegetables, lean proteins, and healthy fats. We promote the plate method and provide guidance on portion control and meal planning for blood sugar management.",
+                followUp: ["Want meal planning tips?", "Need portion control guidance?", "Interested in our BMI calculator?"]
             }
         },
+        websiteFeatures: [
+            "I can help you navigate our Diabetes Compass website",
+            "I can explain our physical activities section",
+            "I can guide you to our BMI calculator",
+            "I can tell you about our navigation menu",
+            "I can describe our homepage tiles",
+            "I can share basic diabetes information from our site"
+        ],
+        chatgptOffer: "I don't have that specific information on our Diabetes Compass website. Do you want me to ask ChatGPT for a more detailed answer about your question?",
         fallbacks: [
-            "I understand you're asking about diabetes care. While I try to help, please remember to always consult with healthcare professionals for medical advice.",
-            "That's a great question! For specific medical concerns, I'd recommend speaking with your doctor or diabetes care team.",
-            "I'd love to help more! For detailed medical guidance, your healthcare provider is the best resource."
+            "I'm designed to help with information available on our Diabetes Compass website. Do you want me to ask ChatGPT for information beyond our site content?",
+            "That question is outside my knowledge of our website content. Would you like me to ask ChatGPT for a more comprehensive answer?",
+            "I can only provide information from our Diabetes Compass site. Should I ask ChatGPT to help with your question?"
         ]
     };
 
