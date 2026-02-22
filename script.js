@@ -387,209 +387,300 @@ document.addEventListener('DOMContentLoaded', function () {
     let conversationContext = [];
     let lastUnansweredQuestion = '';
 
-    // Create animated Dia avatar
+    // Create animated Dia avatar with professional image
     function createDiaAvatar(state = 'idle') {
         const avatarStates = {
             idle: {
-                emoji: '😊',
                 animation: 'dia-idle',
-                color: '#4CAF50'
+                color: '#4CAF50',
+                filter: 'brightness(1) contrast(1)',
+                emoji: '😊'
             },
             thinking: {
-                emoji: '🤔',
-                animation: 'dia-thinking', 
-                color: '#FF9800'
+                animation: 'dia-thinking',
+                color: '#FF9800',
+                filter: 'brightness(1.1) contrast(1.1) sepia(0.2)',
+                emoji: '🤔'
             },
             speaking: {
-                emoji: '😄',
                 animation: 'dia-speaking',
-                color: '#2196F3'
+                color: '#2196F3',
+                filter: 'brightness(1.05) contrast(1.05) saturate(1.2)',
+                emoji: '😄'
             },
             excited: {
-                emoji: '🎉',
                 animation: 'dia-excited',
-                color: '#E91E63'
+                color: '#E91E63',
+                filter: 'brightness(1.15) contrast(1.1) saturate(1.3)',
+                emoji: '🎉'
             }
         };
 
         const currentState = avatarStates[state] || avatarStates.idle;
-        
+
         return `
             <div class="dia-avatar ${currentState.animation}" style="--avatar-color: ${currentState.color}">
                 <div class="dia-face">
-                    <div class="dia-emoji">${currentState.emoji}</div>
-                    <div class="dia-glow"></div>
-                </div>
-                <div class="dia-pulse"></div>
-            </div>
-        `;
-    }
+                    <img src="images/dia-avatar.jpg" alt="Dia" class="dia-image" style="filter: ${currentState.filter}" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; console.log('Avatar image failed to load, using fallback');">
+                    <div class="dia-emoji-fallback" style="display: none; font-size: 20px; color: var(--avatar-color); align-items: center; justify-content: center;">${currentState.emoji}</div>
 
     // Add Dia avatar styles to document
     function addDiaAvatarStyles() {
         if (document.getElementById('dia-avatar-styles')) return;
-        
+
         const styles = document.createElement('style');
         styles.id = 'dia-avatar-styles';
         styles.textContent = `
-            .dia-avatar {
-                position: relative;
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                background: linear-gradient(135deg, var(--avatar-color, #4CAF50), rgba(255,255,255,0.2));
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                overflow: visible;
+            .dia - avatar {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align - items: center;
+            justify - content: center;
+            border - radius: 50 %;
+            background: linear - gradient(135deg, var(--avatar - color, #4CAF50), rgba(255, 255, 255, 0.2));
+box - shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+overflow: hidden;
+border: 2px solid rgba(255, 255, 255, 0.8);
             }
             
-            .dia-face {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 2;
-            }
+            .dia - face {
+    position: relative;
+    width: 100 %;
+    height: 100 %;
+    border - radius: 50 %;
+    display: flex;
+    align - items: center;
+    justify - content: center;
+    z - index: 2;
+    overflow: hidden;
+}
             
-            .dia-emoji {
-                font-size: 20px;
-                line-height: 1;
-                filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
-            }
+            .dia - image {
+    width: 100 %;
+    height: 100 %;
+    object - fit: cover;
+    border - radius: 50 %;
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
             
-            .dia-glow {
-                position: absolute;
-                top: -2px;
-                left: -2px;
-                right: -2px;
-                bottom: -2px;
-                border-radius: 50%;
-                background: linear-gradient(135deg, var(--avatar-color, #4CAF50), transparent);
-                opacity: 0.3;
-                z-index: 1;
-            }
+            .dia - emoji - fallback {
+    width: 100 %;
+    height: 100 %;
+    display: flex;
+    align - items: center;
+    justify - content: center;
+    border - radius: 50 %;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop - filter: blur(5px);
+    font - size: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z - index: 3;
+}
             
-            .dia-pulse {
-                position: absolute;
-                top: -5px;
-                left: -5px;
-                right: -5px;
-                bottom: -5px;
-                border-radius: 50%;
-                border: 2px solid var(--avatar-color, #4CAF50);
-                opacity: 0;
-                z-index: 1;
-            }
+            .dia - glow {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border - radius: 50 %;
+    background: linear - gradient(135deg, var(--avatar - color, #4CAF50), transparent);
+    opacity: 0.4;
+    z - index: 1;
+    border: 1px solid var(--avatar - color, #4CAF50);
+}
             
+            .dia - pulse {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border - radius: 50 %;
+    border: 2px solid var(--avatar - color, #4CAF50);
+    opacity: 0;
+    z - index: 0;
+}
+
             /* Idle Animation */
-            .dia-idle {
-                animation: dia-gentle-float 3s ease-in-out infinite;
-            }
+            .dia - idle {
+    animation: dia - gentle - float 3s ease -in -out infinite;
+}
             
-            .dia-idle .dia-pulse {
-                animation: dia-gentle-pulse 4s ease-in-out infinite;
-            }
+            .dia - idle.dia - pulse {
+    animation: dia - gentle - pulse 4s ease -in -out infinite;
+}
             
-            @keyframes dia-gentle-float {
-                0%, 100% { transform: translateY(0px) scale(1); }
-                50% { transform: translateY(-3px) scale(1.02); }
-            }
-            
-            @keyframes dia-gentle-pulse {
-                0%, 100% { transform: scale(1); opacity: 0; }
-                50% { transform: scale(1.2); opacity: 0.3; }
-            }
-            
+            .dia - idle.dia - image {
+    animation: dia - idle - subtle 4s ease -in -out infinite;
+}
+
+@keyframes dia - gentle - float {
+    0 %, 100 % { transform: translateY(0px) scale(1); }
+    50 % { transform: translateY(-3px) scale(1.02); }
+}
+
+@keyframes dia - gentle - pulse {
+    0 %, 100 % { transform: scale(1); opacity: 0; }
+    50 % { transform: scale(1.2); opacity: 0.3; }
+}
+
+@keyframes dia - idle - subtle {
+    0 %, 100 % { transform: scale(1); }
+    50 % { transform: scale(1.05); }
+}
+
             /* Thinking Animation */
-            .dia-thinking {
-                animation: dia-think-wobble 1s ease-in-out infinite;
-            }
+            .dia - thinking {
+    animation: dia - think - wobble 1.5s ease -in -out infinite;
+}
             
-            .dia-thinking .dia-emoji {
-                animation: dia-think-rotate 2s ease-in-out infinite;
-            }
-            
-            @keyframes dia-think-wobble {
-                0%, 100% { transform: rotate(-2deg); }
-                50% { transform: rotate(2deg); }
-            }
-            
-            @keyframes dia-think-rotate {
-                0%, 50%, 100% { transform: rotate(0deg); }
-                25% { transform: rotate(-10deg); }
-                75% { transform: rotate(10deg); }
-            }
-            
+            .dia - thinking.dia - image {
+    animation: dia - think - tilt 2s ease -in -out infinite;
+}
+
+@keyframes dia - think - wobble {
+    0 %, 100 % { transform: rotate(-1deg); }
+    50 % { transform: rotate(1deg); }
+}
+
+@keyframes dia - think - tilt {
+    0 %, 50 %, 100 % { transform: rotate(0deg) scale(1); }
+    25 % { transform: rotate(-3deg) scale(1.02); }
+    75 % { transform: rotate(3deg) scale(1.02); }
+}
+
             /* Speaking Animation */
-            .dia-speaking {
-                animation: dia-speak-bounce 0.6s ease-in-out infinite;
-            }
+            .dia - speaking {
+    animation: dia - speak - bounce 0.8s ease -in -out infinite;
+}
             
-            .dia-speaking .dia-glow {
-                animation: dia-speak-glow 0.8s ease-in-out infinite;
-            }
+            .dia - speaking.dia - glow {
+    animation: dia - speak - glow 0.8s ease -in -out infinite;
+}
             
-            @keyframes dia-speak-bounce {
-                0%, 100% { transform: scale(1) rotate(0deg); }
-                25% { transform: scale(1.1) rotate(-2deg); }
-                75% { transform: scale(1.05) rotate(2deg); }
+            .dia - speaking.dia - image {
+    animation: dia - speak - zoom 0.6s ease -in -out infinite;
+}
+
+@keyframes dia - speak - bounce {
+    0 %, 100 % { transform: scale(1) rotate(0deg); }
+    25 % { transform: scale(1.05) rotate(- 1deg);
+}
+75 % { transform: scale(1.03) rotate(1deg); }
             }
-            
-            @keyframes dia-speak-glow {
-                0%, 100% { opacity: 0.3; transform: scale(1); }
-                50% { opacity: 0.6; transform: scale(1.1); }
-            }
-            
+
+@keyframes dia - speak - glow {
+    0 %, 100 % { opacity: 0.4; transform: scale(1); }
+    50 % { opacity: 0.7; transform: scale(1.1); }
+}
+
+@keyframes dia - speak - zoom {
+    0 %, 100 % { transform: scale(1); }
+    50 % { transform: scale(1.08); }
+}
+
             /* Excited Animation */
-            .dia-excited {
-                animation: dia-excited-shake 0.5s ease-in-out infinite;
-            }
+            .dia - excited {
+    animation: dia - excited - shake 0.4s ease -in -out infinite;
+}
             
-            .dia-excited .dia-pulse {
-                animation: dia-excited-pulse 0.3s ease-in-out infinite;
-            }
+            .dia - excited.dia - pulse {
+    animation: dia - excited - pulse 0.3s ease -in -out infinite;
+}
             
-            @keyframes dia-excited-shake {
-                0%, 100% { transform: translateX(0px); }
-                25% { transform: translateX(-2px) rotate(-3deg); }
-                75% { transform: translateX(2px) rotate(3deg); }
+            .dia - excited.dia - image {
+    animation: dia - excited - zoom 0.5s ease -in -out infinite;
+}
+
+@keyframes dia - excited - shake {
+    0 %, 100 % { transform: translateX(0px); }
+    25 % { transform: translateX(-1px) rotate(- 2deg);
+}
+75 % { transform: translateX(1px) rotate(2deg); }
             }
-            
-            @keyframes dia-excited-pulse {
-                0%, 100% { transform: scale(1); opacity: 0; }
-                50% { transform: scale(1.5); opacity: 0.5; }
+
+@keyframes dia - excited - pulse {
+    0 %, 100 % { transform: scale(1); opacity: 0; }
+    50 % { transform: scale(1.5); opacity: 0.6; }
+}
+
+@keyframes dia - excited - zoom {
+    0 %, 100 % { transform: scale(1) rotate(0deg); }
+    25 % { transform: scale(1.1) rotate(- 2deg);
+}
+75 % { transform: scale(1.1) rotate(2deg); }
             }
-            
+
             /* Message avatar specific styles */
-            .message-avatar .dia-avatar {
-                width: 35px;
-                height: 35px;
-            }
+            .message - avatar.dia - avatar {
+    width: 35px;
+    height: 35px;
+}
+
+            /* Chatbot header avatar styles */
+            .chatbot - avatar.dia - avatar {
+    width: 45px;
+    height: 45px;
+}
+
+            /* Toggle button avatar styles */
+            .toggle - icon.dia - avatar {
+    width: 30px;
+    height: 30px;
+}
+
+            /* Hover effects */
+            .dia - avatar:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
             
-            .message-avatar .dia-emoji {
-                font-size: 18px;
-            }
-        `;
+            .dia - avatar: hover.dia - image {
+    filter: brightness(1.2) contrast(1.1) saturate(1.1)!important;
+}
+
+/* Simple bounce animation for fallbacks */
+@keyframes bounce {
+    0 %, 20 %, 50 %, 80 %, 100 % { transform: translateY(0); }
+    40 % { transform: translateY(-10px); }
+    60 % { transform: translateY(-5px); }
+}
+`;
         document.head.appendChild(styles);
     }
 
     // Toggle chatbot
     function toggleChatbot() {
-        chatbotContainer.classList.toggle('active');
-        if (chatbotContainer.classList.contains('active')) {
-            chatbotInput.focus();
+        console.log('toggleChatbot called');
+        console.log('chatbotContainer:', chatbotContainer);
+        
+        if (chatbotContainer) {
+            chatbotContainer.classList.toggle('active');
+            console.log('Chatbot container classes:', chatbotContainer.className);
+            
+            if (chatbotContainer.classList.contains('active')) {
+                console.log('Chatbot opened');
+                if (chatbotInput) {
+                    chatbotInput.focus();
+                }
+            } else {
+                console.log('Chatbot closed');
+            }
+        } else {
+            console.error('chatbotContainer not found!');
         }
     }
 
     // Add message to chat with dynamic avatar state
     function addMessage(content, isUser = false, hasFollowUp = false, avatarState = 'speaking') {
         const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        messageDiv.className = `message ${ isUser ? 'user-message' : 'bot-message' } `;
 
         // Determine appropriate avatar state based on content
         if (!isUser && !avatarState) {
@@ -603,12 +694,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         messageDiv.innerHTML = `
-            <div class="message-avatar">${isUser ? '👤' : createDiaAvatar(avatarState)}</div>
-            <div class="message-content">
-                <p>${content}</p>
-                ${hasFollowUp ? '<div class="quick-actions" id="follow-up-actions"></div>' : ''}
-            </div>
-        `;
+    < div class="message-avatar" > ${ isUser ? '👤' : createDiaAvatar(avatarState) }</div >
+        <div class="message-content">
+            <p>${content}</p>
+            ${hasFollowUp ? '<div class="quick-actions" id="follow-up-actions"></div>' : ''}
+        </div>
+`;
 
         chatbotMessages.appendChild(messageDiv);
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
@@ -635,15 +726,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message bot-message typing-message';
         typingDiv.innerHTML = `
-            <div class="message-avatar">${createDiaAvatar('thinking')}</div>
-            <div class="message-content">
-                <div class="typing-indicator">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
+    < div class="message-avatar" > ${ createDiaAvatar('thinking') }</div >
+        <div class="message-content">
+            <div class="typing-indicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
             </div>
-        `;
+        </div>
+`;
         chatbotMessages.appendChild(typingDiv);
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
         return typingDiv;
@@ -798,8 +889,8 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (message.toLowerCase().includes('copy question again')) {
             const success = copyToClipboardWithFeedback(lastUnansweredQuestion);
             const copyMessage = success ?
-                `✅ Question copied again: "${lastUnansweredQuestion}"\n\nYou can now paste it (Ctrl+V) into ChatGPT!` :
-                `📋 Please copy this question manually:\n\n"${lastUnansweredQuestion}"\n\nSelect the text above and use Ctrl+C to copy.`;
+                `✅ Question copied again: "${lastUnansweredQuestion}"\n\nYou can now paste it(Ctrl + V) into ChatGPT!` :
+                `📋 Please copy this question manually: \n\n"${lastUnansweredQuestion}"\n\nSelect the text above and use Ctrl + C to copy.`;
 
             addMessage(copyMessage, false, true);
             setTimeout(() => addFollowUpButtons(["Open ChatGPT", "Show me website features", "Physical activities info"]), 100);
@@ -837,7 +928,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.open('https://chat.openai.com/', '_blank');
             }, 500);
 
-            const chatgptMessage = `🚀 Opening ChatGPT in a new tab...\n\n📋 Your question: "${lastUnansweredQuestion}"\n\n✅ Question copied to clipboard! Just paste (Ctrl+V) when ChatGPT loads.\n📝 A popup window also shows your question for easy reference.\n\nFeel free to ask me about our Diabetes Compass website when you return! 😊`;
+            const chatgptMessage = `🚀 Opening ChatGPT in a new tab...\n\n📋 Your question: "${lastUnansweredQuestion}"\n\n✅ Question copied to clipboard! Just paste(Ctrl + V) when ChatGPT loads.\n📝 A popup window also shows your question for easy reference.\n\nFeel free to ask me about our Diabetes Compass website when you return ! 😊`;
 
             addMessage(chatgptMessage, false, true);
             setTimeout(() => addFollowUpButtons(["Copy question again", "Show me website features", "Physical activities info"]), 100);
@@ -850,284 +941,335 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (popup) {
             popup.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Your Question for ChatGPT</title>
-                    <style>
-                        body { 
-                            font-family: Arial, sans-serif; 
-                            padding: 20px; 
-                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                            color: white;
-                            margin: 0;
+    < !DOCTYPE html >
+        <html>
+            <head>
+                <title>Your Question for ChatGPT</title>
+                <style>
+                    body {
+                        font - family: Arial, sans-serif;
+                    padding: 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    margin: 0;
                         }
-                        .container {
-                            background: rgba(255,255,255,0.1);
-                            padding: 20px;
-                            border-radius: 10px;
-                            backdrop-filter: blur(10px);
+                    .container {
+                        background: rgba(255,255,255,0.1);
+                    padding: 20px;
+                    border-radius: 10px;
+                    backdrop-filter: blur(10px);
                         }
-                        h2 { margin-top: 0; text-align: center; }
-                        .question-box {
-                            background: rgba(255,255,255,0.2);
-                            padding: 15px;
-                            border-radius: 8px;
-                            margin: 15px 0;
-                            word-wrap: break-word;
-                            border: 1px solid rgba(255,255,255,0.3);
+                    h2 {margin - top: 0; text-align: center; }
+                    .question-box {
+                        background: rgba(255,255,255,0.2);
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin: 15px 0;
+                    word-wrap: break-word;
+                    border: 1px solid rgba(255,255,255,0.3);
                         }
-                        .copy-btn {
-                            background: #4CAF50;
-                            color: white;
-                            border: none;
-                            padding: 10px 20px;
-                            border-radius: 5px;
-                            cursor: pointer;
-                            font-size: 14px;
-                            margin: 10px 5px;
-                            transition: background 0.3s ease;
+                    .copy-btn {
+                        background: #4CAF50;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    margin: 10px 5px;
+                    transition: background 0.3s ease;
                         }
-                        .copy-btn:hover { background: #45a049; }
-                        .instructions {
-                            background: rgba(255,255,255,0.1);
-                            padding: 15px;
-                            border-radius: 8px;
-                            margin: 15px 0;
-                            font-size: 14px;
+                    .copy-btn:hover {background: #45a049; }
+                    .instructions {
+                        background: rgba(255,255,255,0.1);
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin: 15px 0;
+                    font-size: 14px;
                         }
-                        .close-btn {
-                            background: #f44336;
-                            color: white;
-                            border: none;
-                            padding: 8px 15px;
-                            border-radius: 5px;
-                            cursor: pointer;
-                            float: right;
+                    .close-btn {
+                        background: #f44336;
+                    color: white;
+                    border: none;
+                    padding: 8px 15px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    float: right;
                         }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <h2>🤖 Question for ChatGPT</h2>
-                        <div class="question-box" id="questionText">${question}</div>
-                        <button class="copy-btn" onclick="copyQuestion()">📋 Copy Question</button>
-                        <button class="copy-btn" onclick="openChatGPT()">🚀 Go to ChatGPT</button>
-                        <button class="close-btn" onclick="window.close()">✕ Close</button>
-                        <div class="instructions">
-                            <strong>Instructions:</strong><br>
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h2>🤖 Question for ChatGPT</h2>
+                    <div class="question-box" id="questionText">${question}</div>
+                    <button class="copy-btn" onclick="copyQuestion()">📋 Copy Question</button>
+                    <button class="copy-btn" onclick="openChatGPT()">🚀 Go to ChatGPT</button>
+                    <button class="close-btn" onclick="window.close()">✕ Close</button>
+                    <div class="instructions">
+                        <strong>Instructions:</strong><br>
                             1. Click "Copy Question" or select and copy the text above<br>
-                            2. Click "Go to ChatGPT" or switch to the ChatGPT tab<br>
-                            3. Paste your question (Ctrl+V) in the ChatGPT input box<br>
-                            4. Press Enter to send your question
-                        </div>
-                    </div>
-                    
-                    <script>
-                        function copyQuestion() {
+                                2. Click "Go to ChatGPT" or switch to the ChatGPT tab<br>
+                                    3. Paste your question (Ctrl+V) in the ChatGPT input box<br>
+                                        4. Press Enter to send your question
+                                    </div>
+                                </div>
+
+                                <script>
+                                    function copyQuestion() {
                             const questionText = document.getElementById('questionText').textContent;
-                            
-                            if (navigator.clipboard) {
-                                navigator.clipboard.writeText(questionText).then(function() {
-                                    alert('✅ Question copied to clipboard!');
-                                }).catch(function(err) {
-                                    selectText();
-                                });
+
+                                    if (navigator.clipboard) {
+                                        navigator.clipboard.writeText(questionText).then(function () {
+                                            alert('✅ Question copied to clipboard!');
+                                        }).catch(function (err) {
+                                            selectText();
+                                        });
                             } else {
-                                selectText();
+                                        selectText();
                             }
                         }
-                        
-                        function selectText() {
+
+                                    function selectText() {
                             const questionElement = document.getElementById('questionText');
-                            const range = document.createRange();
-                            range.selectNode(questionElement);
-                            window.getSelection().removeAllRanges();
-                            window.getSelection().addRange(range);
-                            
-                            try {
-                                document.execCommand('copy');
-                                alert('✅ Question copied to clipboard!');
+                                    const range = document.createRange();
+                                    range.selectNode(questionElement);
+                                    window.getSelection().removeAllRanges();
+                                    window.getSelection().addRange(range);
+
+                                    try {
+                                        document.execCommand('copy');
+                                    alert('✅ Question copied to clipboard!');
                             } catch (err) {
-                                alert('Please manually select and copy the question text.');
+                                        alert('Please manually select and copy the question text.');
                             }
                         }
-                        
-                        function openChatGPT() {
-                            window.open('https://chat.openai.com/', '_blank');
+
+                                    function openChatGPT() {
+                                        window.open('https://chat.openai.com/', '_blank');
                         }
-                        
-                        // Auto-select text on load for easy copying
-                        window.onload = function() {
-                            setTimeout(() => {
-                                copyQuestion();
-                            }, 500);
+
+                                    // Auto-select text on load for easy copying
+                                    window.onload = function() {
+                                        setTimeout(() => {
+                                            copyQuestion();
+                                        }, 500);
                         };
-                    </script>
-                </body>
-                </html>
-            `);
-            popup.document.close();
+                                </script>
+                            </body>
+                        </html>
+                        `);
+                        popup.document.close();
         }
 
-        return popup;
+                        return popup;
     }
 
-    // Copy text to clipboard helper function with improved feedback
-    function copyToClipboardWithFeedback(text) {
-        let copySuccess = false;
+                        // Copy text to clipboard helper function with improved feedback
+                        function copyToClipboardWithFeedback(text) {
+                            let copySuccess = false;
 
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(text)
-                .then(() => {
-                    copySuccess = true;
-                    console.log('✅ Question copied to clipboard successfully');
-                })
-                .catch(err => {
-                    console.log('Modern clipboard failed, trying fallback:', err);
-                    copySuccess = fallbackCopyToClipboard(text);
-                });
+                        if (navigator.clipboard && window.isSecureContext) {
+                            navigator.clipboard.writeText(text)
+                                .then(() => {
+                                    copySuccess = true;
+                                    console.log('✅ Question copied to clipboard successfully');
+                                })
+                                .catch(err => {
+                                    console.log('Modern clipboard failed, trying fallback:', err);
+                                    copySuccess = fallbackCopyToClipboard(text);
+                                });
         } else {
-            copySuccess = fallbackCopyToClipboard(text);
+                            copySuccess = fallbackCopyToClipboard(text);
         }
 
-        return copySuccess;
+                        return copySuccess;
     }
 
-    // Copy text to clipboard helper function
-    function copyToClipboard(text) {
+                        // Copy text to clipboard helper function
+                        function copyToClipboard(text) {
         if (navigator.clipboard && window.isSecureContext) {
-            // Modern clipboard API
-            navigator.clipboard.writeText(text).catch(err => {
-                console.log('Clipboard write failed:', err);
-                fallbackCopyToClipboard(text);
-            });
+                            // Modern clipboard API
+                            navigator.clipboard.writeText(text).catch(err => {
+                                console.log('Clipboard write failed:', err);
+                                fallbackCopyToClipboard(text);
+                            });
         } else {
-            // Fallback for older browsers
-            fallbackCopyToClipboard(text);
+                            // Fallback for older browsers
+                            fallbackCopyToClipboard(text);
         }
     }
 
-    // Fallback clipboard function
-    function fallbackCopyToClipboard(text) {
+                        // Fallback clipboard function
+                        function fallbackCopyToClipboard(text) {
         const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-999999px';
-        textArea.style.top = '-999999px';
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
+                        textArea.value = text;
+                        textArea.style.position = 'fixed';
+                        textArea.style.left = '-999999px';
+                        textArea.style.top = '-999999px';
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
 
-        let successful = false;
-        try {
-            successful = document.execCommand('copy');
-            console.log('✅ Fallback clipboard succeeded');
+                        let successful = false;
+                        try {
+                            successful = document.execCommand('copy');
+                        console.log('✅ Fallback clipboard succeeded');
         } catch (err) {
-            console.log('❌ Fallback clipboard failed:', err);
+                            console.log('❌ Fallback clipboard failed:', err);
         }
 
-        document.body.removeChild(textArea);
-        return successful;
+                        document.body.removeChild(textArea);
+                        return successful;
     }
 
-    // Handle user message
-    function handleUserMessage(userMessage) {
+                        // Handle user message
+                        function handleUserMessage(userMessage) {
         // Check for ChatGPT response first
         if (userMessage.toLowerCase().includes('yes, ask chatgpt') ||
-            userMessage.toLowerCase().includes('ask chatgpt')) {
-            handleChatGPTRequest();
-            return;
+                        userMessage.toLowerCase().includes('ask chatgpt')) {
+                            handleChatGPTRequest();
+                        return;
         }
 
-        const typingIndicator = showTyping();
+                        const typingIndicator = showTyping();
 
         setTimeout(() => {
-            typingIndicator.remove();
-            const { response, followUp, avatarState } = processMessage(userMessage);
+                            typingIndicator.remove();
+                        const {response, followUp, avatarState} = processMessage(userMessage);
             const botMessage = addMessage(response, false, followUp.length > 0, avatarState || 'speaking');
 
             if (followUp.length > 0) {
-                setTimeout(() => addFollowUpButtons(followUp), 100);
+                            setTimeout(() => addFollowUpButtons(followUp), 100);
             }
         }, Math.random() * 1000 + 500); // Random delay to simulate thinking
     }
 
-    // Send message
-    function sendMessage() {
+                        // Send message
+                        function sendMessage() {
         const message = chatbotInput.value.trim();
-        if (message) {
-            addMessage(message, true);
-            chatbotInput.value = '';
-            handleUserMessage(message);
+                        if (message) {
+                            addMessage(message, true);
+                        chatbotInput.value = '';
+                        handleUserMessage(message);
         }
     }
 
-    // Initialize Dia avatar styles
-    addDiaAvatarStyles();
+                        // Initialize Dia avatar styles
+                        addDiaAvatarStyles();
 
-    // Initialize Dia avatars in existing HTML elements
-    function initializeDiaAvatars() {
-        // Header avatar
-        const headerAvatar = document.getElementById('header-dia-avatar');
-        if (headerAvatar) {
-            headerAvatar.innerHTML = createDiaAvatar('idle');
+                        // Initialize Dia avatars in existing HTML elements
+                        function initializeDiaAvatars() {
+                            console.log('Initializing Dia avatars...');
+
+                        // Header avatar
+                        const headerAvatar = document.getElementById('header-dia-avatar');
+                        if (headerAvatar) {
+                            console.log('Found header avatar element');
+                        headerAvatar.innerHTML = createDiaAvatar('idle');
+        } else {
+                            console.log('Header avatar element not found');
         }
 
-        // Welcome message avatar
-        const welcomeAvatar = document.getElementById('welcome-dia-avatar');
-        if (welcomeAvatar) {
-            welcomeAvatar.innerHTML = createDiaAvatar('excited');
+                        // Welcome message avatar
+                        const welcomeAvatar = document.getElementById('welcome-dia-avatar');
+                        if (welcomeAvatar) {
+                            console.log('Found welcome avatar element');
+                        welcomeAvatar.innerHTML = createDiaAvatar('excited');
+        } else {
+                            console.log('Welcome avatar element not found');
         }
 
-        // Toggle button avatar
-        const toggleAvatar = document.getElementById('toggle-dia-avatar');
-        if (toggleAvatar) {
-            toggleAvatar.innerHTML = createDiaAvatar('idle');
-            // Add hover effect to toggle button
-            const toggleButton = document.getElementById('chatbot-toggle');
-            if (toggleButton) {
-                toggleButton.addEventListener('mouseenter', () => {
-                    toggleAvatar.innerHTML = createDiaAvatar('excited');
-                });
+                        // Toggle button avatar
+                        const toggleAvatar = document.getElementById('toggle-dia-avatar');
+                        if (toggleAvatar) {
+                            console.log('Found toggle avatar element');
+                        toggleAvatar.innerHTML = createDiaAvatar('idle');
+                        // Add hover effect to toggle button
+                        const toggleButton = document.getElementById('chatbot-toggle');
+                        if (toggleButton) {
+                            toggleButton.addEventListener('mouseenter', () => {
+                                toggleAvatar.innerHTML = createDiaAvatar('excited');
+                            });
                 toggleButton.addEventListener('mouseleave', () => {
-                    toggleAvatar.innerHTML = createDiaAvatar('idle');
+                            toggleAvatar.innerHTML = createDiaAvatar('idle');
                 });
             }
+        } else {
+                            console.log('Toggle avatar element not found');
         }
+
+                        // Test if image exists
+                        const testImg = new Image();
+                        testImg.onload = function() {
+                            console.log('Avatar image loaded successfully');
+        };
+                        testImg.onerror = function() {
+                            console.log('Avatar image not found, using emoji fallbacks');
+        };
+                        testImg.src = 'images/dia-avatar.jpg';
     }
 
     // Initialize avatars when DOM is ready
-    initializeDiaAvatars();
+    setTimeout(() => {
+                            initializeDiaAvatars();
 
-    // Event listeners
-    if (chatbotToggle) {
-        chatbotToggle.addEventListener('click', toggleChatbot);
-    }
+        // Fallback - if avatars still not visible, force simple emoji display
+        setTimeout(() => {
+            const elements = ['header-dia-avatar', 'welcome-dia-avatar', 'toggle-dia-avatar'];
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                        if (element && (!element.innerHTML.includes('dia-avatar') || element.innerHTML.trim() === '💬' || element.innerHTML.trim() === '🤖')) {
+                            console.log(`Forcing simple avatar for ${id}`);
+                        element.innerHTML = '<div style="font-size: 24px; animation: bounce 2s infinite;">👩‍⚕️</div>';
+                        element.style.display = 'flex';
+                        element.style.alignItems = 'center';
+                        element.style.justifyContent = 'center';
+                }
+            });
+        }, 500);
+    }, 100); // Small delay to ensure DOM is fully loaded
 
-    if (chatbotClose) {
-        chatbotClose.addEventListener('click', toggleChatbot);
-    }
+                        // Event listeners
+                        console.log('Setting up chatbot event listeners...');
 
-    if (chatbotSend) {
-        chatbotSend.addEventListener('click', sendMessage);
-    }
-
-    if (chatbotInput) {
-        chatbotInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
+                        if (chatbotToggle) {
+                            console.log('Chatbot toggle button found, adding click listener');
+                        chatbotToggle.addEventListener('click', function(e) {
+                            console.log('Chatbot toggle clicked!');
+                        e.preventDefault();
+                        toggleChatbot();
         });
+
+                        // Test if button is visible and clickable
+                        console.log('Toggle button position:', chatbotToggle.getBoundingClientRect());
+                        console.log('Toggle button style:', window.getComputedStyle(chatbotToggle).zIndex);
+    } else {
+                            console.error('Chatbot toggle button not found!');
+    }
+
+                        if (chatbotClose) {
+                            chatbotClose.addEventListener('click', toggleChatbot);
+    }
+
+                        if (chatbotSend) {
+                            chatbotSend.addEventListener('click', sendMessage);
+    }
+
+                        if (chatbotInput) {
+                            chatbotInput.addEventListener('keypress', (e) => {
+                                if (e.key === 'Enter') {
+                                    sendMessage();
+                                }
+                            });
     }
 
     // Handle initial quick action buttons
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('quick-btn')) {
             const message = e.target.getAttribute('data-message');
-            if (message) {
-                addMessage(message, true);
-                handleUserMessage(message);
+                        if (message) {
+                            addMessage(message, true);
+                        handleUserMessage(message);
             }
         }
     });
