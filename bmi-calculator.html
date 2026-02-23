@@ -120,6 +120,64 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Your Customized Diet Section -->
+            <section class="diet-section" id="diet-section" style="display: none;">
+                <h2 style="color: #667eea; text-align: center; margin-bottom: 30px;">🍽️ Your Customized Diet</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 30px;">Based on your recommended calorie
+                    intake of <strong id="diet-calories">0</strong> calories per day</p>
+
+                <div class="diet-grid"
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+                    <!-- Breakfast -->
+                    <div class="diet-card"
+                        style="background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #f39c12;">
+                        <h3 style="color: #f39c12; margin-bottom: 15px;">🌅 Breakfast</h3>
+                        <div id="breakfast-menu"></div>
+                    </div>
+
+                    <!-- Morning Snack -->
+                    <div class="diet-card"
+                        style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #4caf50;">
+                        <h3 style="color: #4caf50; margin-bottom: 15px;">🍎 Morning Snack</h3>
+                        <div id="morning-snack-menu"></div>
+                    </div>
+
+                    <!-- Lunch -->
+                    <div class="diet-card"
+                        style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #2196f3;">
+                        <h3 style="color: #2196f3; margin-bottom: 15px;">☀️ Lunch</h3>
+                        <div id="lunch-menu"></div>
+                    </div>
+
+                    <!-- Afternoon Snack -->
+                    <div class="diet-card"
+                        style="background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #e91e63;">
+                        <h3 style="color: #e91e63; margin-bottom: 15px;">🥜 Afternoon Snack</h3>
+                        <div id="afternoon-snack-menu"></div>
+                    </div>
+
+                    <!-- Dinner -->
+                    <div class="diet-card"
+                        style="background: linear-gradient(135deg, #ede7f6 0%, #d1c4e9 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #673ab7;">
+                        <h3 style="color: #673ab7; margin-bottom: 15px;">🌙 Dinner</h3>
+                        <div id="dinner-menu"></div>
+                    </div>
+
+                    <!-- Evening Snack -->
+                    <div class="diet-card"
+                        style="background: linear-gradient(135deg, #efebe9 0%, #d7ccc8 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #795548;">
+                        <h3 style="color: #795548; margin-bottom: 15px;">🌜 Evening Snack</h3>
+                        <div id="evening-snack-menu"></div>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; text-align: center;">
+                    <p style="color: #666; font-style: italic;">⚠️ This is a sample diet plan. Please consult with your
+                        healthcare provider or registered dietitian for personalized nutrition advice.</p>
+                </div>
+            </section>
         </div>
     </main>
 
@@ -201,6 +259,177 @@
                     <p><em>This is a general estimate. Consult your healthcare provider or dietitian for personalized dietary recommendations.</em></p>
                 </div>
             `;
+
+            // Show customized diet section
+            generateCustomizedDiet(diabeticCalories);
+        }
+
+        function generateCustomizedDiet(calories) {
+            document.getElementById('diet-section').style.display = 'block';
+            document.getElementById('diet-calories').textContent = calories;
+
+            // Calculate meal distribution (diabetic-friendly: smaller, more frequent meals)
+            const breakfast = Math.round(calories * 0.25);
+            const morningSnack = Math.round(calories * 0.10);
+            const lunch = Math.round(calories * 0.30);
+            const afternoonSnack = Math.round(calories * 0.10);
+            const dinner = Math.round(calories * 0.20);
+            const eveningSnack = Math.round(calories * 0.05);
+
+            // Diet plans based on calorie levels
+            let dietPlan;
+            if (calories < 1400) {
+                dietPlan = {
+                    breakfast: [
+                        "1 slice whole grain toast with avocado",
+                        "1 scrambled egg",
+                        "1/2 cup berries",
+                        "Unsweetened green tea"
+                    ],
+                    morningSnack: [
+                        "10 almonds",
+                        "1 small apple"
+                    ],
+                    lunch: [
+                        "Grilled chicken salad (100g chicken)",
+                        "Mixed greens with olive oil dressing",
+                        "1/2 cup quinoa",
+                        "Water with lemon"
+                    ],
+                    afternoonSnack: [
+                        "1/2 cup Greek yogurt (unsweetened)",
+                        "Celery sticks"
+                    ],
+                    dinner: [
+                        "Baked salmon fillet (100g)",
+                        "Steamed broccoli and cauliflower",
+                        "Small side salad"
+                    ],
+                    eveningSnack: [
+                        "Herbal tea",
+                        "5 walnuts"
+                    ]
+                };
+            } else if (calories < 1800) {
+                dietPlan = {
+                    breakfast: [
+                        "Oatmeal (1/2 cup) with cinnamon",
+                        "2 scrambled eggs",
+                        "1/2 cup mixed berries",
+                        "Black coffee or tea"
+                    ],
+                    morningSnack: [
+                        "15 almonds",
+                        "1 medium apple",
+                        "String cheese"
+                    ],
+                    lunch: [
+                        "Grilled chicken breast (150g)",
+                        "Large mixed green salad",
+                        "1/2 cup brown rice",
+                        "Olive oil & vinegar dressing"
+                    ],
+                    afternoonSnack: [
+                        "1 cup Greek yogurt (unsweetened)",
+                        "Cucumber slices",
+                        "2 tbsp hummus"
+                    ],
+                    dinner: [
+                        "Grilled fish (150g) or lean meat",
+                        "Roasted vegetables (zucchini, peppers)",
+                        "1/2 cup sweet potato",
+                        "Side salad"
+                    ],
+                    eveningSnack: [
+                        "Chamomile tea",
+                        "1/4 cup mixed nuts"
+                    ]
+                };
+            } else {
+                dietPlan = {
+                    breakfast: [
+                        "2 slices whole grain toast",
+                        "2-3 scrambled eggs with vegetables",
+                        "1/2 avocado",
+                        "1 cup berries",
+                        "Coffee or tea"
+                    ],
+                    morningSnack: [
+                        "20 almonds",
+                        "1 medium banana",
+                        "String cheese"
+                    ],
+                    lunch: [
+                        "Grilled chicken or fish (200g)",
+                        "Large colorful salad",
+                        "3/4 cup brown rice or quinoa",
+                        "Olive oil dressing",
+                        "1 whole grain roll"
+                    ],
+                    afternoonSnack: [
+                        "1 cup Greek yogurt with berries",
+                        "Vegetable sticks",
+                        "3 tbsp hummus"
+                    ],
+                    dinner: [
+                        "Lean protein (200g - chicken, fish, or tofu)",
+                        "Large portion roasted vegetables",
+                        "1 medium sweet potato or 1 cup pasta",
+                        "Large side salad"
+                    ],
+                    eveningSnack: [
+                        "Herbal tea",
+                        "1/3 cup mixed nuts",
+                        "Small portion of cheese"
+                    ]
+                };
+            }
+
+            // Populate the diet cards
+            document.getElementById('breakfast-menu').innerHTML = `
+                <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${breakfast} calories</p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    ${dietPlan.breakfast.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
+                </ul>
+            `;
+
+            document.getElementById('morning-snack-menu').innerHTML = `
+                <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${morningSnack} calories</p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    ${dietPlan.morningSnack.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
+                </ul>
+            `;
+
+            document.getElementById('lunch-menu').innerHTML = `
+                <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${lunch} calories</p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    ${dietPlan.lunch.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
+                </ul>
+            `;
+
+            document.getElementById('afternoon-snack-menu').innerHTML = `
+                <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${afternoonSnack} calories</p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    ${dietPlan.afternoonSnack.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
+                </ul>
+            `;
+
+            document.getElementById('dinner-menu').innerHTML = `
+                <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${dinner} calories</p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    ${dietPlan.dinner.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
+                </ul>
+            `;
+
+            document.getElementById('evening-snack-menu').innerHTML = `
+                <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${eveningSnack} calories</p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    ${dietPlan.eveningSnack.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
+                </ul>
+            `;
+
+            // Scroll to diet section
+            document.getElementById('diet-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 </body>
