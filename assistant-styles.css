@@ -46,6 +46,8 @@
     top: 120px;
     max-height: calc(100vh - 140px);
     overflow-y: auto;
+    margin-top: 80px;
+    /* Align with tiles section instead of hero */
 }
 
 .sidebar-content {
@@ -120,7 +122,8 @@
 /* Responsive Design for Sidebar */
 @media (max-width: 1024px) {
     .main-layout {
-        flex-direction: column;
+        flex-direction: column-reverse;
+        /* Sidebar goes below main content */
     }
 
     .sidebar {
@@ -129,9 +132,13 @@
         top: auto;
         max-height: none;
         margin-top: 20px;
+        order: 2;
+        /* Ensure sidebar comes after main content on mobile */
     }
 
-    .sidebar-items {
+    .main-content {
+        order: 1;
+        /* Main content comes first on mobile */
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 15px;
