@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diabetes Compass - Your Guide to Better Health</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assistant-styles.css">
 </head>
 
 <body>
@@ -54,72 +55,136 @@
 
     <main>
         <div class="container">
-            <section class="hero">
-                <h2>Navigate Your Diabetes Journey</h2>
-                <p>Find the information, resources, and support you need to live well with diabetes.</p>
-            </section>
+            <div class="main-layout">
+                <div class="main-content">
+                    <section class="hero">
+                        <h2>Navigate Your Diabetes Journey</h2>
+                        <p>Find the information, resources, and support you need to live well with diabetes.</p>
+                    </section>
 
-            <section class="tiles-section">
-                <div class="tiles-grid">
-                    <a href="#about" class="nav-tile about-tile">
-                        <div class="tile-photo"></div>
-                        <div class="tile-content">
-                            <h3>About Us</h3>
-                            <p>Learn about our mission to provide comprehensive diabetes information and support.</p>
-                        </div>
-                    </a>
+                    <section class="tiles-section">
+                        <div class="tiles-grid">
+                            <a href="#about" class="nav-tile about-tile">
+                                <div class="tile-photo"></div>
+                                <div class="tile-content">
+                                    <h3>About Us</h3>
+                                    <p>Learn about our mission to provide comprehensive diabetes information and
+                                        support.</p>
+                                </div>
+                            </a>
 
-                    <a href="#nutrition" class="nav-tile nutrition-tile">
-                        <div class="tile-photo"></div>
-                        <div class="tile-content">
-                            <h3>Nutrition</h3>
-                            <p>Discover diabetes-friendly recipes, meal plans, and nutritional guidance.</p>
-                        </div>
-                    </a>
+                            <a href="#nutrition" class="nav-tile nutrition-tile">
+                                <div class="tile-photo"></div>
+                                <div class="tile-content">
+                                    <h3>Nutrition</h3>
+                                    <p>Discover diabetes-friendly recipes, meal plans, and nutritional guidance.</p>
+                                </div>
+                            </a>
 
-                    <a href="#treatments" class="nav-tile treatments-tile">
-                        <div class="tile-photo"></div>
-                        <div class="tile-content">
-                            <h3>Latest Treatments</h3>
-                            <p>Stay updated with the newest diabetes treatments and medical breakthroughs.</p>
-                        </div>
-                    </a>
+                            <a href="#treatments" class="nav-tile treatments-tile">
+                                <div class="tile-photo"></div>
+                                <div class="tile-content">
+                                    <h3>Latest Treatments</h3>
+                                    <p>Stay updated with the newest diabetes treatments and medical breakthroughs.</p>
+                                </div>
+                            </a>
 
-                    <a href="https://superdoc.bg/" class="nav-tile doctor-tile" target="_blank"
-                        rel="noopener noreferrer">
-                        <div class="tile-photo"></div>
-                        <div class="tile-content">
-                            <h3>Find the Best Doctors</h3>
-                            <p>Connect with qualified healthcare providers specializing in diabetes care.</p>
-                        </div>
-                    </a>
+                            <a href="https://superdoc.bg/" class="nav-tile doctor-tile" target="_blank"
+                                rel="noopener noreferrer">
+                                <div class="tile-photo"></div>
+                                <div class="tile-content">
+                                    <h3>Find the Best Doctors</h3>
+                                    <p>Connect with qualified healthcare providers specializing in diabetes care.</p>
+                                </div>
+                            </a>
 
-                    <a href="physical-activities.html" class="nav-tile exercise-tile">
-                        <div class="tile-photo"></div>
-                        <div class="tile-content">
-                            <h3>Physical Activities</h3>
-                            <p>Explore safe and effective exercise routines designed for people with diabetes.</p>
-                        </div>
-                    </a>
+                            <a href="physical-activities.html" class="nav-tile exercise-tile">
+                                <div class="tile-photo"></div>
+                                <div class="tile-content">
+                                    <h3>Physical Activities</h3>
+                                    <p>Explore safe and effective exercise routines designed for people with diabetes.
+                                    </p>
+                                </div>
+                            </a>
 
-                    <a href="#events" class="nav-tile events-tile">
-                        <div class="tile-photo"></div>
-                        <div class="tile-content">
-                            <h3>Events</h3>
-                            <p>Join community events, workshops, and educational sessions about diabetes.</p>
-                        </div>
-                    </a>
+                            <a href="#events" class="nav-tile events-tile">
+                                <div class="tile-photo"></div>
+                                <div class="tile-content">
+                                    <h3>Events</h3>
+                                    <p>Join community events, workshops, and educational sessions about diabetes.</p>
+                                </div>
+                            </a>
 
-                    <a href="bmi-calculator.html" class="nav-tile bmi-tile">
-                        <div class="tile-photo"></div>
-                        <div class="tile-content">
-                            <h3>Check your BMI and Recommended Calories Intake</h3>
-                            <p>Calculate your Body Mass Index and get personalized calorie recommendations for optimal
-                                diabetes management.</p>
+                            <a href="bmi-calculator.html" class="nav-tile bmi-tile">
+                                <div class="tile-photo"></div>
+                                <div class="tile-content">
+                                    <h3>Check your BMI and Recommended Calories Intake</h3>
+                                    <p>Calculate your Body Mass Index and get personalized calorie recommendations for
+                                        optimal
+                                        diabetes management.</p>
+                                </div>
+                            </a>
                         </div>
-                    </a>
+                    </section>
                 </div>
-            </section>
+
+                <!-- Right Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-content">
+                        <h3>You may also want to see...</h3>
+
+                        <div class="sidebar-items">
+                            <div class="sidebar-item">
+                                <div class="sidebar-icon">🩺</div>
+                                <div class="sidebar-text">
+                                    <h4>Diabetes Types</h4>
+                                    <p>Learn about Type 1, Type 2, and Gestational diabetes</p>
+                                </div>
+                            </div>
+
+                            <div class="sidebar-item">
+                                <div class="sidebar-icon">📊</div>
+                                <div class="sidebar-text">
+                                    <h4>Blood Sugar Monitoring</h4>
+                                    <p>Essential tips for tracking your glucose levels</p>
+                                </div>
+                            </div>
+
+                            <div class="sidebar-item">
+                                <div class="sidebar-icon">💊</div>
+                                <div class="sidebar-text">
+                                    <h4>Medication Guide</h4>
+                                    <p>Understanding insulin and other diabetes medications</p>
+                                </div>
+                            </div>
+
+                            <div class="sidebar-item">
+                                <div class="sidebar-icon">🏃‍♀️</div>
+                                <div class="sidebar-text">
+                                    <h4>Exercise Safety</h4>
+                                    <p>Safe workout routines for diabetic individuals</p>
+                                </div>
+                            </div>
+
+                            <div class="sidebar-item">
+                                <div class="sidebar-icon">🥗</div>
+                                <div class="sidebar-text">
+                                    <h4>Healthy Recipes</h4>
+                                    <p>Diabetic-friendly meal ideas and cooking tips</p>
+                                </div>
+                            </div>
+
+                            <div class="sidebar-item">
+                                <div class="sidebar-icon">⚠️</div>
+                                <div class="sidebar-text">
+                                    <h4>Emergency Signs</h4>
+                                    <p>Recognizing and responding to diabetes emergencies</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
         </div>
     </main>
 
@@ -132,10 +197,15 @@
     <!-- Dia Chatbot -->
     <div class="chatbot-container" id="chatbot-container">
         <div class="chatbot-header">
-            <div class="chatbot-avatar" id="header-dia-avatar">💬</div>
-            <div class="chatbot-info">
-                <h3>Dia</h3>
-                <span class="chatbot-status">Your Diabetes Assistant</span>
+            <div class="chatbot-header-left">
+                <div class="chatbot-avatar" id="header-dia-avatar">💬</div>
+                <div class="chatbot-info">
+                    <h3>Dia</h3>
+                    <span class="chatbot-status">Your Diabetes Assistant</span>
+                </div>
+            </div>
+            <div class="professional-assistant-image">
+                <img src="images/avatar_DIA.png" alt="Professional Diabetes Assistant" class="assistant-img">
             </div>
             <button class="chatbot-close" id="chatbot-close">&times;</button>
         </div>
