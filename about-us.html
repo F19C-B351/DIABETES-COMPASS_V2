@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assistant-styles.css">
+    <style>
+        .about-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+
+        .about-content h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .about-content p {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .mission-vision {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .card h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+
+        .back-home {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .back-home:hover {
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>About Us</h1>
+                    <p>Learn about our mission to provide comprehensive diabetes information and support.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="main-layout">
+                <!-- Left Sidebar (Consistent with Home) -->
+                <aside class="sidebar">
+                    <div class="sidebar-content">
+                        <h3>Useful Resources</h3>
+                        <div class="sidebar-items">
+                            <a href="https://www.worlddiabetesfoundation.org/" target="_blank" rel="noopener noreferrer"
+                                class="sidebar-item">
+                                <div class="sidebar-icon">🌍</div>
+                                <div class="sidebar-text">
+                                    <h4>World Diabetes Foundation</h4>
+                                    <p>Global funder for diabetes care</p>
+                                </div>
+                            </a>
+                            <a href="https://diabetesatlas.org/" target="_blank" rel="noopener noreferrer"
+                                class="sidebar-item">
+                                <div class="sidebar-icon">📊</div>
+                                <div class="sidebar-text">
+                                    <h4>IDF Diabetes Atlas</h4>
+                                    <p>Global diabetes data & statistics</p>
+                                </div>
+                            </a>
+                            <a href="https://diabetesresearch.org" target="_blank" rel="noopener noreferrer"
+                                class="sidebar-item">
+                                <div class="sidebar-icon">🔬</div>
+                                <div class="sidebar-text">
+                                    <h4>Diabetes Research Institute</h4>
+                                    <p>Finding a biological cure</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="main-content">
+                    <a href="index.html" class="back-home">← Back to Home</a>
+
+                    <section class="about-content">
+                        <h2>Our Story</h2>
+                        <p>Diabetes Compass was born out of a simple but powerful idea: that everyone living with
+                            diabetes should have easy access to clear, accurate, and supportive information. We
+                            understand that a diabetes diagnosis can be overwhelming, and managing it daily requires
+                            constant learning and adaptation.</p>
+
+                        <p>Our platform serves as a central hub where patients, caregivers, and health enthusiasts can
+                            find vetted resources ranging from nutrition plans and physical activity guides to the
+                            latest medical breakthroughs and professional connections.</p>
+
+                        <div class="mission-vision">
+                            <div class="card">
+                                <h3>Our Mission</h3>
+                                <p>To empower individuals living with diabetes through education, high-quality
+                                    resources, and a supportive community, helping them navigate their health journey
+                                    with confidence.</p>
+                            </div>
+                            <div class="card">
+                                <h3>Our Vision</h3>
+                                <p>A world where diabetes management is seamless, information is accessible, and every
+                                    person has the tools they need to live a full and healthy life.</p>
+                            </div>
+                        </div>
+
+                        <h2 style="margin-top: 40px;">Why Choose Diabetes Compass?</h2>
+                        <p>Unlike general health websites, we focus exclusively on the diabetes experience. We partner
+                            with experts to ensure our content is up-to-date with current medical standards, and we
+                            curate our "Useful Links" to connect you with the most reputable organizations worldwide.
+                        </p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Dia Chatbot (Reuse script for bot functionality) -->
+    <script src="script.js"></script>
+</body>
+
+</html>
