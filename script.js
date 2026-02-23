@@ -61,16 +61,29 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentFactIndex = 0;
     let factInterval;
 
-    const factElement = document.getElementById('diabetes-fact');
-    const prevBtn = document.getElementById('prev-fact');
-    const nextBtn = document.getElementById('next-fact');
-    const indicators = document.querySelectorAll('.indicator');
+    // Use a function to ensure we get the elements even if they're not ready immediately
+    const getBannerElements = () => ({
+        factElement: document.getElementById('diabetes-fact'),
+        prevBtn: document.getElementById('prev-fact'),
+        nextBtn: document.getElementById('next-fact'),
+        indicators: document.querySelectorAll('.indicator')
+    });
 
     function updateFact(index) {
-        if (factElement) {
+        const { factElement, indicators } = getBannerElements();
+
+        if (factElement && diabetesFacts && diabetesFacts[index]) {
             currentFactIndex = index;
 
-            // Enhanced slide-out animation
+            // Immediate text change if it's currently showing loading
+            if (factElement.textContent.includes("Loading")) {
+                factElement.textContent = "DID YOU KNOW? " + diabetesFacts[currentFactIndex];
+                factElement.style.opacity = '1';
+                factElement.style.transform = 'translateX(0)';
+                return;
+            }
+
+            // Enhanced slide-out animation for subsequent transitions
             factElement.style.transform = 'translateX(-100px)';
             factElement.style.opacity = '0';
 
@@ -85,17 +98,19 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 300);
 
             // Update indicators with stagger animation
-            indicators.forEach((indicator, i) => {
-                setTimeout(() => {
-                    indicator.classList.toggle('active', i === currentFactIndex);
-                    if (i === currentFactIndex) {
-                        indicator.style.transform = 'scale(1.4) rotate(180deg)';
-                        setTimeout(() => {
-                            indicator.style.transform = 'scale(1.3)';
-                        }, 200);
-                    }
-                }, i * 100);
-            });
+            if (indicators && indicators.length > 0) {
+                indicators.forEach((indicator, i) => {
+                    setTimeout(() => {
+                        indicator.classList.toggle('active', i === currentFactIndex);
+                        if (i === currentFactIndex) {
+                            indicator.style.transform = 'scale(1.4) rotate(180deg)';
+                            setTimeout(() => {
+                                indicator.style.transform = 'scale(1.3)';
+                            }, 200);
+                        }
+                    }, i * 100);
+                });
+            }
         }
     }
 
@@ -152,7 +167,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Initialize banner if elements exist
+    const { factElement, nextBtn, prevBtn, indicators } = getBannerElements();
+
     if (factElement) {
+        // Immediate content load to fix banner showing "Loading..."
+        const firstFact = diabetesFacts && diabetesFacts.length > 0 ? diabetesFacts[0] :
+            "Diabetes affects over 422 million people worldwide, but with proper management, people with diabetes can live healthy, fulfilling lives.";
+
+        factElement.textContent = "DID YOU KNOW? " + firstFact;
+        factElement.style.opacity = '1';
+        factElement.style.transform = 'translateX(0)';
+
         initializeContextualBanner();
         updateFact(0);
         startAutoRotation();
@@ -175,13 +200,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Indicator click events
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                stopAutoRotation();
-                updateFact(index);
-                startAutoRotation();
+        if (indicators) {
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    stopAutoRotation();
+                    updateFact(index);
+                    startAutoRotation();
+                });
             });
-        });
+        }
 
         // Pause auto-rotation on hover
         const banner = document.querySelector('.did-you-know-banner');
@@ -189,6 +216,22 @@ document.addEventListener('DOMContentLoaded', function () {
             banner.addEventListener('mouseenter', stopAutoRotation);
             banner.addEventListener('mouseleave', startAutoRotation);
         }
+    } else {
+        // Fallback if factElement is not found during initial check
+        const retryBanner = setInterval(() => {
+            const retryElement = document.getElementById('diabetes-fact');
+            if (retryElement) {
+                const firstFactFallback = diabetesFacts && diabetesFacts.length > 0 ? diabetesFacts[0] :
+                    "Diabetes affects over 422 million people worldwide, but with proper management, people with diabetes can live healthy, fulfilling lives.";
+                retryElement.textContent = "DID YOU KNOW? " + firstFactFallback;
+                retryElement.style.opacity = '1';
+                retryElement.style.transform = 'translateX(0)';
+                clearInterval(retryBanner);
+            }
+        }, 100);
+
+        // Stop retrying after 5 seconds
+        setTimeout(() => clearInterval(retryBanner), 5000);
     }
 
     // Add smooth scrolling for anchor links
@@ -330,7 +373,6 @@ document.addEventListener('DOMContentLoaded', function () {
             "Welcome! I'm Dia, ready to help you navigate our diabetes resources. What can I help you with?"
         ],
         siteContent: {
-            // Information about the website itself
             "about us": {
                 response: "Diabetes Compass is your comprehensive guide to diabetes care and management. Our website provides information, resources, and support to help you navigate your diabetes journey with tiles covering nutrition, latest treatments, finding doctors, physical activities, and more.",
                 followUp: ["What specific area interests you?", "Want to explore our physical activities?", "Need information about our BMI calculator?"]
@@ -342,38 +384,21 @@ document.addEventListener('DOMContentLoaded', function () {
             "bmi calculator": {
                 response: "Our website features an interactive BMI calculator to help you track your health metrics. BMI is important for diabetes management as maintaining a healthy weight can improve blood sugar control and reduce complications.",
                 followUp: ["Want tips for healthy weight management?", "Need diet information?", "Interested in exercise for weight control?"]
-            },
-            "navigation": {
-                response: "You can navigate our site using the menu which includes: Contact Us (get in touch with our team), Contribute (share your diabetes journey), Need a doctor? (find healthcare providers), and access to all our main sections through the tile interface.",
-                followUp: ["Need contact information?", "Want to contribute your story?", "Looking for a doctor?"]
-            },
-            "tiles": {
-                response: "Our homepage features informative tiles covering: About Us, Nutrition, Latest Treatments, Find the Best Doctors, Physical Activities, Events, and Check Your BMI. Each tile provides specialized diabetes information and resources.",
-                followUp: ["Which tile interests you most?", "Want nutrition information?", "Need latest treatment info?"]
-            },
-            // Basic diabetes information that would be on the site
-            "diabetes basics": {
-                response: "Based on our website content: Diabetes is a condition affecting blood sugar levels. Our site covers Type 1 (autoimmune) and Type 2 (lifestyle-related) diabetes, with resources for management, nutrition, exercise, and finding healthcare providers.",
-                followUp: ["Want to explore our nutrition section?", "Need exercise information?", "Looking for doctors?"]
-            },
-            "nutrition": {
-                response: "Our nutrition section emphasizes diabetes-friendly eating: choosing whole grains, including vegetables, lean proteins, and healthy fats. We promote the plate method and provide guidance on portion control and meal planning for blood sugar management.",
-                followUp: ["Want meal planning tips?", "Need portion control guidance?", "Interested in our BMI calculator?"]
             }
         },
         websiteFeatures: [
-            "I can help you navigate our Diabetes Compass website",
-            "I can explain our physical activities section",
-            "I can guide you to our BMI calculator",
-            "I can tell you about our navigation menu",
-            "I can describe our homepage tiles",
-            "I can share basic diabetes information from our site"
+            "navigate our Diabetes Compass website",
+            "physical activities section",
+            "BMI calculator",
+            "navigation menu",
+            "homepage tiles",
+            "basic diabetes information"
         ],
         chatgptOffer: "I don't have that specific information on our Diabetes Compass website. Do you want me to ask ChatGPT for a more detailed answer about your question?",
         fallbacks: [
-            "I'm designed to help with information available on our Diabetes Compass website. Do you want me to ask ChatGPT for information beyond our site content?",
-            "That question is outside my knowledge of our website content. Would you like me to ask ChatGPT for a more comprehensive answer?",
-            "I can only provide information from our Diabetes Compass site. Should I ask ChatGPT to help with your question?"
+            "I'm designed to help with information available on our Diabetes Compass website. Do you want me to ask ChatGPT?",
+            "That question is outside my knowledge of our website content. Would you like me to ask ChatGPT?",
+            "I can only provide information from our Diabetes Compass site. Should I ask ChatGPT?"
         ]
     };
 
@@ -387,300 +412,112 @@ document.addEventListener('DOMContentLoaded', function () {
     let conversationContext = [];
     let lastUnansweredQuestion = '';
 
-    // Create animated Dia avatar with professional image
     function createDiaAvatar(state = 'idle') {
-        const avatarStates = {
-            idle: {
-                animation: 'dia-idle',
-                color: '#4CAF50',
-                filter: 'brightness(1) contrast(1)',
-                emoji: '😊'
-            },
-            thinking: {
-                animation: 'dia-thinking',
-                color: '#FF9800',
-                filter: 'brightness(1.1) contrast(1.1) sepia(0.2)',
-                emoji: '🤔'
-            },
-            speaking: {
-                animation: 'dia-speaking',
-                color: '#2196F3',
-                filter: 'brightness(1.05) contrast(1.05) saturate(1.2)',
-                emoji: '😄'
-            },
-            excited: {
-                animation: 'dia-excited',
-                color: '#E91E63',
-                filter: 'brightness(1.15) contrast(1.1) saturate(1.3)',
-                emoji: '🎉'
-            }
-        };
-
-        const currentState = avatarStates[state] || avatarStates.idle;
-
-        return `
-            <div class="dia-avatar ${currentState.animation}" style="--avatar-color: ${currentState.color}">
-                <div class="dia-face">
-                    <img src="images/dia-avatar.jpg" alt="Dia" class="dia-image" style="filter: ${currentState.filter}" 
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; console.log('Avatar image failed to load, using fallback');">
-                    <div class="dia-emoji-fallback" style="display: none; font-size: 20px; color: var(--avatar-color); align-items: center; justify-content: center;">${currentState.emoji}</div>
-
-    // Add Dia avatar styles to document
-    function addDiaAvatarStyles() {
-        if (document.getElementById('dia-avatar-styles')) return;
-
-        const styles = document.createElement('style');
-        styles.id = 'dia-avatar-styles';
-        styles.textContent = `
-            .dia - avatar {
-            position: relative;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align - items: center;
-            justify - content: center;
-            border - radius: 50 %;
-            background: linear - gradient(135deg, var(--avatar - color, #4CAF50), rgba(255, 255, 255, 0.2));
-box - shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-overflow: hidden;
-border: 2px solid rgba(255, 255, 255, 0.8);
-            }
-            
-            .dia - face {
-    position: relative;
-    width: 100 %;
-    height: 100 %;
-    border - radius: 50 %;
-    display: flex;
-    align - items: center;
-    justify - content: center;
-    z - index: 2;
-    overflow: hidden;
-}
-            
-            .dia - image {
-    width: 100 %;
-    height: 100 %;
-    object - fit: cover;
-    border - radius: 50 %;
-    transition: filter 0.3s ease, transform 0.3s ease;
-}
-            
-            .dia - emoji - fallback {
-    width: 100 %;
-    height: 100 %;
-    display: flex;
-    align - items: center;
-    justify - content: center;
-    border - radius: 50 %;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop - filter: blur(5px);
-    font - size: 20px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z - index: 3;
-}
-            
-            .dia - glow {
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    border - radius: 50 %;
-    background: linear - gradient(135deg, var(--avatar - color, #4CAF50), transparent);
-    opacity: 0.4;
-    z - index: 1;
-    border: 1px solid var(--avatar - color, #4CAF50);
-}
-            
-            .dia - pulse {
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
-    border - radius: 50 %;
-    border: 2px solid var(--avatar - color, #4CAF50);
-    opacity: 0;
-    z - index: 0;
-}
-
-            /* Idle Animation */
-            .dia - idle {
-    animation: dia - gentle - float 3s ease -in -out infinite;
-}
-            
-            .dia - idle.dia - pulse {
-    animation: dia - gentle - pulse 4s ease -in -out infinite;
-}
-            
-            .dia - idle.dia - image {
-    animation: dia - idle - subtle 4s ease -in -out infinite;
-}
-
-@keyframes dia - gentle - float {
-    0 %, 100 % { transform: translateY(0px) scale(1); }
-    50 % { transform: translateY(-3px) scale(1.02); }
-}
-
-@keyframes dia - gentle - pulse {
-    0 %, 100 % { transform: scale(1); opacity: 0; }
-    50 % { transform: scale(1.2); opacity: 0.3; }
-}
-
-@keyframes dia - idle - subtle {
-    0 %, 100 % { transform: scale(1); }
-    50 % { transform: scale(1.05); }
-}
-
-            /* Thinking Animation */
-            .dia - thinking {
-    animation: dia - think - wobble 1.5s ease -in -out infinite;
-}
-            
-            .dia - thinking.dia - image {
-    animation: dia - think - tilt 2s ease -in -out infinite;
-}
-
-@keyframes dia - think - wobble {
-    0 %, 100 % { transform: rotate(-1deg); }
-    50 % { transform: rotate(1deg); }
-}
-
-@keyframes dia - think - tilt {
-    0 %, 50 %, 100 % { transform: rotate(0deg) scale(1); }
-    25 % { transform: rotate(-3deg) scale(1.02); }
-    75 % { transform: rotate(3deg) scale(1.02); }
-}
-
-            /* Speaking Animation */
-            .dia - speaking {
-    animation: dia - speak - bounce 0.8s ease -in -out infinite;
-}
-            
-            .dia - speaking.dia - glow {
-    animation: dia - speak - glow 0.8s ease -in -out infinite;
-}
-            
-            .dia - speaking.dia - image {
-    animation: dia - speak - zoom 0.6s ease -in -out infinite;
-}
-
-@keyframes dia - speak - bounce {
-    0 %, 100 % { transform: scale(1) rotate(0deg); }
-    25 % { transform: scale(1.05) rotate(- 1deg);
-}
-75 % { transform: scale(1.03) rotate(1deg); }
-            }
-
-@keyframes dia - speak - glow {
-    0 %, 100 % { opacity: 0.4; transform: scale(1); }
-    50 % { opacity: 0.7; transform: scale(1.1); }
-}
-
-@keyframes dia - speak - zoom {
-    0 %, 100 % { transform: scale(1); }
-    50 % { transform: scale(1.08); }
-}
-
-            /* Excited Animation */
-            .dia - excited {
-    animation: dia - excited - shake 0.4s ease -in -out infinite;
-}
-            
-            .dia - excited.dia - pulse {
-    animation: dia - excited - pulse 0.3s ease -in -out infinite;
-}
-            
-            .dia - excited.dia - image {
-    animation: dia - excited - zoom 0.5s ease -in -out infinite;
-}
-
-@keyframes dia - excited - shake {
-    0 %, 100 % { transform: translateX(0px); }
-    25 % { transform: translateX(-1px) rotate(- 2deg);
-}
-75 % { transform: translateX(1px) rotate(2deg); }
-            }
-
-@keyframes dia - excited - pulse {
-    0 %, 100 % { transform: scale(1); opacity: 0; }
-    50 % { transform: scale(1.5); opacity: 0.6; }
-}
-
-@keyframes dia - excited - zoom {
-    0 %, 100 % { transform: scale(1) rotate(0deg); }
-    25 % { transform: scale(1.1) rotate(- 2deg);
-}
-75 % { transform: scale(1.1) rotate(2deg); }
-            }
-
-            /* Message avatar specific styles */
-            .message - avatar.dia - avatar {
-    width: 35px;
-    height: 35px;
-}
-
-            /* Chatbot header avatar styles */
-            .chatbot - avatar.dia - avatar {
-    width: 45px;
-    height: 45px;
-}
-
-            /* Toggle button avatar styles */
-            .toggle - icon.dia - avatar {
-    width: 30px;
-    height: 30px;
-}
-
-            /* Hover effects */
-            .dia - avatar:hover {
-    transform: scale(1.1);
-    transition: transform 0.2s ease;
-}
-            
-            .dia - avatar: hover.dia - image {
-    filter: brightness(1.2) contrast(1.1) saturate(1.1)!important;
-}
-
-/* Simple bounce animation for fallbacks */
-@keyframes bounce {
-    0 %, 20 %, 50 %, 80 %, 100 % { transform: translateY(0); }
-    40 % { transform: translateY(-10px); }
-    60 % { transform: translateY(-5px); }
-}
-`;
-        document.head.appendChild(styles);
+        const emoji = state === 'thinking' ? '🤔' : '😊';
+        return '<div class="dia-avatar-container" style="width:40px;height:40px;border-radius:50%;overflow:hidden;border:2px solid #667eea;background:#fff;display:flex;align-items:center;justify-content:center;">' +
+            '<img src="images/dia-avatar.jpg" alt="Dia" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'block\';">' +
+            '<span style="display:none;font-size:20px;">' + emoji + '</span>' +
+            '</div>';
     }
 
-    // Toggle chatbot
-    function toggleChatbot() {
-        console.log('toggleChatbot called');
-        console.log('chatbotContainer:', chatbotContainer);
-        
-        if (chatbotContainer) {
-            chatbotContainer.classList.toggle('active');
-            console.log('Chatbot container classes:', chatbotContainer.className);
-            
-            if (chatbotContainer.classList.contains('active')) {
-                console.log('Chatbot opened');
-                if (chatbotInput) {
-                    chatbotInput.focus();
-                }
-            } else {
-                console.log('Chatbot closed');
-            }
-        } else {
-            console.error('chatbotContainer not found!');
+    function addMessage(content, isUser = false, hasFollowUp = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = isUser ? 'message user-message' : 'message bot-message';
+
+        const avatarHtml = isUser ? '<div class="message-avatar">👤</div>' :
+            '<div class="message-avatar">' + createDiaAvatar('speaking') + '</div>';
+
+        let html = avatarHtml;
+        html += '<div class="message-content"><p>' + content + '</p>';
+        if (hasFollowUp) {
+            html += '<div class="quick-actions" id="follow-up-actions"></div>';
+        }
+        html += '</div>';
+
+        messageDiv.innerHTML = html;
+        chatbotMessages.appendChild(messageDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        return messageDiv;
+    }
+
+    function addFollowUpButtons(followUpQuestions) {
+        const followUpContainer = document.getElementById('follow-up-actions');
+        if (followUpContainer) {
+            followUpContainer.innerHTML = '';
+            followUpQuestions.forEach(question => {
+                const button = document.createElement('button');
+                button.className = 'quick-btn';
+                button.textContent = question;
+                button.onclick = () => {
+                    addMessage(question, true);
+                    handleUserMessage(question);
+                };
+                followUpContainer.appendChild(button);
+            });
         }
     }
+
+    function showTyping() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message bot-message typing-message';
+        typingDiv.innerHTML = '<div class="message-avatar">🤔</div><div class="message-content"><div class="typing-indicator"><span></span><span></span><span></span></div></div>';
+        chatbotMessages.appendChild(typingDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        return typingDiv;
+    }
+
+    function handleUserMessage(userMessage) {
+        const message = userMessage.toLowerCase();
+        const typing = showTyping();
+
+        setTimeout(() => {
+            typing.remove();
+            let response = chatbotData.chatgptOffer;
+            let followUp = ["Yes, ask ChatGPT", "No, help with website info"];
+
+            for (const [key, data] of Object.entries(chatbotData.siteContent)) {
+                if (message.includes(key)) {
+                    response = data.response;
+                    followUp = data.followUp;
+                    break;
+                }
+            }
+
+            addMessage(response, false, followUp.length > 0);
+            if (followUp.length > 0) {
+                addFollowUpButtons(followUp);
+            }
+        }, 1000);
+    }
+
+    if (chatbotToggle) {
+        chatbotToggle.addEventListener('click', () => {
+            chatbotContainer.classList.toggle('active');
+        });
+    }
+
+    if (chatbotSend) {
+        chatbotSend.addEventListener('click', () => {
+            const text = chatbotInput.value.trim();
+            if (text) {
+                addMessage(text, true);
+                chatbotInput.value = '';
+                handleUserMessage(text);
+            }
+        });
+    }
+
+    if (chatbotInput) {
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') chatbotSend.click();
+        });
+    }
+
 
     // Add message to chat with dynamic avatar state
     function addMessage(content, isUser = false, hasFollowUp = false, avatarState = 'speaking') {
         const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${ isUser ? 'user-message' : 'bot-message' } `;
+        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
 
         // Determine appropriate avatar state based on content
         if (!isUser && !avatarState) {
@@ -694,12 +531,12 @@ border: 2px solid rgba(255, 255, 255, 0.8);
         }
 
         messageDiv.innerHTML = `
-    < div class="message-avatar" > ${ isUser ? '👤' : createDiaAvatar(avatarState) }</div >
-        <div class="message-content">
-            <p>${content}</p>
-            ${hasFollowUp ? '<div class="quick-actions" id="follow-up-actions"></div>' : ''}
-        </div>
-`;
+            <div class="message-avatar">${isUser ? '👤' : createDiaAvatar(avatarState)}</div>
+            <div class="message-content">
+                <p>${content}</p>
+                ${hasFollowUp ? '<div class="quick-actions" id="follow-up-actions"></div>' : ''}
+            </div>
+        `;
 
         chatbotMessages.appendChild(messageDiv);
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
@@ -711,6 +548,7 @@ border: 2px solid rgba(255, 255, 255, 0.8);
     function addFollowUpButtons(followUpQuestions) {
         const followUpContainer = document.getElementById('follow-up-actions');
         if (followUpContainer) {
+            followUpContainer.innerHTML = ''; // Clear previous actions
             followUpQuestions.forEach(question => {
                 const button = document.createElement('button');
                 button.className = 'quick-btn';
@@ -726,15 +564,15 @@ border: 2px solid rgba(255, 255, 255, 0.8);
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message bot-message typing-message';
         typingDiv.innerHTML = `
-    < div class="message-avatar" > ${ createDiaAvatar('thinking') }</div >
-        <div class="message-content">
-            <div class="typing-indicator">
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
+            <div class="message-avatar">${createDiaAvatar('thinking')}</div>
+            <div class="message-content">
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
             </div>
-        </div>
-`;
+        `;
         chatbotMessages.appendChild(typingDiv);
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
         return typingDiv;
@@ -889,14 +727,14 @@ border: 2px solid rgba(255, 255, 255, 0.8);
         } else if (message.toLowerCase().includes('copy question again')) {
             const success = copyToClipboardWithFeedback(lastUnansweredQuestion);
             const copyMessage = success ?
-                `✅ Question copied again: "${lastUnansweredQuestion}"\n\nYou can now paste it(Ctrl + V) into ChatGPT!` :
-                `📋 Please copy this question manually: \n\n"${lastUnansweredQuestion}"\n\nSelect the text above and use Ctrl + C to copy.`;
+                `Question copied again: "${lastUnansweredQuestion}"\n\nYou can now paste it(Ctrl + V) into ChatGPT!` :
+                `Please copy this question manually: \n\n"${lastUnansweredQuestion}"\n\nSelect the text above and use Ctrl + C to copy.`;
 
             addMessage(copyMessage, false, true);
             setTimeout(() => addFollowUpButtons(["Open ChatGPT", "Show me website features", "Physical activities info"]), 100);
         } else if (message.toLowerCase().includes('open chatgpt')) {
             window.open('https://chat.openai.com/', '_blank');
-            addMessage("🚀 ChatGPT opened in new tab! Don't forget to paste your question.", false);
+            addMessage("ChatGPT opened in new tab! Don't forget to paste your question.", false);
         } else if (message.toLowerCase().includes('no, help with website info')) {
             const helpMessage = "I can help you with our Diabetes Compass website features: " + chatbotData.websiteFeatures.join(", ") + ". What would you like to know about?";
             addMessage(helpMessage, false, true);
@@ -928,7 +766,7 @@ border: 2px solid rgba(255, 255, 255, 0.8);
                 window.open('https://chat.openai.com/', '_blank');
             }, 500);
 
-            const chatgptMessage = `🚀 Opening ChatGPT in a new tab...\n\n📋 Your question: "${lastUnansweredQuestion}"\n\n✅ Question copied to clipboard! Just paste(Ctrl + V) when ChatGPT loads.\n📝 A popup window also shows your question for easy reference.\n\nFeel free to ask me about our Diabetes Compass website when you return ! 😊`;
+            const chatgptMessage = `Opening ChatGPT in a new tab...\n\nYour question: "${lastUnansweredQuestion}"\n\nQuestion copied to clipboard! Just paste (Ctrl + V) when ChatGPT loads.\n\nFeel free to ask me about our Diabetes Compass website when you return!`;
 
             addMessage(chatgptMessage, false, true);
             setTimeout(() => addFollowUpButtons(["Copy question again", "Show me website features", "Physical activities info"]), 100);
@@ -941,335 +779,279 @@ border: 2px solid rgba(255, 255, 255, 0.8);
 
         if (popup) {
             popup.document.write(`
-    < !DOCTYPE html >
-        <html>
-            <head>
-                <title>Your Question for ChatGPT</title>
-                <style>
-                    body {
-                        font - family: Arial, sans-serif;
-                    padding: 20px;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    color: white;
-                    margin: 0;
-                        }
-                    .container {
-                        background: rgba(255,255,255,0.1);
-                    padding: 20px;
-                    border-radius: 10px;
-                    backdrop-filter: blur(10px);
-                        }
-                    h2 {margin - top: 0; text-align: center; }
-                    .question-box {
-                        background: rgba(255,255,255,0.2);
-                    padding: 15px;
-                    border-radius: 8px;
-                    margin: 15px 0;
-                    word-wrap: break-word;
-                    border: 1px solid rgba(255,255,255,0.3);
-                        }
-                    .copy-btn {
-                        background: #4CAF50;
-                    color: white;
-                    border: none;
-                    padding: 10px 20px;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    font-size: 14px;
-                    margin: 10px 5px;
-                    transition: background 0.3s ease;
-                        }
-                    .copy-btn:hover {background: #45a049; }
-                    .instructions {
-                        background: rgba(255,255,255,0.1);
-                    padding: 15px;
-                    border-radius: 8px;
-                    margin: 15px 0;
-                    font-size: 14px;
-                        }
-                    .close-btn {
-                        background: #f44336;
-                    color: white;
-                    border: none;
-                    padding: 8px 15px;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    float: right;
-                        }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <h2>🤖 Question for ChatGPT</h2>
-                    <div class="question-box" id="questionText">${question}</div>
-                    <button class="copy-btn" onclick="copyQuestion()">📋 Copy Question</button>
-                    <button class="copy-btn" onclick="openChatGPT()">🚀 Go to ChatGPT</button>
-                    <button class="close-btn" onclick="window.close()">✕ Close</button>
-                    <div class="instructions">
-                        <strong>Instructions:</strong><br>
-                            1. Click "Copy Question" or select and copy the text above<br>
-                                2. Click "Go to ChatGPT" or switch to the ChatGPT tab<br>
-                                    3. Paste your question (Ctrl+V) in the ChatGPT input box<br>
-                                        4. Press Enter to send your question
-                                    </div>
-                                </div>
-
-                                <script>
-                                    function copyQuestion() {
-                            const questionText = document.getElementById('questionText').textContent;
-
-                                    if (navigator.clipboard) {
-                                        navigator.clipboard.writeText(questionText).then(function () {
-                                            alert('✅ Question copied to clipboard!');
-                                        }).catch(function (err) {
-                                            selectText();
-                                        });
-                            } else {
-                                        selectText();
-                            }
-                        }
-
-                                    function selectText() {
-                            const questionElement = document.getElementById('questionText');
-                                    const range = document.createRange();
-                                    range.selectNode(questionElement);
-                                    window.getSelection().removeAllRanges();
-                                    window.getSelection().addRange(range);
-
-                                    try {
-                                        document.execCommand('copy');
-                                    alert('✅ Question copied to clipboard!');
-                            } catch (err) {
-                                        alert('Please manually select and copy the question text.');
-                            }
-                        }
-
-                                    function openChatGPT() {
-                                        window.open('https://chat.openai.com/', '_blank');
-                        }
-
-                                    // Auto-select text on load for easy copying
-                                    window.onload = function() {
-                                        setTimeout(() => {
-                                            copyQuestion();
-                                        }, 500);
-                        };
-                                </script>
-                            </body>
-                        </html>
-                        `);
-                        popup.document.close();
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Question for ChatGPT</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin: 0; }
+        .container { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; backdrop-filter: blur(10px); }
+        h2 { margin-top: 0; text-align: center; }
+        .question-box { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px; margin: 15px 0; word-wrap: break-word; border: 1px solid rgba(255,255,255,0.3); }
+        .copy-btn { background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; margin: 10px 5px; transition: background 0.3s ease; }
+        .copy-btn:hover { background: #45a049; }
+        .instructions { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 14px; }
+        .close-btn { background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; float: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🤖 Question for ChatGPT</h2>
+        <div class="question-box" id="questionText">${question}</div>
+        <button class="copy-btn" onclick="copyQuestion()">📋 Copy Question</button>
+        <button class="copy-btn" onclick="openChatGPT()">🚀 Go to ChatGPT</button>
+        <button class="close-btn" onclick="window.close()">✕ Close</button>
+        <div class="instructions">
+            <strong>Instructions:</strong><br>
+            1. Click "Copy Question" or select and copy the text above<br>
+            2. Click "Go to ChatGPT" or switch to the ChatGPT tab<br>
+            3. Paste your question (Ctrl+V) in the ChatGPT input box<br>
+            4. Press Enter to send your question
+        </div>
+    </div>
+    <script>
+        function copyQuestion() {
+            const questionText = document.getElementById('questionText').textContent;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(questionText).then(function() {
+                    alert('✅ Question copied to clipboard!');
+                }).catch(function(err) {
+                    selectText();
+                });
+            } else {
+                selectText();
+            }
         }
-
-                        return popup;
+        function selectText() {
+            const questionElement = document.getElementById('questionText');
+            const range = document.createRange();
+            range.selectNode(questionElement);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            try {
+                document.execCommand('copy');
+                alert('✅ Question copied to clipboard!');
+            } catch (err) {
+                alert('Please manually select and copy the question text.');
+            }
+        }
+        function openChatGPT() {
+            window.open('https://chat.openai.com/', '_blank');
+        }
+    </script>
+</body>
+</html>`);
+            popup.document.close();
+        }
+        return popup;
     }
 
-                        // Copy text to clipboard helper function with improved feedback
-                        function copyToClipboardWithFeedback(text) {
-                            let copySuccess = false;
+    // Copy text to clipboard helper function with improved feedback
+    function copyToClipboardWithFeedback(text) {
+        let copySuccess = false;
 
-                        if (navigator.clipboard && window.isSecureContext) {
-                            navigator.clipboard.writeText(text)
-                                .then(() => {
-                                    copySuccess = true;
-                                    console.log('✅ Question copied to clipboard successfully');
-                                })
-                                .catch(err => {
-                                    console.log('Modern clipboard failed, trying fallback:', err);
-                                    copySuccess = fallbackCopyToClipboard(text);
-                                });
-        } else {
-                            copySuccess = fallbackCopyToClipboard(text);
-        }
-
-                        return copySuccess;
-    }
-
-                        // Copy text to clipboard helper function
-                        function copyToClipboard(text) {
         if (navigator.clipboard && window.isSecureContext) {
-                            // Modern clipboard API
-                            navigator.clipboard.writeText(text).catch(err => {
-                                console.log('Clipboard write failed:', err);
-                                fallbackCopyToClipboard(text);
-                            });
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    copySuccess = true;
+                    console.log('✅ Question copied to clipboard successfully');
+                })
+                .catch(err => {
+                    console.log('Modern clipboard failed, trying fallback:', err);
+                    copySuccess = fallbackCopyToClipboard(text);
+                });
         } else {
-                            // Fallback for older browsers
-                            fallbackCopyToClipboard(text);
+            copySuccess = fallbackCopyToClipboard(text);
+        }
+
+        return copySuccess;
+    }
+
+    // Copy text to clipboard helper function
+    function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            // Modern clipboard API
+            navigator.clipboard.writeText(text).catch(err => {
+                console.log('Clipboard write failed:', err);
+                fallbackCopyToClipboard(text);
+            });
+        } else {
+            // Fallback for older browsers
+            fallbackCopyToClipboard(text);
         }
     }
 
-                        // Fallback clipboard function
-                        function fallbackCopyToClipboard(text) {
+    // Fallback clipboard function
+    function fallbackCopyToClipboard(text) {
         const textArea = document.createElement('textarea');
-                        textArea.value = text;
-                        textArea.style.position = 'fixed';
-                        textArea.style.left = '-999999px';
-                        textArea.style.top = '-999999px';
-                        document.body.appendChild(textArea);
-                        textArea.focus();
-                        textArea.select();
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
 
-                        let successful = false;
-                        try {
-                            successful = document.execCommand('copy');
-                        console.log('✅ Fallback clipboard succeeded');
+        let successful = false;
+        try {
+            successful = document.execCommand('copy');
+            console.log('✅ Fallback clipboard succeeded');
         } catch (err) {
-                            console.log('❌ Fallback clipboard failed:', err);
+            console.log('❌ Fallback clipboard failed:', err);
         }
 
-                        document.body.removeChild(textArea);
-                        return successful;
+        document.body.removeChild(textArea);
+        return successful;
     }
 
-                        // Handle user message
-                        function handleUserMessage(userMessage) {
+    // Handle user message
+    function handleUserMessage(userMessage) {
         // Check for ChatGPT response first
         if (userMessage.toLowerCase().includes('yes, ask chatgpt') ||
-                        userMessage.toLowerCase().includes('ask chatgpt')) {
-                            handleChatGPTRequest();
-                        return;
+            userMessage.toLowerCase().includes('ask chatgpt')) {
+            handleChatGPTRequest();
+            return;
         }
 
-                        const typingIndicator = showTyping();
+        const typingIndicator = showTyping();
 
         setTimeout(() => {
-                            typingIndicator.remove();
-                        const {response, followUp, avatarState} = processMessage(userMessage);
+            typingIndicator.remove();
+            const { response, followUp, avatarState } = processMessage(userMessage);
             const botMessage = addMessage(response, false, followUp.length > 0, avatarState || 'speaking');
 
             if (followUp.length > 0) {
-                            setTimeout(() => addFollowUpButtons(followUp), 100);
+                setTimeout(() => addFollowUpButtons(followUp), 100);
             }
         }, Math.random() * 1000 + 500); // Random delay to simulate thinking
     }
 
-                        // Send message
-                        function sendMessage() {
+    // Send message
+    function sendMessage() {
         const message = chatbotInput.value.trim();
-                        if (message) {
-                            addMessage(message, true);
-                        chatbotInput.value = '';
-                        handleUserMessage(message);
+        if (message) {
+            addMessage(message, true);
+            chatbotInput.value = '';
+            handleUserMessage(message);
         }
     }
 
-                        // Initialize Dia avatar styles
-                        addDiaAvatarStyles();
+    // Initialize Dia avatar styles
+    addDiaAvatarStyles();
 
-                        // Initialize Dia avatars in existing HTML elements
-                        function initializeDiaAvatars() {
-                            console.log('Initializing Dia avatars...');
+    // Initialize Dia avatars in existing HTML elements
+    function initializeDiaAvatars() {
+        console.log('Initializing Dia avatars...');
 
-                        // Header avatar
-                        const headerAvatar = document.getElementById('header-dia-avatar');
-                        if (headerAvatar) {
-                            console.log('Found header avatar element');
-                        headerAvatar.innerHTML = createDiaAvatar('idle');
+        // Header avatar
+        const headerAvatar = document.getElementById('header-dia-avatar');
+        if (headerAvatar) {
+            console.log('Found header avatar element');
+            headerAvatar.innerHTML = createDiaAvatar('idle');
         } else {
-                            console.log('Header avatar element not found');
+            console.log('Header avatar element not found');
         }
 
-                        // Welcome message avatar
-                        const welcomeAvatar = document.getElementById('welcome-dia-avatar');
-                        if (welcomeAvatar) {
-                            console.log('Found welcome avatar element');
-                        welcomeAvatar.innerHTML = createDiaAvatar('excited');
+        // Welcome message avatar
+        const welcomeAvatar = document.getElementById('welcome-dia-avatar');
+        if (welcomeAvatar) {
+            console.log('Found welcome avatar element');
+            welcomeAvatar.innerHTML = createDiaAvatar('excited');
         } else {
-                            console.log('Welcome avatar element not found');
+            console.log('Welcome avatar element not found');
         }
 
-                        // Toggle button avatar
-                        const toggleAvatar = document.getElementById('toggle-dia-avatar');
-                        if (toggleAvatar) {
-                            console.log('Found toggle avatar element');
-                        toggleAvatar.innerHTML = createDiaAvatar('idle');
-                        // Add hover effect to toggle button
-                        const toggleButton = document.getElementById('chatbot-toggle');
-                        if (toggleButton) {
-                            toggleButton.addEventListener('mouseenter', () => {
-                                toggleAvatar.innerHTML = createDiaAvatar('excited');
-                            });
+        // Toggle button avatar
+        const toggleAvatar = document.getElementById('toggle-dia-avatar');
+        if (toggleAvatar) {
+            console.log('Found toggle avatar element');
+            toggleAvatar.innerHTML = createDiaAvatar('idle');
+            // Add hover effect to toggle button
+            const toggleButton = document.getElementById('chatbot-toggle');
+            if (toggleButton) {
+                toggleButton.addEventListener('mouseenter', () => {
+                    toggleAvatar.innerHTML = createDiaAvatar('excited');
+                });
                 toggleButton.addEventListener('mouseleave', () => {
-                            toggleAvatar.innerHTML = createDiaAvatar('idle');
+                    toggleAvatar.innerHTML = createDiaAvatar('idle');
                 });
             }
         } else {
-                            console.log('Toggle avatar element not found');
+            console.log('Toggle avatar element not found');
         }
 
-                        // Test if image exists
-                        const testImg = new Image();
-                        testImg.onload = function() {
-                            console.log('Avatar image loaded successfully');
+        // Test if image exists
+        const testImg = new Image();
+        testImg.onload = function () {
+            console.log('Avatar image loaded successfully');
         };
-                        testImg.onerror = function() {
-                            console.log('Avatar image not found, using emoji fallbacks');
+        testImg.onerror = function () {
+            console.log('Avatar image not found, using emoji fallbacks');
         };
-                        testImg.src = 'images/dia-avatar.jpg';
+        testImg.src = 'images/dia-avatar.jpg';
     }
 
     // Initialize avatars when DOM is ready
     setTimeout(() => {
-                            initializeDiaAvatars();
+        initializeDiaAvatars();
 
         // Fallback - if avatars still not visible, force simple emoji display
         setTimeout(() => {
             const elements = ['header-dia-avatar', 'welcome-dia-avatar', 'toggle-dia-avatar'];
             elements.forEach(id => {
                 const element = document.getElementById(id);
-                        if (element && (!element.innerHTML.includes('dia-avatar') || element.innerHTML.trim() === '💬' || element.innerHTML.trim() === '🤖')) {
-                            console.log(`Forcing simple avatar for ${id}`);
-                        element.innerHTML = '<div style="font-size: 24px; animation: bounce 2s infinite;">👩‍⚕️</div>';
-                        element.style.display = 'flex';
-                        element.style.alignItems = 'center';
-                        element.style.justifyContent = 'center';
+                if (element && (!element.innerHTML.includes('dia-avatar') || element.innerHTML.trim() === '💬' || element.innerHTML.trim() === '🤖')) {
+                    console.log(`Forcing simple avatar for ${id}`);
+                    element.innerHTML = '<div style="font-size: 24px; animation: bounce 2s infinite;">👩‍⚕️</div>';
+                    element.style.display = 'flex';
+                    element.style.alignItems = 'center';
+                    element.style.justifyContent = 'center';
                 }
             });
         }, 500);
     }, 100); // Small delay to ensure DOM is fully loaded
 
-                        // Event listeners
-                        console.log('Setting up chatbot event listeners...');
+    // Event listeners
+    console.log('Setting up chatbot event listeners...');
 
-                        if (chatbotToggle) {
-                            console.log('Chatbot toggle button found, adding click listener');
-                        chatbotToggle.addEventListener('click', function(e) {
-                            console.log('Chatbot toggle clicked!');
-                        e.preventDefault();
-                        toggleChatbot();
+    if (chatbotToggle) {
+        console.log('Chatbot toggle button found, adding click listener');
+        chatbotToggle.addEventListener('click', function (e) {
+            console.log('Chatbot toggle clicked!');
+            e.preventDefault();
+            toggleChatbot();
         });
 
-                        // Test if button is visible and clickable
-                        console.log('Toggle button position:', chatbotToggle.getBoundingClientRect());
-                        console.log('Toggle button style:', window.getComputedStyle(chatbotToggle).zIndex);
+        // Test if button is visible and clickable
+        console.log('Toggle button position:', chatbotToggle.getBoundingClientRect());
+        console.log('Toggle button style:', window.getComputedStyle(chatbotToggle).zIndex);
     } else {
-                            console.error('Chatbot toggle button not found!');
+        console.error('Chatbot toggle button not found!');
     }
 
-                        if (chatbotClose) {
-                            chatbotClose.addEventListener('click', toggleChatbot);
+    if (chatbotClose) {
+        chatbotClose.addEventListener('click', toggleChatbot);
     }
 
-                        if (chatbotSend) {
-                            chatbotSend.addEventListener('click', sendMessage);
+    if (chatbotSend) {
+        chatbotSend.addEventListener('click', sendMessage);
     }
 
-                        if (chatbotInput) {
-                            chatbotInput.addEventListener('keypress', (e) => {
-                                if (e.key === 'Enter') {
-                                    sendMessage();
-                                }
-                            });
+    if (chatbotInput) {
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
     }
 
     // Handle initial quick action buttons
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('quick-btn')) {
             const message = e.target.getAttribute('data-message');
-                        if (message) {
-                            addMessage(message, true);
-                        handleUserMessage(message);
+            if (message) {
+                addMessage(message, true);
+                handleUserMessage(message);
             }
         }
     });
