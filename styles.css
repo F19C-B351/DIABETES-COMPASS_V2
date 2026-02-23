@@ -662,7 +662,7 @@ header p {
 .chatbot-container {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    right: 20px;
     width: 380px;
     height: 600px;
     background: white;
@@ -914,12 +914,12 @@ header p {
         width: 95vw;
         height: 70vh;
         bottom: 10px;
-        left: 2.5vw;
+        right: 2.5vw;
     }
 
     .chatbot-toggle {
         bottom: 15px;
-        left: 15px;
+        right: 15px;
         padding: 12px 15px;
     }
 
@@ -1429,12 +1429,12 @@ footer p {
         width: 95vw;
         height: 70vh;
         bottom: 10px;
-        left: 2.5vw;
+        right: 2.5vw;
     }
 
     .chatbot-toggle {
         bottom: 15px;
-        left: 15px;
+        right: 15px;
         padding: 12px 15px;
     }
 
