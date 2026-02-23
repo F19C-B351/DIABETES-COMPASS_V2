@@ -1141,7 +1141,7 @@ footer p {
 .chatbot-toggle {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    right: 20px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
@@ -1177,7 +1177,7 @@ footer p {
 .chatbot-container {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    right: 20px;
     width: 380px;
     height: 600px;
     background: white;
