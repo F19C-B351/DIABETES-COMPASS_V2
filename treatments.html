@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest Treatments - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        .treatments-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .treatments-section h2 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .treatments-section .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .treatment-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .treatment-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid #667eea;
+        }
+
+        .treatment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .treatment-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .treatment-card p {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .treatment-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .treatment-card ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+        }
+
+        .treatment-card ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .breakthrough-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .breakthrough-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .breakthrough-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .breakthrough-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .breakthrough-card h4 {
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breakthrough-card .year {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .medication-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+        }
+
+        .medication-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .medication-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .medication-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .medication-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .type-badge.type1 {
+            background: rgba(33, 150, 243, 0.15);
+            color: #1976d2;
+        }
+
+        .type-badge.type2 {
+            background: rgba(76, 175, 80, 0.15);
+            color: #388e3c;
+        }
+
+        .type-badge.both {
+            background: rgba(156, 39, 176, 0.15);
+            color: #7b1fa2;
+        }
+
+        .technology-section {
+            margin: 40px 0;
+        }
+
+        .technology-section h2 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .tech-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tech-card .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .tech-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .tech-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .disclaimer {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .disclaimer p {
+            color: #e65100;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>Latest Treatments</h1>
+                    <p>Stay informed about the newest advances in diabetes care</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Home</a>
+
+            <section class="treatments-section">
+                <h2>💊 Modern Diabetes Treatments</h2>
+                <p class="subtitle">Explore the latest medications, therapies, and technologies revolutionizing diabetes
+                    management in 2026.</p>
+
+                <!-- Treatment Categories -->
+                <div class="treatment-categories">
+                    <div class="treatment-card">
+                        <h3>💉 Insulin Therapies</h3>
+                        <p>Advanced insulin options for precise blood sugar control:</p>
+                        <ul>
+                            <li>Ultra-rapid acting insulins (Fiasp, Lyumjev)</li>
+                            <li>Long-acting basal insulins (Tresiba, Toujeo)</li>
+                            <li>Weekly insulin injections (Icodec)</li>
+                            <li>Inhaled insulin (Afrezza)</li>
+                            <li>Smart insulin pens with tracking</li>
+                        </ul>
+                    </div>
+
+                    <div class="treatment-card">
+                        <h3>💊 Oral Medications</h3>
+                        <p>Pills that help manage Type 2 diabetes:</p>
+                        <ul>
+                            <li>SGLT2 inhibitors (kidney & heart protection)</li>
+                            <li>GLP-1 receptor agonists (oral form)</li>
+                            <li>Metformin (first-line treatment)</li>
+                            <li>DPP-4 inhibitors</li>
+                            <li>Combination therapies</li>
+                        </ul>
+                    </div>
+
+                    <div class="treatment-card">
+                        <h3>💉 Injectable Non-Insulin</h3>
+                        <p>Non-insulin injections for blood sugar and weight:</p>
+                        <ul>
+                            <li>Semaglutide (Ozempic, Wegovy)</li>
+                            <li>Tirzepatide (Mounjaro, Zepbound)</li>
+                            <li>Dulaglutide (Trulicity)</li>
+                            <li>Liraglutide (Victoza)</li>
+                            <li>Exenatide (Byetta, Bydureon)</li>
+                        </ul>
+                    </div>
+
+                    <div class="treatment-card">
+                        <h3>🔬 Emerging Therapies</h3>
+                        <p>Cutting-edge treatments in development:</p>
+                        <ul>
+                            <li>Stem cell therapies</li>
+                            <li>Beta cell regeneration</li>
+                            <li>Immunotherapy for Type 1</li>
+                            <li>Gene therapy approaches</li>
+                            <li>Artificial pancreas systems</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Medication Table -->
+                <h3 style="color: #667eea; text-align: center; margin: 40px 0 20px;">📋 Common Diabetes Medications</h3>
+                <div style="overflow-x: auto;">
+                    <table class="medication-table">
+                        <thead>
+                            <tr>
+                                <th>Medication</th>
+                                <th>Class</th>
+                                <th>Type</th>
+                                <th>Key Benefits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Metformin</strong></td>
+                                <td>Biguanide</td>
+                                <td><span class="type-badge type2">Type 2</span></td>
+                                <td>First-line, weight neutral, low cost</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Semaglutide</strong></td>
+                                <td>GLP-1 RA</td>
+                                <td><span class="type-badge type2">Type 2</span></td>
+                                <td>Weight loss, heart protection, weekly</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tirzepatide</strong></td>
+                                <td>GIP/GLP-1</td>
+                                <td><span class="type-badge type2">Type 2</span></td>
+                                <td>Superior A1C reduction, weight loss</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Empagliflozin</strong></td>
+                                <td>SGLT2i</td>
+                                <td><span class="type-badge type2">Type 2</span></td>
+                                <td>Heart & kidney protection</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Insulin Degludec</strong></td>
+                                <td>Basal Insulin</td>
+                                <td><span class="type-badge both">Type 1 & 2</span></td>
+                                <td>Ultra-long acting, flexible dosing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Insulin Lispro-aabc</strong></td>
+                                <td>Rapid Insulin</td>
+                                <td><span class="type-badge both">Type 1 & 2</span></td>
+                                <td>Ultra-fast onset, meal flexibility</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Breakthrough Section -->
+            <div class="breakthrough-section">
+                <h2>🚀 Recent Breakthroughs</h2>
+                <div class="breakthrough-grid">
+                    <div class="breakthrough-card">
+                        <h4><span class="year">2025</span> Weekly Insulin</h4>
+                        <p>Insulin Icodec approved - once-weekly injection replacing daily basal insulin shots.</p>
+                    </div>
+                    <div class="breakthrough-card">
+                        <h4><span class="year">2024</span> Dual Action GIP/GLP-1</h4>
+                        <p>Tirzepatide shows unprecedented A1C reductions up to 2.5% with significant weight loss.</p>
+                    </div>
+                    <div class="breakthrough-card">
+                        <h4><span class="year">2024</span> Closed-Loop Systems</h4>
+                        <p>Advanced hybrid closed-loop insulin pumps with improved algorithms for better overnight
+                            control.</p>
+                    </div>
+                    <div class="breakthrough-card">
+                        <h4><span class="year">2023</span> Stem Cell Progress</h4>
+                        <p>First patients with Type 1 diabetes becoming insulin-independent after stem cell therapy.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Section -->
+            <section class="technology-section">
+                <h2>🔧 Diabetes Technology</h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="icon">📱</div>
+                        <h3>Continuous Glucose Monitors</h3>
+                        <p>Real-time glucose tracking with smartphone integration. Dexcom G7, Libre 3, and Guardian 4
+                            offer accurate readings without fingersticks.</p>
+                    </div>
+                    <div class="tech-card">
+                        <div class="icon">⌚</div>
+                        <h3>Smart Insulin Pumps</h3>
+                        <p>Automated insulin delivery systems that adjust doses based on CGM readings. Features
+                            predictive alerts and closed-loop technology.</p>
+                    </div>
+                    <div class="tech-card">
+                        <div class="icon">🤖</div>
+                        <h3>AI-Powered Management</h3>
+                        <p>Artificial intelligence analyzes patterns to optimize insulin dosing, predict glucose trends,
+                            and provide personalized recommendations.</p>
+                    </div>
+                    <div class="tech-card">
+                        <div class="icon">💊</div>
+                        <h3>Smart Insulin Pens</h3>
+                        <p>Connected pens that track doses, timing, and temperature. Sync with apps to prevent missed or
+                            double doses.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Disclaimer -->
+            <div class="disclaimer">
+                <p><strong>⚠️ Medical Disclaimer:</strong> This information is for educational purposes only and should
+                    not replace professional medical advice. Always consult your healthcare provider before starting,
+                    stopping, or changing any medication or treatment plan.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

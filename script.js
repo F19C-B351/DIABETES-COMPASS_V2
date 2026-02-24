@@ -397,6 +397,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 response: "Proper nutrition is essential for diabetes management. Our Nutrition page includes a comprehensive Glycemic Index (GI) guide showing which foods affect blood sugar and how. Visit the Nutrition section to learn about low, medium, and high GI foods, plus tips for managing glycemic impact.",
                 followUp: ["What is Glycemic Index?", "Show me low GI foods", "Need meal planning tips?"]
             },
+            "treatments": {
+                response: "Our Latest Treatments page covers modern diabetes therapies including insulin options (ultra-rapid, long-acting, weekly), oral medications (SGLT2 inhibitors, GLP-1 agonists), injectable non-insulin medications like Semaglutide and Tirzepatide, plus emerging therapies like stem cells and gene therapy. We also feature diabetes technology including CGMs, smart pumps, and AI-powered management.",
+                followUp: ["Tell me about insulin types", "What is Semaglutide?", "Explain CGM technology"]
+            },
             "diabetes basics": {
                 response: "Diabetes is a condition affecting how your body processes blood sugar. Our website provides information on Type 1, Type 2, and gestational diabetes, along with management tips, lifestyle guidance, and resources for living well with diabetes.",
                 followUp: ["Want to learn about Type 1?", "Interested in Type 2 information?", "Need management tips?"]
