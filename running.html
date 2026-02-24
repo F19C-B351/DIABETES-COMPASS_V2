@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running with Diabetes - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .running-intro {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .running-intro h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .running-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .tip-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .tip-card h3 {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tip-card h3 .icon {
+            font-size: 1.5rem;
+        }
+
+        .tip-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: #555;
+        }
+
+        .tip-card ul li {
+            padding: 5px 0;
+            padding-left: 20px;
+        }
+
+        .tip-card.purple {
+            border-left-color: #667eea;
+        }
+
+        .tip-card.purple h3 {
+            color: #667eea;
+        }
+
+        .tip-card.green {
+            border-left-color: #4caf50;
+        }
+
+        .tip-card.green h3 {
+            color: #4caf50;
+        }
+
+        .tip-card.orange {
+            border-left-color: #ff9800;
+        }
+
+        .tip-card.orange h3 {
+            color: #ff9800;
+        }
+
+        .tip-card.violet {
+            border-left-color: #9c27b0;
+        }
+
+        .tip-card.violet h3 {
+            color: #9c27b0;
+        }
+
+        .tip-card.blue {
+            border-left-color: #2196f3;
+        }
+
+        .tip-card.blue h3 {
+            color: #2196f3;
+        }
+
+        .tip-card.pink {
+            border-left-color: #e91e63;
+        }
+
+        .tip-card.pink h3 {
+            color: #e91e63;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .snacks-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .snacks-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .snacks-card p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .snacks-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .snacks-card .tags span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .hydration-card {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .hydration-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .hydration-card p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .hydration-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hydration-card .tags span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .warning-box h3 {
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+
+        .warning-box p {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+
+        .warning-box .symptoms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            color: #e65100;
+        }
+
+        .rule-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .rule-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .rule-box p {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 575px) {
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>Running with Diabetes</h1>
+                    <p>Essential tips for safe and effective running</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="physical-activities.html" class="back-link">← Back to Physical Activities</a>
+
+            <!-- Introduction -->
+            <div class="running-intro">
+                <h2>🏃 Running with Diabetes</h2>
+                <p>Essential tips and hints for safe running when managing diabetes. Follow these guidelines to stay
+                    active and healthy while keeping your blood sugar under control.</p>
+            </div>
+
+            <!-- Tips Grid -->
+            <h2 style="color: #667eea; text-align: center; margin-bottom: 30px;">📋 Essential Running Tips</h2>
+            <div class="tips-grid">
+                <!-- Tip 1 -->
+                <div class="tip-card purple">
+                    <h3>
+                        <span class="icon">📊</span> Check Blood Sugar Before Running
+                    </h3>
+                    <ul>
+                        <li>✓ Measure glucose 15–30 minutes before running</li>
+                        <li>✓ Safe starting range: 100–180 mg/dL (5.5–10 mmol/L)</li>
+                        <li>⚠️ Avoid if too low (&lt;90 mg/dL) or too high (&gt;250 mg/dL with ketones)</li>
+                    </ul>
+                </div>
+
+                <!-- Tip 2 -->
+                <div class="tip-card green">
+                    <h3>
+                        <span class="icon">🍬</span> Always Carry Fast Sugar
+                    </h3>
+                    <ul>
+                        <li>✓ Glucose tablets</li>
+                        <li>✓ Fruit juice or sports drink</li>
+                        <li>✓ Honey packets or candy</li>
+                        <li>✓ Recommended: 15–20g fast carbs</li>
+                    </ul>
+                </div>
+
+                <!-- Tip 3 -->
+                <div class="tip-card orange">
+                    <h3>
+                        <span class="icon">🆔</span> Wear Medical Identification
+                    </h3>
+                    <ul>
+                        <li>✓ Medical ID bracelet or card</li>
+                        <li>✓ Include diabetes type</li>
+                        <li>✓ Emergency contact info</li>
+                        <li>✓ Medication/insulin details</li>
+                    </ul>
+                </div>
+
+                <!-- Tip 4 -->
+                <div class="tip-card violet">
+                    <h3>
+                        <span class="icon">⏱️</span> Monitor After Running
+                    </h3>
+                    <ul>
+                        <li>✓ Check immediately after running</li>
+                        <li>✓ Check again 2–4 hours later</li>
+                        <li>⚠️ Lows can occur hours after exercise</li>
+                    </ul>
+                </div>
+
+                <!-- Tip 5 -->
+                <div class="tip-card blue">
+                    <h3>
+                        <span class="icon">🚶</span> Start Slowly
+                    </h3>
+                    <ul>
+                        <li>✓ Begin with walking + jogging intervals</li>
+                        <li>✓ Short distances (10–20 minutes)</li>
+                        <li>✓ Gradually increase intensity</li>
+                    </ul>
+                </div>
+
+                <!-- Tip 6 -->
+                <div class="tip-card pink">
+                    <h3>
+                        <span class="icon">📈</span> Know How Running Affects Glucose
+                    </h3>
+                    <ul>
+                        <li>↓ Usually lowers glucose (long steady runs)</li>
+                        <li>↑ Sometimes raises glucose (sprinting/intense intervals)</li>
+                        <li>✓ Keep a record of distance, duration, glucose</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pre-Run Snacks & Hydration -->
+            <div class="info-cards">
+                <div class="snacks-card">
+                    <h3>🍌 Pre-Run Snacks</h3>
+                    <p>Eat 30–60 minutes before running if glucose is low-normal:</p>
+                    <div class="tags">
+                        <span>Banana</span>
+                        <span>Yogurt</span>
+                        <span>Whole-grain toast</span>
+                        <span>Oatmeal</span>
+                    </div>
+                </div>
+
+                <div class="hydration-card">
+                    <h3>💧 Stay Hydrated</h3>
+                    <p>Dehydration can increase blood sugar:</p>
+                    <div class="tags">
+                        <span>Before running</span>
+                        <span>During long runs</span>
+                        <span>After running</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warning Signs -->
+            <div class="warning-box">
+                <h3>⚠️ Watch for Low Blood Sugar Symptoms</h3>
+                <p><strong>Stop running immediately if you experience:</strong></p>
+                <div class="symptoms">
+                    <span>• Shaking</span>
+                    <span>• Sweating</span>
+                    <span>• Dizziness</span>
+                    <span>• Confusion</span>
+                    <span>• Fast heartbeat</span>
+                    <span>• Weakness</span>
+                </div>
+            </div>
+
+            <!-- Simple Rule Box -->
+            <div class="rule-box">
+                <h3>📋 Simple Rule</h3>
+                <p>Test – Carry Sugar – Stay Safe</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
