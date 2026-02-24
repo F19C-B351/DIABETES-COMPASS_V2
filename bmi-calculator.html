@@ -7,6 +7,103 @@
     <title>BMI & Calorie Calculator - Diabetes Compass</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive.css">
+    <style>
+        .email-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .email-modal.active {
+            display: flex;
+        }
+
+        .email-modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .email-modal-content h3 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+        }
+
+        .email-modal-content .form-group {
+            margin-bottom: 20px;
+        }
+
+        .email-modal-content label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .email-modal-content input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .email-modal-content input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .email-modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .email-modal-buttons button {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-send {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-cancel {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-cancel:hover {
+            background: #e9ecef;
+        }
+    </style>
 </head>
 
 <body>
@@ -196,6 +293,27 @@
             </section>
         </div>
     </main>
+
+    <!-- Email Modal Form -->
+    <div class="email-modal" id="email-modal">
+        <div class="email-modal-content">
+            <h3>📧 Send Diet Plan via Email</h3>
+            <form id="email-form" onsubmit="submitEmailForm(event)">
+                <div class="form-group">
+                    <label for="sender-name">Name</label>
+                    <input type="text" id="sender-name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="sender-email">Email Address</label>
+                    <input type="email" id="sender-email" placeholder="your.email@example.com" required>
+                </div>
+                <div class="email-modal-buttons">
+                    <button type="button" class="btn-cancel" onclick="closeEmailModal()">Cancel</button>
+                    <button type="submit" class="btn-send">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
@@ -449,9 +567,22 @@
         }
 
         function sendDietEmail() {
-            // Ask for user's name
-            const userName = prompt('Please enter your name:', 'Friend');
-            if (userName === null) return; // User cancelled
+            // Open the email modal form
+            document.getElementById('email-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEmailModal() {
+            document.getElementById('email-modal').classList.remove('active');
+            document.body.style.overflow = '';
+            document.getElementById('email-form').reset();
+        }
+
+        function submitEmailForm(event) {
+            event.preventDefault();
+
+            const userName = document.getElementById('sender-name').value;
+            const userEmail = document.getElementById('sender-email').value;
 
             // Get BMI information
             const bmiResult = document.getElementById('bmi-result').innerText;
@@ -516,10 +647,27 @@ Best regards,
 Diabetes Compass Team
             `.trim();
 
-            // Open email client
-            const mailtoLink = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            // Close the modal
+            closeEmailModal();
+
+            // Open email client with user's email as the recipient
+            const mailtoLink = `mailto:${encodeURIComponent(userEmail)}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
             window.location.href = mailtoLink;
         }
+
+        // Close modal when clicking outside
+        document.getElementById('email-modal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeEmailModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && document.getElementById('email-modal').classList.contains('active')) {
+                closeEmailModal();
+            }
+        });
     </script>
 </body>
 
