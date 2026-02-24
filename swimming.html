@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swimming with Diabetes - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .swimming-intro {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .swimming-intro h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .swimming-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+
+        .benefits-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .benefits-section h2 {
+            color: #00bcd4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .benefit-card {
+            background: linear-gradient(135deg, #e0f7fa 0%, #fff 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 4px solid #00bcd4;
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .benefit-card h4 {
+            color: #0097a7;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .why-swimming {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+
+        .why-swimming h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .why-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .why-item h4 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .why-item p {
+            opacity: 0.9;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .workouts-section {
+            margin-bottom: 40px;
+        }
+
+        .workouts-section h2 {
+            color: #00bcd4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .workout-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .workout-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #00bcd4;
+        }
+
+        .workout-card h4 {
+            color: #0097a7;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .workout-card .level {
+            display: inline-block;
+            background: #e0f7fa;
+            color: #0097a7;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .workout-card p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .stats-section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .stats-section h3 {
+            color: #00bcd4;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            border-radius: 15px;
+        }
+
+        .stat-item .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0097a7;
+        }
+
+        .stat-item .label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .tips-section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .tips-section h3 {
+            color: #00bcd4;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 15px;
+            background: #e0f7fa;
+            border-radius: 10px;
+        }
+
+        .tip-item span:first-child {
+            font-size: 1.3rem;
+        }
+
+        .tip-item p {
+            margin: 0;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .gear-section {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+
+        .gear-section h3 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .gear-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .gear-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .warning-box h3 {
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+
+        .warning-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .warning-box ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #e65100;
+        }
+
+        .warning-box ul li::before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+        }
+
+        .insulin-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .insulin-info h3 {
+            color: #1565c0;
+            margin-bottom: 15px;
+        }
+
+        .insulin-info p {
+            color: #1565c0;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .cta-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .cta-section p {
+            opacity: 0.95;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>Swimming with Diabetes</h1>
+                    <p>The perfect low-impact exercise for blood sugar control</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="physical-activities.html" class="back-link">← Back to Physical Activities</a>
+
+            <!-- Introduction -->
+            <div class="swimming-intro">
+                <h2>🏊 Swimming for Diabetes Management</h2>
+                <p>Swimming is one of the best exercises for people with diabetes. The water supports your body,
+                    reducing stress on joints while providing excellent resistance for building strength. It's a
+                    full-body workout that improves cardiovascular health, helps manage blood sugar, and is gentle
+                    enough for all fitness levels.</p>
+            </div>
+
+            <!-- Key Benefits Section -->
+            <div class="benefits-section">
+                <h2>✨ Benefits of Swimming for Diabetes</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <h4>📉 Lowers Blood Sugar</h4>
+                        <p>Swimming uses large muscle groups continuously, which helps your body use insulin more
+                            effectively. Just 30 minutes can lower blood glucose for up to 24 hours.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>❤️ Cardiovascular Health</h4>
+                        <p>Swimming strengthens the heart, lowers blood pressure, and improves circulation—critical for
+                            diabetics who face higher heart disease risk.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>🦴 Joint-Friendly Exercise</h4>
+                        <p>Water buoyancy reduces body weight by 90%, eliminating joint stress. Perfect for those with
+                            arthritis, obesity, or mobility issues.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>⚖️ Weight Management</h4>
+                        <p>Swimming burns 400-700 calories per hour depending on intensity. Regular swimming helps
+                            maintain a healthy weight crucial for Type 2 diabetes management.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>💪 Full-Body Workout</h4>
+                        <p>Every stroke engages multiple muscle groups—arms, legs, core, and back. Building muscle mass
+                            improves insulin sensitivity.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>🩹 Safe for Neuropathy</h4>
+                        <p>Unlike walking or running, swimming doesn't put pressure on feet. The cool water can also
+                            provide relief for those with peripheral neuropathy.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>😌 Reduces Stress</h4>
+                        <p>The rhythmic nature of swimming and water immersion reduce cortisol levels. Lower stress
+                            means better blood sugar control.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>🩸 Improves Cholesterol</h4>
+                        <p>Regular swimming increases HDL (good cholesterol) and reduces LDL (bad cholesterol),
+                            supporting cardiovascular health.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>🫁 Better Lung Capacity</h4>
+                        <p>Swimming strengthens respiratory muscles and improves lung efficiency. Better oxygen delivery
+                            supports overall health.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>😴 Improves Sleep</h4>
+                        <p>The physical exertion from swimming promotes deeper, more restful sleep—which is essential
+                            for blood sugar regulation.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>🧠 Mental Clarity</h4>
+                        <p>Swimming increases blood flow to the brain, improving concentration, memory, and reducing
+                            symptoms of anxiety and depression.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>♿ Accessible Exercise</h4>
+                        <p>Swimming accommodates all fitness levels and physical abilities. Water provides both support
+                            and resistance, adjustable to your needs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Swimming Statistics -->
+            <div class="stats-section">
+                <h3>📊 Swimming by the Numbers</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="number">400-700</div>
+                        <div class="label">Calories burned per hour</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">90%</div>
+                        <div class="label">Body weight supported by water</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">24hr</div>
+                        <div class="label">Blood sugar benefits last</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">50%</div>
+                        <div class="label">Reduced risk of heart disease</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">30min</div>
+                        <div class="label">Recommended daily session</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Swimming is Ideal -->
+            <div class="why-swimming">
+                <h2>🌊 Why Swimming is Ideal for Diabetics</h2>
+                <div class="why-grid">
+                    <div class="why-item">
+                        <h4>🦶 Protects Your Feet</h4>
+                        <p>No impact on feet means lower risk of blisters, ulcers, and injuries that can be dangerous
+                            for diabetics.</p>
+                    </div>
+                    <div class="why-item">
+                        <h4>🌡️ Temperature Regulation</h4>
+                        <p>Pool water helps regulate body temperature, preventing overheating during exercise.</p>
+                    </div>
+                    <div class="why-item">
+                        <h4>💪 Builds Strength Safely</h4>
+                        <p>Water resistance is 12x greater than air, building muscle without weights or injury risk.</p>
+                    </div>
+                    <div class="why-item">
+                        <h4>🔄 Consistent Exercise</h4>
+                        <p>Indoor pools allow year-round exercise regardless of weather, maintaining consistent blood
+                            sugar control.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Swimming Workouts -->
+            <div class="workouts-section">
+                <h2>🏊 Recommended Swimming Workouts</h2>
+                <div class="workout-cards">
+                    <div class="workout-card">
+                        <h4>Gentle Warm-Up</h4>
+                        <span class="level">Beginner</span>
+                        <p>5-10 minutes of easy freestyle or backstroke. Focus on breathing and getting comfortable in
+                            the water. Check blood sugar before starting.</p>
+                    </div>
+                    <div class="workout-card">
+                        <h4>Lap Swimming</h4>
+                        <span class="level">Intermediate</span>
+                        <p>20-30 minutes of continuous laps. Alternate between freestyle, backstroke, and breaststroke.
+                            Rest as needed between sets.</p>
+                    </div>
+                    <div class="workout-card">
+                        <h4>Water Walking</h4>
+                        <span class="level">Beginner</span>
+                        <p>Walk back and forth in chest-deep water for 20-30 minutes. Great for building strength
+                            without swimming skills.</p>
+                    </div>
+                    <div class="workout-card">
+                        <h4>Interval Training</h4>
+                        <span class="level">Advanced</span>
+                        <p>Alternate fast and slow laps. 1 fast lap, 2 slow laps recovery. Repeat 8-10 times. Highly
+                            effective for insulin sensitivity.</p>
+                    </div>
+                    <div class="workout-card">
+                        <h4>Water Aerobics</h4>
+                        <span class="level">All Levels</span>
+                        <p>Join a class for structured exercise with music and instruction. Social, fun, and effective
+                            for all fitness levels.</p>
+                    </div>
+                    <div class="workout-card">
+                        <h4>Aqua Jogging</h4>
+                        <span class="level">Intermediate</span>
+                        <p>Jog in deep water using a flotation belt. All the benefits of running without joint impact.
+                            30 minutes burns 300+ calories.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="tips-section">
+                <h3>💡 Swimming Tips for People with Diabetes</h3>
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <span>📊</span>
+                        <p>Check blood sugar before, during (every 30 min), and after swimming</p>
+                    </div>
+                    <div class="tip-item">
+                        <span>🍬</span>
+                        <p>Keep fast-acting glucose poolside—juice box, glucose tablets, or gummy snacks</p>
+                    </div>
+                    <div class="tip-item">
+                        <span>🆔</span>
+                        <p>Wear a waterproof medical ID bracelet while swimming</p>
+                    </div>
+                    <div class="tip-item">
+                        <span>👥</span>
+                        <p>Swim with a buddy or when a lifeguard is present—never swim alone</p>
+                    </div>
+                    <div class="tip-item">
+                        <span>🦶</span>
+                        <p>Wear water shoes to protect feet on rough pool surfaces</p>
+                    </div>
+                    <div class="tip-item">
+                        <span>💧</span>
+                        <p>Stay hydrated—you still sweat while swimming even though you don't notice</p>
+                    </div>
+                    <div class="tip-item">
+                        <span>🩹</span>
+                        <p>Rinse off chlorine after swimming and moisturize skin to prevent dryness</p>
+                    </div>
+                    <div class="tip-item">
+                        <span>⏰</span>
+                        <p>Start with 10-15 minutes and gradually increase to 30-45 minutes</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insulin Pump Info -->
+            <div class="insulin-info">
+                <h3>💉 Insulin Pump & CGM Considerations</h3>
+                <p>If you use an insulin pump, you may need to disconnect it while swimming (check your pump's water
+                    resistance rating). Tubeless pumps and some CGMs are waterproof. Always check with your
+                    manufacturer about water depth and duration limits. Plan for reconnecting immediately after
+                    swimming, and monitor blood sugar more frequently.</p>
+            </div>
+
+            <!-- Essential Gear -->
+            <div class="gear-section">
+                <h3>🎒 Essential Swimming Gear for Diabetics</h3>
+                <div class="gear-grid">
+                    <div class="gear-item">🩱 Comfortable swimwear</div>
+                    <div class="gear-item">🥽 Goggles</div>
+                    <div class="gear-item">🆔 Waterproof medical ID</div>
+                    <div class="gear-item">🍬 Poolside glucose</div>
+                    <div class="gear-item">📊 Glucose meter</div>
+                    <div class="gear-item">💧 Water bottle</div>
+                    <div class="gear-item">👟 Water shoes</div>
+                    <div class="gear-item">🧴 Moisturizer</div>
+                    <div class="gear-item">🧢 Swim cap (optional)</div>
+                    <div class="gear-item">🎒 Waterproof bag</div>
+                </div>
+            </div>
+
+            <!-- Warning Box -->
+            <div class="warning-box">
+                <h3>Safety Reminders</h3>
+                <ul>
+                    <li>Don't swim if blood sugar is below 100 mg/dL or above 250 mg/dL with ketones</li>
+                    <li>Cold water can mask hypoglycemia symptoms—check glucose more frequently</li>
+                    <li>Exit the pool immediately if you feel dizzy, confused, or unwell</li>
+                    <li>Inform the lifeguard about your diabetes before swimming</li>
+                    <li>Check feet carefully after swimming for any cuts or irritation</li>
+                    <li>Avoid swimming with open wounds or sores</li>
+                </ul>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h3>🏊 Dive Into Better Health!</h3>
+                <p>Find a local pool, check for water aerobics classes, and start your swimming journey today!</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

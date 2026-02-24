@@ -259,6 +259,90 @@
             opacity: 0.95;
             font-size: 1.1rem;
         }
+
+        /* Sidebar Layout */
+        .page-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .left-sidebar {
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+        .sidebar-cta {
+            background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .sidebar-cta h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-cta p {
+            opacity: 0.95;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .sidebar-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sidebar-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sidebar-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-find-group {
+            background: white;
+            color: #9c27b0;
+        }
+
+        .btn-multisport {
+            background: linear-gradient(135deg, #ff6b00 0%, #ff9800 100%);
+            color: white;
+        }
+
+        .main-content {
+            min-width: 0;
+        }
+
+        @media (max-width: 900px) {
+            .page-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .left-sidebar {
+                position: static;
+                max-height: none;
+            }
+        }
     </style>
 </head>
 
@@ -291,264 +375,310 @@
         <div class="container">
             <a href="physical-activities.html" class="back-link">← Back to Physical Activities</a>
 
-            <!-- Introduction -->
-            <div class="group-intro">
-                <h2>👥 Group Activities for Diabetes Management</h2>
-                <p>Exercising with others provides motivation, accountability, and social support—all crucial elements
-                    for successful diabetes management. Group activities make fitness fun while building a community of
-                    people who understand your journey.</p>
-            </div>
-
-            <!-- Why Group Exercise Section -->
-            <div class="why-group-section">
-                <h2>💪 Why Group Exercise Works for Diabetics</h2>
-                <div class="why-grid">
-                    <div class="why-item">
-                        <h4>🤝 Accountability</h4>
-                        <p>Showing up for others keeps you consistent. Studies show people who exercise in groups stick
-                            with their routines 95% longer.</p>
-                    </div>
-                    <div class="why-item">
-                        <h4>😊 Motivation</h4>
-                        <p>Group energy is contagious. When you see others pushing through, you're inspired to do the
-                            same.</p>
-                    </div>
-                    <div class="why-item">
-                        <h4>❤️ Social Support</h4>
-                        <p>Connecting with others who understand diabetes reduces isolation and improves mental health.
-                        </p>
-                    </div>
-                    <div class="why-item">
-                        <h4>📈 Better Results</h4>
-                        <p>Research shows group exercisers have better glucose control and lose more weight than solo
-                            exercisers.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Video Section -->
-            <div class="video-section">
-                <h2 style="color: #9c27b0; text-align: center; margin-bottom: 30px;">🎬 Best Group Workout Videos</h2>
-
-                <!-- Video 1: Zumba -->
-                <div class="video-card">
-                    <div class="video-benefits">
-                        <h3>💃 Zumba Dance Workout</h3>
-                        <p>Zumba combines Latin dance moves with aerobic exercise for a fun, high-energy workout. It's
-                            perfect for diabetes because it improves cardiovascular health, burns calories (500-800 per
-                            session), and releases endorphins. The dance-based format doesn't feel like exercise, making
-                            it easier to stick with long-term.</p>
-                        <div class="benefits-tags">
-                            <span class="benefit-tag">🔥 Burns 500-800 calories</span>
-                            <span class="benefit-tag">❤️ Improves heart health</span>
-                            <span class="benefit-tag">😊 Boosts mood</span>
-                            <span class="benefit-tag">⚖️ Weight management</span>
+            <div class="page-layout">
+                <!-- Left Sidebar -->
+                <aside class="left-sidebar">
+                    <div class="sidebar-cta">
+                        <h3>👥 Find Your Group Today!</h3>
+                        <p>Search for diabetes exercise groups in your area, or invite friends to start your own walking
+                            club!</p>
+                        <div class="sidebar-buttons">
+                            <a href="#activities" class="sidebar-btn btn-find-group">🔍 Find Local Groups</a>
+                            <a href="https://benefitsystems.bg/" target="_blank" rel="noopener noreferrer"
+                                class="sidebar-btn btn-multisport">💪 with Multisport</a>
                         </div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/N3lMGvpYIK4" title="Zumba Dance Workout"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
-                    </div>
-                </div>
+                </aside>
 
-                <!-- Video 2: Tai Chi -->
-                <div class="video-card">
-                    <div class="video-benefits">
-                        <h3>🧘 Tai Chi for Beginners</h3>
-                        <p>Tai Chi is a gentle, flowing martial art that's particularly beneficial for diabetics.
-                            Studies
-                            show it can lower blood sugar by up to 30 mg/dL, reduce stress hormones, improve balance
-                            (reducing fall risk), and enhance neuropathy symptoms. The slow, meditative movements are
-                            perfect for all fitness levels.</p>
-                        <div class="benefits-tags">
-                            <span class="benefit-tag">📉 Lowers blood sugar</span>
-                            <span class="benefit-tag">🧠 Reduces stress</span>
-                            <span class="benefit-tag">⚖️ Improves balance</span>
-                            <span class="benefit-tag">🦶 Helps neuropathy</span>
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Introduction -->
+                    <div class="group-intro">
+                        <h2>👥 Group Activities for Diabetes Management</h2>
+                        <p>Exercising with others provides motivation, accountability, and social support—all crucial
+                            elements
+                            for successful diabetes management. Group activities make fitness fun while building a
+                            community of
+                            people who understand your journey.</p>
+                    </div>
+
+                    <!-- Why Group Exercise Section -->
+                    <div class="why-group-section">
+                        <h2>💪 Why Group Exercise Works for Diabetics</h2>
+                        <div class="why-grid">
+                            <div class="why-item">
+                                <h4>🤝 Accountability</h4>
+                                <p>Showing up for others keeps you consistent. Studies show people who exercise in
+                                    groups stick
+                                    with their routines 95% longer.</p>
+                            </div>
+                            <div class="why-item">
+                                <h4>😊 Motivation</h4>
+                                <p>Group energy is contagious. When you see others pushing through, you're inspired to
+                                    do the
+                                    same.</p>
+                            </div>
+                            <div class="why-item">
+                                <h4>❤️ Social Support</h4>
+                                <p>Connecting with others who understand diabetes reduces isolation and improves mental
+                                    health.
+                                </p>
+                            </div>
+                            <div class="why-item">
+                                <h4>📈 Better Results</h4>
+                                <p>Research shows group exercisers have better glucose control and lose more weight than
+                                    solo
+                                    exercisers.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/cEOS2zoyQw4" title="Tai Chi for Beginners"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
-                    </div>
-                </div>
 
-                <!-- Video 3: Water Aerobics -->
-                <div class="video-card">
-                    <div class="video-benefits">
-                        <h3>🏊 Water Aerobics</h3>
-                        <p>Water aerobics is ideal for diabetics because water supports your joints while providing
-                            resistance for muscle building. It's especially beneficial for those with neuropathy,
-                            obesity, or arthritis. Water exercise can improve insulin sensitivity and doesn't cause foot
-                            pressure injuries common with land-based exercise.</p>
-                        <div class="benefits-tags">
-                            <span class="benefit-tag">🦴 Joint-friendly</span>
-                            <span class="benefit-tag">💪 Builds muscle</span>
-                            <span class="benefit-tag">🌡️ Cooling exercise</span>
-                            <span class="benefit-tag">🩹 Safe for neuropathy</span>
+                    <!-- Video Section -->
+                    <div class="video-section">
+                        <h2 style="color: #9c27b0; text-align: center; margin-bottom: 30px;">🎬 Best Group Workout
+                            Videos</h2>
+
+                        <!-- Video 1: Zumba -->
+                        <div class="video-card">
+                            <div class="video-benefits">
+                                <h3>💃 Zumba Dance Workout</h3>
+                                <p>Zumba combines Latin dance moves with aerobic exercise for a fun, high-energy
+                                    workout. It's
+                                    perfect for diabetes because it improves cardiovascular health, burns calories
+                                    (500-800 per
+                                    session), and releases endorphins. The dance-based format doesn't feel like
+                                    exercise, making
+                                    it easier to stick with long-term.</p>
+                                <div class="benefits-tags">
+                                    <span class="benefit-tag">🔥 Burns 500-800 calories</span>
+                                    <span class="benefit-tag">❤️ Improves heart health</span>
+                                    <span class="benefit-tag">😊 Boosts mood</span>
+                                    <span class="benefit-tag">⚖️ Weight management</span>
+                                </div>
+                            </div>
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/N3lMGvpYIK4" title="Zumba Dance Workout"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                        </div>
+
+                        <!-- Video 2: Tai Chi -->
+                        <div class="video-card">
+                            <div class="video-benefits">
+                                <h3>🧘 Tai Chi for Beginners</h3>
+                                <p>Tai Chi is a gentle, flowing martial art that's particularly beneficial for
+                                    diabetics.
+                                    Studies
+                                    show it can lower blood sugar by up to 30 mg/dL, reduce stress hormones, improve
+                                    balance
+                                    (reducing fall risk), and enhance neuropathy symptoms. The slow, meditative
+                                    movements are
+                                    perfect for all fitness levels.</p>
+                                <div class="benefits-tags">
+                                    <span class="benefit-tag">📉 Lowers blood sugar</span>
+                                    <span class="benefit-tag">🧠 Reduces stress</span>
+                                    <span class="benefit-tag">⚖️ Improves balance</span>
+                                    <span class="benefit-tag">🦶 Helps neuropathy</span>
+                                </div>
+                            </div>
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/cEOS2zoyQw4" title="Tai Chi for Beginners"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                        </div>
+
+                        <!-- Video 3: Water Aerobics -->
+                        <div class="video-card">
+                            <div class="video-benefits">
+                                <h3>🏊 Water Aerobics</h3>
+                                <p>Water aerobics is ideal for diabetics because water supports your joints while
+                                    providing
+                                    resistance for muscle building. It's especially beneficial for those with
+                                    neuropathy,
+                                    obesity, or arthritis. Water exercise can improve insulin sensitivity and doesn't
+                                    cause foot
+                                    pressure injuries common with land-based exercise.</p>
+                                <div class="benefits-tags">
+                                    <span class="benefit-tag">🦴 Joint-friendly</span>
+                                    <span class="benefit-tag">💪 Builds muscle</span>
+                                    <span class="benefit-tag">🌡️ Cooling exercise</span>
+                                    <span class="benefit-tag">🩹 Safe for neuropathy</span>
+                                </div>
+                            </div>
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/aGj4KPR6Nug" title="Water Aerobics Workout"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                        </div>
+
+                        <!-- Video 4: Chair Exercises -->
+                        <div class="video-card">
+                            <div class="video-benefits">
+                                <h3>🪑 Seated Group Exercise</h3>
+                                <p>Chair exercises are perfect for seniors or those with mobility challenges. These
+                                    seated
+                                    workouts still raise heart rate, improve flexibility, and build strength—all while
+                                    reducing
+                                    fall risk. Many community centers and hospitals offer seated exercise classes
+                                    specifically
+                                    for diabetics.</p>
+                                <div class="benefits-tags">
+                                    <span class="benefit-tag">♿ Accessible for all</span>
+                                    <span class="benefit-tag">🦵 Builds leg strength</span>
+                                    <span class="benefit-tag">🧘 Improves flexibility</span>
+                                    <span class="benefit-tag">🏠 Can do at home</span>
+                                </div>
+                            </div>
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/KEjBXb8nFQU" title="Seated Chair Exercises"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                        </div>
+
+                        <!-- Video 5: Line Dancing -->
+                        <div class="video-card">
+                            <div class="video-benefits">
+                                <h3>🤠 Line Dancing</h3>
+                                <p>Line dancing is a fun, social aerobic exercise that doesn't require a partner. It
+                                    improves
+                                    cardiovascular fitness, coordination, and memory (learning new steps keeps your
+                                    brain
+                                    active). The moderate intensity is perfect for diabetes management, and the social
+                                    aspect
+                                    keeps you coming back.</p>
+                                <div class="benefits-tags">
+                                    <span class="benefit-tag">🧠 Brain workout</span>
+                                    <span class="benefit-tag">❤️ Cardio benefits</span>
+                                    <span class="benefit-tag">👯 No partner needed</span>
+                                    <span class="benefit-tag">🎵 Fun & social</span>
+                                </div>
+                            </div>
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/p1JPKLa-Ofc"
+                                    title="Line Dancing for Beginners"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                        </div>
+
+                        <!-- Video 6: HIIT Group Workout -->
+                        <div class="video-card">
+                            <div class="video-benefits">
+                                <h3>🔥 Low-Impact HIIT Group Workout</h3>
+                                <p>High-Intensity Interval Training (HIIT) is highly effective for diabetes—short bursts
+                                    of
+                                    activity followed by rest periods improve insulin sensitivity quickly. This
+                                    low-impact
+                                    version protects joints while delivering results. HIIT can improve HbA1c levels in
+                                    just 12
+                                    weeks.</p>
+                                <div class="benefits-tags">
+                                    <span class="benefit-tag">⏱️ 20-30 mins effective</span>
+                                    <span class="benefit-tag">📊 Improves HbA1c</span>
+                                    <span class="benefit-tag">🦴 Low-impact option</span>
+                                    <span class="benefit-tag">🔥 Burns fat efficiently</span>
+                                </div>
+                            </div>
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/ml6cT4AZdqI" title="Low Impact HIIT Workout"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
                         </div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/aGj4KPR6Nug" title="Water Aerobics Workout"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
-                    </div>
-                </div>
 
-                <!-- Video 4: Chair Exercises -->
-                <div class="video-card">
-                    <div class="video-benefits">
-                        <h3>🪑 Seated Group Exercise</h3>
-                        <p>Chair exercises are perfect for seniors or those with mobility challenges. These seated
-                            workouts still raise heart rate, improve flexibility, and build strength—all while reducing
-                            fall risk. Many community centers and hospitals offer seated exercise classes specifically
-                            for diabetics.</p>
-                        <div class="benefits-tags">
-                            <span class="benefit-tag">♿ Accessible for all</span>
-                            <span class="benefit-tag">🦵 Builds leg strength</span>
-                            <span class="benefit-tag">🧘 Improves flexibility</span>
-                            <span class="benefit-tag">🏠 Can do at home</span>
+                    <!-- Popular Group Activities -->
+                    <h2 style="color: #9c27b0; text-align: center; margin-bottom: 30px;">🏃 Popular Group Activities for
+                        Diabetics</h2>
+                    <div class="activities-grid">
+                        <div class="activity-card">
+                            <h4>🚶 Walking Groups</h4>
+                            <p>Join local walking groups for daily or weekly walks. Walking 30 minutes daily can lower
+                                blood
+                                sugar by 25%. Many diabetes associations organize walking clubs.</p>
+                        </div>
+                        <div class="activity-card">
+                            <h4>🚴 Cycling Clubs</h4>
+                            <p>Group cycling provides motivation and safety. Many clubs have routes for all fitness
+                                levels. It's
+                                excellent for cardiovascular health without joint stress.</p>
+                        </div>
+                        <div class="activity-card">
+                            <h4>🏊 Swim Teams</h4>
+                            <p>Masters swimming programs welcome all ages. Water exercise is gentle on joints while
+                                building
+                                strength and endurance. Great for those with foot issues.</p>
+                        </div>
+                        <div class="activity-card">
+                            <h4>🏋️ Fitness Classes</h4>
+                            <p>Gym-based group fitness—from spin classes to strength training—provides structure,
+                                professional
+                                guidance, and social connection.</p>
+                        </div>
+                        <div class="activity-card">
+                            <h4>⚽ Sports Leagues</h4>
+                            <p>Adult recreational leagues for basketball, volleyball, tennis, or soccer. Competition
+                                adds
+                                motivation while the team aspect builds accountability.</p>
+                        </div>
+                        <div class="activity-card">
+                            <h4>🧘 Yoga Classes</h4>
+                            <p>Group yoga combines physical exercise with stress reduction. The supportive environment
+                                helps
+                                beginners learn proper form safely.</p>
                         </div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/KEjBXb8nFQU" title="Seated Chair Exercises"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
-                    </div>
-                </div>
 
-                <!-- Video 5: Line Dancing -->
-                <div class="video-card">
-                    <div class="video-benefits">
-                        <h3>🤠 Line Dancing</h3>
-                        <p>Line dancing is a fun, social aerobic exercise that doesn't require a partner. It improves
-                            cardiovascular fitness, coordination, and memory (learning new steps keeps your brain
-                            active). The moderate intensity is perfect for diabetes management, and the social aspect
-                            keeps you coming back.</p>
-                        <div class="benefits-tags">
-                            <span class="benefit-tag">🧠 Brain workout</span>
-                            <span class="benefit-tag">❤️ Cardio benefits</span>
-                            <span class="benefit-tag">👯 No partner needed</span>
-                            <span class="benefit-tag">🎵 Fun & social</span>
+                    <!-- Tips Section -->
+                    <div class="tips-section">
+                        <h3>💡 Tips for Group Exercise with Diabetes</h3>
+                        <div class="tips-list">
+                            <div class="tip-item">
+                                <span>📢</span>
+                                <p>Tell your instructor about your diabetes before class so they can watch for warning
+                                    signs
+                                </p>
+                            </div>
+                            <div class="tip-item">
+                                <span>🍬</span>
+                                <p>Always bring fast-acting glucose to class—glucose tablets or juice boxes are easy to
+                                    pack</p>
+                            </div>
+                            <div class="tip-item">
+                                <span>📊</span>
+                                <p>Check blood sugar before, during breaks, and after exercise</p>
+                            </div>
+                            <div class="tip-item">
+                                <span>💧</span>
+                                <p>Stay hydrated—dehydration affects blood sugar levels</p>
+                            </div>
+                            <div class="tip-item">
+                                <span>👟</span>
+                                <p>Wear proper footwear and check feet after exercise for blisters or injuries</p>
+                            </div>
+                            <div class="tip-item">
+                                <span>🆔</span>
+                                <p>Wear a medical ID bracelet or keep emergency info accessible</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/p1JPKLa-Ofc" title="Line Dancing for Beginners"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
-                    </div>
-                </div>
 
-                <!-- Video 6: HIIT Group Workout -->
-                <div class="video-card">
-                    <div class="video-benefits">
-                        <h3>🔥 Low-Impact HIIT Group Workout</h3>
-                        <p>High-Intensity Interval Training (HIIT) is highly effective for diabetes—short bursts of
-                            activity followed by rest periods improve insulin sensitivity quickly. This low-impact
-                            version protects joints while delivering results. HIIT can improve HbA1c levels in just 12
-                            weeks.</p>
-                        <div class="benefits-tags">
-                            <span class="benefit-tag">⏱️ 20-30 mins effective</span>
-                            <span class="benefit-tag">📊 Improves HbA1c</span>
-                            <span class="benefit-tag">🦴 Low-impact option</span>
-                            <span class="benefit-tag">🔥 Burns fat efficiently</span>
-                        </div>
-                    </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/ml6cT4AZdqI" title="Low Impact HIIT Workout"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
+                    <!-- Warning Box -->
+                    <div class="warning-box">
+                        <h3>Safety First</h3>
+                        <ul>
+                            <li>Don't exercise if blood sugar is above 250 mg/dL with ketones or below 100 mg/dL</li>
+                            <li>Stop immediately if you feel dizzy, confused, or experience chest pain</li>
+                            <li>Start slowly—build up intensity over weeks, not days</li>
+                            <li>Talk to your doctor before starting any new exercise program</li>
+                            <li>Modify exercises as needed—listen to your body</li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-
-            <!-- Popular Group Activities -->
-            <h2 style="color: #9c27b0; text-align: center; margin-bottom: 30px;">🏃 Popular Group Activities for
-                Diabetics</h2>
-            <div class="activities-grid">
-                <div class="activity-card">
-                    <h4>🚶 Walking Groups</h4>
-                    <p>Join local walking groups for daily or weekly walks. Walking 30 minutes daily can lower blood
-                        sugar by 25%. Many diabetes associations organize walking clubs.</p>
-                </div>
-                <div class="activity-card">
-                    <h4>🚴 Cycling Clubs</h4>
-                    <p>Group cycling provides motivation and safety. Many clubs have routes for all fitness levels. It's
-                        excellent for cardiovascular health without joint stress.</p>
-                </div>
-                <div class="activity-card">
-                    <h4>🏊 Swim Teams</h4>
-                    <p>Masters swimming programs welcome all ages. Water exercise is gentle on joints while building
-                        strength and endurance. Great for those with foot issues.</p>
-                </div>
-                <div class="activity-card">
-                    <h4>🏋️ Fitness Classes</h4>
-                    <p>Gym-based group fitness—from spin classes to strength training—provides structure, professional
-                        guidance, and social connection.</p>
-                </div>
-                <div class="activity-card">
-                    <h4>⚽ Sports Leagues</h4>
-                    <p>Adult recreational leagues for basketball, volleyball, tennis, or soccer. Competition adds
-                        motivation while the team aspect builds accountability.</p>
-                </div>
-                <div class="activity-card">
-                    <h4>🧘 Yoga Classes</h4>
-                    <p>Group yoga combines physical exercise with stress reduction. The supportive environment helps
-                        beginners learn proper form safely.</p>
-                </div>
-            </div>
-
-            <!-- Tips Section -->
-            <div class="tips-section">
-                <h3>💡 Tips for Group Exercise with Diabetes</h3>
-                <div class="tips-list">
-                    <div class="tip-item">
-                        <span>📢</span>
-                        <p>Tell your instructor about your diabetes before class so they can watch for warning signs
-                        </p>
-                    </div>
-                    <div class="tip-item">
-                        <span>🍬</span>
-                        <p>Always bring fast-acting glucose to class—glucose tablets or juice boxes are easy to pack</p>
-                    </div>
-                    <div class="tip-item">
-                        <span>📊</span>
-                        <p>Check blood sugar before, during breaks, and after exercise</p>
-                    </div>
-                    <div class="tip-item">
-                        <span>💧</span>
-                        <p>Stay hydrated—dehydration affects blood sugar levels</p>
-                    </div>
-                    <div class="tip-item">
-                        <span>👟</span>
-                        <p>Wear proper footwear and check feet after exercise for blisters or injuries</p>
-                    </div>
-                    <div class="tip-item">
-                        <span>🆔</span>
-                        <p>Wear a medical ID bracelet or keep emergency info accessible</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Warning Box -->
-            <div class="warning-box">
-                <h3>Safety First</h3>
-                <ul>
-                    <li>Don't exercise if blood sugar is above 250 mg/dL with ketones or below 100 mg/dL</li>
-                    <li>Stop immediately if you feel dizzy, confused, or experience chest pain</li>
-                    <li>Start slowly—build up intensity over weeks, not days</li>
-                    <li>Talk to your doctor before starting any new exercise program</li>
-                    <li>Modify exercises as needed—listen to your body</li>
-                </ul>
-            </div>
-
-            <!-- CTA Section -->
-            <div class="cta-section">
-                <h3>👥 Find Your Group Today!</h3>
-                <p>Search for diabetes exercise groups in your area, or invite friends to start your own walking
-                    club!</p>
             </div>
         </div>
     </main>
