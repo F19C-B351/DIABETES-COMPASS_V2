@@ -22,6 +22,15 @@
             text-align: center;
             margin-bottom: 10px;
             font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .share-icon {
+            width: 40px;
+            height: 40px;
         }
 
         .story-form-section .subtitle {
@@ -182,6 +191,151 @@
         .form-group.error .error-message {
             display: block;
         }
+
+        /* Privacy Policy Styles */
+        .privacy-checkbox-group {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .privacy-checkbox-group.error {
+            border-color: #e74c3c;
+            background: #fff5f5;
+        }
+
+        .privacy-checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #2c3e50;
+        }
+
+        .privacy-checkbox-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: #667eea;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .privacy-link {
+            color: #667eea;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .privacy-link:hover {
+            color: #764ba2;
+        }
+
+        /* Privacy Modal */
+        .privacy-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .privacy-modal.active {
+            display: flex;
+        }
+
+        .privacy-modal-content {
+            background: white;
+            max-width: 800px;
+            max-height: 85vh;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .privacy-modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .privacy-modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .privacy-modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .privacy-modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .privacy-modal-body {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: calc(85vh - 140px);
+        }
+
+        .privacy-modal-body h3 {
+            color: #667eea;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .privacy-modal-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .privacy-modal-body p,
+        .privacy-modal-body li {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .privacy-modal-body ul {
+            padding-left: 25px;
+        }
+
+        .gdpr-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #e8f5e9;
+            color: #27ae60;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
@@ -215,7 +369,26 @@
             <a href="index.html" class="back-link">← Back to Home</a>
 
             <section class="story-form-section" id="story-form-section">
-                <h2>📝 Tell Us Your Story</h2>
+                <h2>
+                    <svg class="share-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="32" cy="32" r="30" fill="url(#shareGradient)" opacity="0.1"/>
+                        <path d="M44 24C44 24 40 28 32 28C24 28 20 24 20 24" stroke="url(#shareGradient)" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="20" cy="24" r="6" fill="url(#shareGradient)"/>
+                        <circle cx="44" cy="24" r="6" fill="url(#shareGradient)"/>
+                        <circle cx="32" cy="42" r="6" fill="url(#shareGradient)"/>
+                        <path d="M26 27L29 39" stroke="url(#shareGradient)" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M38 27L35 39" stroke="url(#shareGradient)" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M32 48L32 56" stroke="url(#shareGradient)" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M28 54L32 58L36 54" stroke="url(#shareGradient)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="shareGradient" x1="16" y1="16" x2="48" y2="48">
+                                <stop stop-color="#667eea"/>
+                                <stop offset="1" stop-color="#764ba2"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    Tell Us Your Story
+                </h2>
                 <p class="subtitle">Share your diabetes journey, tips, or experiences to help others in our community
                 </p>
 
@@ -259,6 +432,14 @@
                         <div class="error-message">Please share your story (up to 1000 characters)</div>
                     </div>
 
+                    <div class="privacy-checkbox-group" id="privacy-group">
+                        <label class="privacy-checkbox-label">
+                            <input type="checkbox" id="privacy-agree" name="privacy-agree" required>
+                            <span>I have read and agree to the <span class="privacy-link" onclick="openPrivacyModal()">Privacy Policy</span> and consent to the processing of my personal data in accordance with GDPR. <span class="required">*</span></span>
+                        </label>
+                        <div class="error-message" style="margin-top: 10px; margin-left: 32px;">You must agree to the Privacy Policy to submit your story</div>
+                    </div>
+
                     <button type="submit" class="submit-btn">Submit Your Story</button>
 
                     <div class="form-note">
@@ -286,6 +467,83 @@
         </div>
     </footer>
 
+    <!-- Privacy Policy Modal -->
+    <div class="privacy-modal" id="privacy-modal">
+        <div class="privacy-modal-content">
+            <div class="privacy-modal-header">
+                <h2>Privacy Policy</h2>
+                <button class="privacy-modal-close" onclick="closePrivacyModal()">&times;</button>
+            </div>
+            <div class="privacy-modal-body">
+                <div class="gdpr-badge">
+                    <span>🛡️</span> GDPR Compliant
+                </div>
+
+                <h3>1. Introduction</h3>
+                <p>Diabetes Compass ("we", "our", or "us") is committed to protecting your privacy and personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you submit your story through our "Share Your Story" feature, in compliance with the General Data Protection Regulation (GDPR).</p>
+
+                <h3>2. Data Controller</h3>
+                <p>Diabetes Compass is the data controller for the personal data collected through this form. For any privacy-related inquiries, please contact us at: <strong>denirylands@gmail.com</strong></p>
+
+                <h3>3. Personal Data We Collect</h3>
+                <p>When you submit your story, we collect:</p>
+                <ul>
+                    <li><strong>Email Address</strong> (required) - Used to contact you regarding your submission</li>
+                    <li><strong>Name and Surname</strong> (optional) - Used for attribution if your story is published</li>
+                    <li><strong>Story Content</strong> - Your personal experience you choose to share</li>
+                    <li><strong>Selected Topic</strong> - The category of your story</li>
+                </ul>
+
+                <h3>4. Legal Basis for Processing</h3>
+                <p>We process your personal data based on your <strong>explicit consent</strong> (Article 6(1)(a) GDPR), which you provide by checking the consent checkbox and submitting the form.</p>
+
+                <h3>5. How We Use Your Data</h3>
+                <p>Your personal data will be used to:</p>
+                <ul>
+                    <li>Review and potentially publish your story on our website to inspire others in the diabetes community</li>
+                    <li>Contact you regarding your submission or for clarification</li>
+                    <li>Respond to any questions or concerns you may have</li>
+                </ul>
+
+                <h3>6. Data Sharing</h3>
+                <p>We will <strong>never</strong>:</p>
+                <ul>
+                    <li>Sell your personal data to third parties</li>
+                    <li>Share your email address publicly</li>
+                    <li>Use your data for marketing without separate consent</li>
+                </ul>
+                <p>If your story is published, only your name (if provided) and story content will be visible. Anonymous submissions will be published without attribution.</p>
+
+                <h3>7. Data Retention</h3>
+                <p>We retain your personal data for as long as necessary to fulfill the purposes outlined in this policy, or until you request deletion. Published stories may remain on our website unless you request their removal.</p>
+
+                <h3>8. Your Rights Under GDPR</h3>
+                <p>You have the following rights regarding your personal data:</p>
+                <ul>
+                    <li><strong>Right of Access</strong> - Request a copy of your personal data</li>
+                    <li><strong>Right to Rectification</strong> - Request correction of inaccurate data</li>
+                    <li><strong>Right to Erasure</strong> - Request deletion of your personal data</li>
+                    <li><strong>Right to Restrict Processing</strong> - Limit how we use your data</li>
+                    <li><strong>Right to Data Portability</strong> - Receive your data in a portable format</li>
+                    <li><strong>Right to Withdraw Consent</strong> - Withdraw your consent at any time</li>
+                    <li><strong>Right to Lodge a Complaint</strong> - File a complaint with a supervisory authority</li>
+                </ul>
+
+                <h3>9. Data Security</h3>
+                <p>We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction.</p>
+
+                <h3>10. Contact Us</h3>
+                <p>To exercise any of your rights or for questions about this Privacy Policy, please contact us at:</p>
+                <p><strong>Email:</strong> denirylands@gmail.com</p>
+
+                <h3>11. Updates to This Policy</h3>
+                <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.</p>
+
+                <p style="margin-top: 25px; color: #888; font-size: 0.9rem;"><em>Last updated: February 2026</em></p>
+            </div>
+        </div>
+    </div>
+
     <script>
         function updateCharCounter() {
             const textarea = document.getElementById('story');
@@ -310,6 +568,7 @@
             document.querySelectorAll('.form-group').forEach(group => {
                 group.classList.remove('error');
             });
+            document.getElementById('privacy-group').classList.remove('error');
 
             // Validate email
             const email = document.getElementById('email');
@@ -333,6 +592,13 @@
                 isValid = false;
             }
 
+            // Validate privacy agreement
+            const privacyAgree = document.getElementById('privacy-agree');
+            if (!privacyAgree.checked) {
+                document.getElementById('privacy-group').classList.add('error');
+                isValid = false;
+            }
+
             return isValid;
         }
 
@@ -348,7 +614,9 @@
                 email: document.getElementById('email').value,
                 name: document.getElementById('name').value || 'Anonymous',
                 topic: document.getElementById('topic').value,
-                story: document.getElementById('story').value
+                story: document.getElementById('story').value,
+                privacyConsent: true,
+                consentDate: new Date().toISOString()
             };
 
             // In a real application, you would send this to a server
@@ -361,6 +629,30 @@
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        function openPrivacyModal() {
+            document.getElementById('privacy-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePrivacyModal() {
+            document.getElementById('privacy-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('privacy-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePrivacyModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePrivacyModal();
+            }
+        });
     </script>
 </body>
 
