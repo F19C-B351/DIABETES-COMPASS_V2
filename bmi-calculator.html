@@ -449,6 +449,12 @@
         }
 
         function sendDietEmail() {
+            // Get BMI information
+            const bmiResult = document.getElementById('bmi-result').innerText;
+
+            // Get calorie information
+            const calorieResult = document.getElementById('calorie-result').innerText;
+
             // Get the diet information from the page
             const calories = document.getElementById('diet-calories').textContent;
 
@@ -459,9 +465,19 @@
             const dinner = document.getElementById('dinner-menu').innerText;
             const eveningSnack = document.getElementById('evening-snack-menu').innerText;
 
-            const emailSubject = `Your Customized Diabetes Diet Plan - ${calories} Calories/Day`;
+            const emailSubject = `Your Diabetes Health Summary - BMI & Diet Plan`;
             const emailBody = `
-YOUR CUSTOMIZED DIABETES DIET PLAN
+YOUR DIABETES HEALTH SUMMARY
+===================================
+
+📊 BMI CALCULATION
+${bmiResult}
+
+🔥 DAILY CALORIE INTAKE
+${calorieResult}
+
+===================================
+YOUR CUSTOMIZED DIET PLAN
 ===================================
 Total Daily Calories: ${calories}
 
