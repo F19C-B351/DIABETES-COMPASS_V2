@@ -697,32 +697,47 @@
 
     <script>
         function exportToExcel() {
-            // Define the data
-            const data = [
-                ['Food', 'GI Value', 'Insulin Response'],
-                ['Eggs', '0', 'Very Low'],
-                ['Lettuce/Spinach', '15', 'Very Low'],
-                ['Peanuts', '14', 'Low'],
-                ['Apples', '36', 'Low'],
-                ['Lentils', '32', 'Low'],
-                ['Whole Wheat Bread', '62', 'Moderate'],
-                ['Brown Rice', '68', 'Moderate'],
-                ['Banana (ripe)', '62', 'Moderate'],
-                ['Baked Potato', '85', 'High'],
-                ['Cornflakes', '81', 'High'],
-                ['White Bread', '75', 'High'],
-                ['White Rice', '73', 'High'],
-                ['Glucose', '100', 'Very High']
-            ];
+            // Create HTML table format that Excel reads properly with columns
+            let tableHTML = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        table { border-collapse: collapse; width: 100%; }
+                        th { background-color: #667eea; color: white; font-weight: bold; padding: 10px; border: 1px solid #ccc; }
+                        td { padding: 8px; border: 1px solid #ccc; }
+                        .low { background-color: #e8f5e9; color: #2e7d32; }
+                        .medium { background-color: #fff8e1; color: #ef6c00; }
+                        .high { background-color: #ffebee; color: #c62828; }
+                    </style>
+                </head>
+                <body>
+                    <table>
+                        <tr>
+                            <th>Food</th>
+                            <th>GI Value</th>
+                            <th>Insulin Response</th>
+                        </tr>
+                        <tr><td>Eggs</td><td class="low">0</td><td>Very Low</td></tr>
+                        <tr><td>Lettuce/Spinach</td><td class="low">15</td><td>Very Low</td></tr>
+                        <tr><td>Peanuts</td><td class="low">14</td><td>Low</td></tr>
+                        <tr><td>Apples</td><td class="low">36</td><td>Low</td></tr>
+                        <tr><td>Lentils</td><td class="low">32</td><td>Low</td></tr>
+                        <tr><td>Whole Wheat Bread</td><td class="medium">62</td><td>Moderate</td></tr>
+                        <tr><td>Brown Rice</td><td class="medium">68</td><td>Moderate</td></tr>
+                        <tr><td>Banana (ripe)</td><td class="medium">62</td><td>Moderate</td></tr>
+                        <tr><td>Baked Potato</td><td class="high">85</td><td>High</td></tr>
+                        <tr><td>Cornflakes</td><td class="high">81</td><td>High</td></tr>
+                        <tr><td>White Bread</td><td class="high">75</td><td>High</td></tr>
+                        <tr><td>White Rice</td><td class="high">73</td><td>High</td></tr>
+                        <tr><td>Glucose</td><td class="high">100</td><td>Very High</td></tr>
+                    </table>
+                </body>
+                </html>
+            `;
 
-            // Create CSV content (Excel-compatible)
-            let csvContent = '';
-            data.forEach(row => {
-                csvContent += row.join(',') + '\n';
-            });
-
-            // Create blob and download
-            const blob = new Blob([csvContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+            // Create blob and download as .xls
+            const blob = new Blob([tableHTML], { type: 'application/vnd.ms-excel;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
 
