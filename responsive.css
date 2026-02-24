@@ -69,6 +69,7 @@
 
     .header-content {
         gap: 20px;
+        max-width: 672px;
     }
 
     .header-logo {
