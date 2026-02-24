@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Your Story - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        .story-form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .story-form-section h2 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .story-form-section .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group label .required {
+            color: #e74c3c;
+            margin-left: 3px;
+        }
+
+        .form-group label .optional {
+            color: #95a5a6;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            margin-top: 5px;
+        }
+
+        .char-counter.warning {
+            color: #f39c12;
+        }
+
+        .char-counter.danger {
+            color: #e74c3c;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .form-note {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .success-message .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .success-message h3 {
+            color: #27ae60;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .success-message p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #e74c3c;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>Share Your Story</h1>
+                    <p>Your journey can inspire others living with diabetes</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Home</a>
+
+            <section class="story-form-section" id="story-form-section">
+                <h2>📝 Tell Us Your Story</h2>
+                <p class="subtitle">Share your diabetes journey, tips, or experiences to help others in our community
+                </p>
+
+                <form id="share-story-form" onsubmit="submitStory(event)">
+                    <div class="form-group" id="email-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                        <div class="error-message">Please enter a valid email address</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Name and Surname <span class="optional">(Optional)</span></label>
+                        <input type="text" id="name" name="name" placeholder="John Doe">
+                    </div>
+
+                    <div class="form-group" id="topic-group">
+                        <label for="topic">Topic <span class="required">*</span></label>
+                        <select id="topic" name="topic" required>
+                            <option value="">Select a topic...</option>
+                            <option value="diagnosis">My Diagnosis Journey</option>
+                            <option value="management">Daily Management Tips</option>
+                            <option value="diet">Diet & Nutrition Success</option>
+                            <option value="exercise">Exercise & Fitness</option>
+                            <option value="emotional">Emotional Support & Mental Health</option>
+                            <option value="family">Family & Relationships</option>
+                            <option value="technology">Diabetes Technology & Devices</option>
+                            <option value="travel">Traveling with Diabetes</option>
+                            <option value="workplace">Diabetes at Work/School</option>
+                            <option value="inspiration">Inspirational Story</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="error-message">Please select a topic</div>
+                    </div>
+
+                    <div class="form-group" id="story-group">
+                        <label for="story">Your Story <span class="required">*</span></label>
+                        <textarea id="story" name="story"
+                            placeholder="Share your experience, tips, challenges, or words of encouragement..."
+                            maxlength="1000" required oninput="updateCharCounter()"></textarea>
+                        <div class="char-counter"><span id="char-count">0</span> / 1000 characters</div>
+                        <div class="error-message">Please share your story (up to 1000 characters)</div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Your Story</button>
+
+                    <div class="form-note">
+                        <strong>Privacy Note:</strong> Your story may be featured on our website to inspire others. We
+                        will never share your email address publicly.
+                    </div>
+                </form>
+            </section>
+
+            <div class="success-message" id="success-message">
+                <div class="icon">🎉</div>
+                <h3>Thank You for Sharing!</h3>
+                <p>Your story has been submitted successfully. We appreciate you sharing your experience with our
+                    diabetes community.</p>
+                <br>
+                <a href="index.html" class="submit-btn"
+                    style="display: inline-block; text-decoration: none; max-width: 300px;">Return to Home</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Diabetes Compass. Your guide to better health.</p>
+        </div>
+    </footer>
+
+    <script>
+        function updateCharCounter() {
+            const textarea = document.getElementById('story');
+            const counter = document.getElementById('char-count');
+            const counterDiv = document.querySelector('.char-counter');
+            const count = textarea.value.length;
+
+            counter.textContent = count;
+
+            counterDiv.classList.remove('warning', 'danger');
+            if (count >= 900 && count < 1000) {
+                counterDiv.classList.add('warning');
+            } else if (count >= 1000) {
+                counterDiv.classList.add('danger');
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+
+            // Reset errors
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+
+            // Validate email
+            const email = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value || !emailRegex.test(email.value)) {
+                document.getElementById('email-group').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate topic
+            const topic = document.getElementById('topic');
+            if (!topic.value) {
+                document.getElementById('topic-group').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate story
+            const story = document.getElementById('story');
+            if (!story.value.trim()) {
+                document.getElementById('story-group').classList.add('error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function submitStory(event) {
+            event.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            // Get form data
+            const formData = {
+                email: document.getElementById('email').value,
+                name: document.getElementById('name').value || 'Anonymous',
+                topic: document.getElementById('topic').value,
+                story: document.getElementById('story').value
+            };
+
+            // In a real application, you would send this to a server
+            console.log('Story submitted:', formData);
+
+            // Show success message
+            document.getElementById('story-form-section').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
