@@ -50,6 +50,57 @@
     /* Align with tiles section instead of hero */
 }
 
+/* Right Sidebar */
+.sidebar-right {
+    width: 280px;
+    position: sticky;
+    top: 120px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    margin-top: 80px;
+}
+
+.sidebar-right .sidebar-content {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+    color: white;
+}
+
+.sidebar-right .sidebar-content h3 {
+    color: white;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-right .treatment-link {
+    display: block;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 20px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.sidebar-right .treatment-link:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateX(5px);
+}
+
+.sidebar-right .treatment-link h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-right .treatment-link p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
 .sidebar-content {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);

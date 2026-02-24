@@ -324,6 +324,14 @@
         top: auto;
         margin-top: 20px;
     }
+
+    .sidebar-right {
+        width: 100%;
+        position: relative;
+        top: auto;
+        margin-top: 20px;
+        order: -1;
+    }
 }
 
 /* Mobile (max-width: 575px) */
@@ -647,6 +655,15 @@
         max-height: none;
     }
 
+    .sidebar-right {
+        width: 100%;
+        position: relative;
+        top: auto;
+        margin-top: 15px;
+        max-height: none;
+        order: -1;
+    }
+
     .sidebar-content {
         padding: 15px;
     }
@@ -748,6 +765,7 @@
     .chatbot-toggle,
     .chatbot-container,
     .sidebar,
+    .sidebar-right,
     footer {
         display: none !important;
     }
