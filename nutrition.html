@@ -225,6 +225,108 @@
         .back-link:hover {
             transform: translateX(-5px);
         }
+
+        /* GI Table Styles */
+        .gi-table-section {
+            margin: 40px 0;
+        }
+
+        .gi-table-section h3 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+        }
+
+        .gi-table-container {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .gi-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 0.95rem;
+        }
+
+        .gi-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .gi-table td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .gi-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .gi-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .gi-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .gi-badge.low {
+            background: rgba(76, 175, 80, 0.15);
+            color: #2e7d32;
+        }
+
+        .gi-badge.medium {
+            background: rgba(255, 152, 0, 0.15);
+            color: #ef6c00;
+        }
+
+        .gi-badge.high {
+            background: rgba(244, 67, 54, 0.15);
+            color: #c62828;
+        }
+
+        .insulin-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .insulin-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #e9ecef;
+            width: 100px;
+            overflow: hidden;
+        }
+
+        .insulin-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .insulin-fill.low {
+            background: #4caf50;
+        }
+
+        .insulin-fill.medium {
+            background: #ff9800;
+        }
+
+        .insulin-fill.high {
+            background: #f44336;
+        }
     </style>
 </head>
 
@@ -325,6 +427,180 @@
                             <li>Rice Cakes <span class="gi-value">82</span></li>
                             <li>Instant Oatmeal <span class="gi-value">79</span></li>
                         </ul>
+                    </div>
+                </div>
+
+                <!-- GI and Insulin Table -->
+                <div class="gi-table-section">
+                    <h3>📊 Food, Glycemic Index & Insulin Response</h3>
+                    <div class="gi-table-container">
+                        <table class="gi-table">
+                            <thead>
+                                <tr>
+                                    <th>Food</th>
+                                    <th>GI Value</th>
+                                    <th>Insulin Response</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>🥚 Eggs</td>
+                                    <td><span class="gi-badge low">0</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill low" style="width: 10%;"></div>
+                                            </div>
+                                            <span>Very Low</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🥗 Lettuce/Spinach</td>
+                                    <td><span class="gi-badge low">15</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill low" style="width: 15%;"></div>
+                                            </div>
+                                            <span>Very Low</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🥜 Peanuts</td>
+                                    <td><span class="gi-badge low">14</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill low" style="width: 20%;"></div>
+                                            </div>
+                                            <span>Low</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🍎 Apples</td>
+                                    <td><span class="gi-badge low">36</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill low" style="width: 30%;"></div>
+                                            </div>
+                                            <span>Low</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🫘 Lentils</td>
+                                    <td><span class="gi-badge low">32</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill low" style="width: 28%;"></div>
+                                            </div>
+                                            <span>Low</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🍞 Whole Wheat Bread</td>
+                                    <td><span class="gi-badge medium">62</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill medium" style="width: 55%;"></div>
+                                            </div>
+                                            <span>Moderate</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🍚 Brown Rice</td>
+                                    <td><span class="gi-badge medium">68</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill medium" style="width: 60%;"></div>
+                                            </div>
+                                            <span>Moderate</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🍌 Banana (ripe)</td>
+                                    <td><span class="gi-badge medium">62</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill medium" style="width: 65%;"></div>
+                                            </div>
+                                            <span>Moderate</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🥔 Baked Potato</td>
+                                    <td><span class="gi-badge high">85</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill high" style="width: 80%;"></div>
+                                            </div>
+                                            <span>High</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🥣 Cornflakes</td>
+                                    <td><span class="gi-badge high">81</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill high" style="width: 85%;"></div>
+                                            </div>
+                                            <span>High</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🍞 White Bread</td>
+                                    <td><span class="gi-badge high">75</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill high" style="width: 90%;"></div>
+                                            </div>
+                                            <span>High</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🍚 White Rice</td>
+                                    <td><span class="gi-badge high">73</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill high" style="width: 78%;"></div>
+                                            </div>
+                                            <span>High</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>🍬 Glucose</td>
+                                    <td><span class="gi-badge high">100</span></td>
+                                    <td>
+                                        <div class="insulin-indicator">
+                                            <div class="insulin-bar">
+                                                <div class="insulin-fill high" style="width: 100%;"></div>
+                                            </div>
+                                            <span>Very High</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
