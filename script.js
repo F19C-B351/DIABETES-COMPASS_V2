@@ -394,8 +394,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 followUp: ["Interested in nutrition?", "Want to see physical activities?", "Need doctor information?"]
             },
             "nutrition": {
-                response: "Proper nutrition is essential for diabetes management. Our nutrition section covers meal planning, carbohydrate counting, healthy food choices, and diabetic-friendly recipes. A balanced diet helps maintain stable blood sugar levels.",
-                followUp: ["Need meal planning tips?", "Want recipe suggestions?", "Interested in carb counting?"]
+                response: "Proper nutrition is essential for diabetes management. Our Nutrition page includes a comprehensive Glycemic Index (GI) guide showing which foods affect blood sugar and how. Visit the Nutrition section to learn about low, medium, and high GI foods, plus tips for managing glycemic impact.",
+                followUp: ["What is Glycemic Index?", "Show me low GI foods", "Need meal planning tips?"]
             },
             "diabetes basics": {
                 response: "Diabetes is a condition affecting how your body processes blood sugar. Our website provides information on Type 1, Type 2, and gestational diabetes, along with management tips, lifestyle guidance, and resources for living well with diabetes.",
