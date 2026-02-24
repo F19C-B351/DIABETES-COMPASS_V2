@@ -8,6 +8,98 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive.css">
     <style>
+        /* Page Layout */
+        .treatments-page-layout {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        /* Left Sidebar */
+        .treatments-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .treatments-sidebar-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .treatments-sidebar h2 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-category {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-category:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-category h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sidebar-category ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-category ul li {
+            padding: 4px 0;
+            padding-left: 18px;
+            position: relative;
+            color: #555;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .sidebar-category ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        /* Main Content */
+        .treatments-main-content {
+            flex: 1;
+            min-width: 0;
+        }
+
         .treatments-section {
             background: white;
             padding: 40px;
@@ -337,6 +429,41 @@
             color: #e65100;
             margin: 0;
         }
+
+        /* Responsive styles for treatments page */
+        @media (max-width: 992px) {
+            .treatments-page-layout {
+                flex-direction: column;
+            }
+
+            .treatments-sidebar {
+                width: 100%;
+                position: relative;
+                top: auto;
+                max-height: none;
+                margin-bottom: 30px;
+            }
+
+            .treatments-sidebar-content {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .treatments-sidebar h2 {
+                grid-column: 1 / -1;
+            }
+
+            .sidebar-category {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .treatments-sidebar-content {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -369,278 +496,233 @@
         <div class="container">
             <a href="index.html" class="back-link">← Back to Home</a>
 
-            <!-- Research Articles Section -->
-            <section class="research-section">
-                <h2>📚 Latest Research & Scientific Articles</h2>
-                <div class="research-grid">
-                    <!-- Article 1: Stem Cell Therapy -->
-                    <div class="research-article">
-                        <img src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs42003-025-08244-z/MediaObjects/42003_2025_8244_Fig1_HTML.png"
-                            alt="Stem Cell Therapy Research">
-                        <div class="research-article-content">
-                            <span class="source">Nature Communications Biology • 2025</span>
-                            <h3>Adipose-derived Mesenchymal Stem Cells in Type 1 Diabetes</h3>
-                            <p>Stem-cell therapies aim to restore insulin-producing beta cells and regulate the immune
-                                system, offering hope for a functional cure.</p>
-                            <a href="https://www.nature.com/articles/s42003-025-08244-z" class="read-more-btn"
-                                target="_blank" rel="noopener noreferrer">
-                                Read Full Article →
-                            </a>
+            <div class="treatments-page-layout">
+                <!-- Left Sidebar -->
+                <aside class="treatments-sidebar">
+                    <div class="treatments-sidebar-content">
+                        <h2>💊 Modern Diabetes Treatments</h2>
+
+                        <div class="sidebar-category">
+                            <h4>💉 Insulin Therapies</h4>
+                            <ul>
+                                <li>Ultra-rapid acting (Fiasp, Lyumjev)</li>
+                                <li>Long-acting basal (Tresiba, Toujeo)</li>
+                                <li>Weekly insulin (Icodec)</li>
+                                <li>Inhaled insulin (Afrezza)</li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-category">
+                            <h4>💊 Oral Medications</h4>
+                            <ul>
+                                <li>SGLT2 inhibitors</li>
+                                <li>GLP-1 receptor agonists (oral)</li>
+                                <li>Metformin</li>
+                                <li>DPP-4 inhibitors</li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-category">
+                            <h4>💉 Injectable Non-Insulin</h4>
+                            <ul>
+                                <li>Semaglutide (Ozempic)</li>
+                                <li>Tirzepatide (Mounjaro)</li>
+                                <li>Dulaglutide (Trulicity)</li>
+                                <li>Liraglutide (Victoza)</li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-category">
+                            <h4>🔬 Emerging Therapies</h4>
+                            <ul>
+                                <li>Stem cell therapies</li>
+                                <li>Beta cell regeneration</li>
+                                <li>Immunotherapy (Type 1)</li>
+                                <li>Gene therapy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="treatments-main-content">
+                    <!-- Research Articles Section -->
+                    <section class="research-section">
+                        <h2>📚 Latest Research & Scientific Articles</h2>
+                        <div class="research-grid">
+                            <!-- Article 1: Stem Cell Therapy -->
+                            <div class="research-article">
+                                <img src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs42003-025-08244-z/MediaObjects/42003_2025_8244_Fig1_HTML.png"
+                                    alt="Stem Cell Therapy Research">
+                                <div class="research-article-content">
+                                    <span class="source">Nature Communications Biology • 2025</span>
+                                    <h3>Adipose-derived Mesenchymal Stem Cells in Type 1 Diabetes</h3>
+                                    <p>Stem-cell therapies aim to restore insulin-producing beta cells and regulate the
+                                        immune
+                                        system, offering hope for a functional cure.</p>
+                                    <a href="https://www.nature.com/articles/s42003-025-08244-z" class="read-more-btn"
+                                        target="_blank" rel="noopener noreferrer">
+                                        Read Full Article →
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Article 2: Stem Cell Transplantation -->
+                            <div class="research-article">
+                                <img src="https://www.frontiersin.org/files/Articles/859638/xml-images/fendo-13-859638-g001.webp"
+                                    alt="Stem Cell Transplantation">
+                                <div class="research-article-content">
+                                    <span class="source">Frontiers in Endocrinology • 2022</span>
+                                    <h3>Stem Cell Transplantation in Type 1 Diabetes</h3>
+                                    <p>Comprehensive review of stem cell transplantation approaches for restoring beta
+                                        cell
+                                        function in Type 1 diabetes patients.</p>
+                                    <a href="https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2022.859638/full"
+                                        class="read-more-btn" target="_blank" rel="noopener noreferrer">
+                                        Read Full Article →
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Article 3: Functional Cure -->
+                            <div class="research-article">
+                                <img src="https://images.unsplash.com/photo-1579165466991-467135ad3110?w=800&h=400&fit=crop"
+                                    alt="Stem Cell Research">
+                                <div class="research-article-content">
+                                    <span class="source">Science Direct • 2024</span>
+                                    <h3>Breakthrough in Human Induced Pluripotent Stem Cells for Type 1 Diabetes</h3>
+                                    <p>This research explores stem-cell–derived insulin-producing cells as a potential
+                                        functional cure for Type 1 diabetes.</p>
+                                    <a href="https://www.sciencedirect.com/science/article/pii/S2666675824001814"
+                                        class="read-more-btn" target="_blank" rel="noopener noreferrer">
+                                        Read Full Article →
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Article 4: Bioartificial Pancreas -->
+                            <div class="research-article">
+                                <img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&h=400&fit=crop"
+                                    alt="Bioartificial Pancreas">
+                                <div class="research-article-content">
+                                    <span class="source">Frontiers in Biomaterials Science • 2025</span>
+                                    <h3>Bioartificial Pancreas and Beta-Cell Technology</h3>
+                                    <p>Bioengineered pancreas devices aim to replace insulin injections with automated,
+                                        biological insulin production.</p>
+                                    <a href="https://www.frontiersin.org/journals/biomaterials-science/articles/10.3389/fbiom.2025.1524518/full"
+                                        class="read-more-btn" target="_blank" rel="noopener noreferrer">
+                                        Read Full Article →
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Article 5: Future Therapies Lancet -->
+                            <div class="research-article">
+                                <img src="https://www.thelancet.com/cms/10.1016/S0140-6736%2825%2901438-2/asset/d2ea1bd5-4b57-4702-8781-1ea9481d63fb/main.assets/gr2_lrg.jpg"
+                                    alt="Future Diabetes Therapies">
+                                <div class="research-article-content">
+                                    <span class="source">The Lancet • 2025</span>
+                                    <h3>The Future of Type 1 Diabetes Therapy</h3>
+                                    <p>Comprehensive overview of gene therapy, stem cells, and artificial pancreas
+                                        technology
+                                        for future diabetes treatment.</p>
+                                    <a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(25)01438-2/fulltext"
+                                        class="read-more-btn" target="_blank" rel="noopener noreferrer">
+                                        Read Full Article →
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Article 6: GLP-1 Therapies -->
+                            <div class="research-article">
+                                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop"
+                                    alt="GLP-1 Drug Therapy">
+                                <div class="research-article-content">
+                                    <span class="source">Springer - Stem Cell Research & Therapy • 2025</span>
+                                    <h3>GLP-1 Therapies and Stem Cells in Type 2 Diabetes</h3>
+                                    <p>GLP-1 drugs help control blood sugar and improve insulin production, representing
+                                        the
+                                        latest advances in Type 2 diabetes care.</p>
+                                    <a href="https://link.springer.com/article/10.1186/s13287-025-04369-4"
+                                        class="read-more-btn" target="_blank" rel="noopener noreferrer">
+                                        Read Full Article →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Breakthrough Section -->
+                    <div class="breakthrough-section">
+                        <h2>🚀 Recent Breakthroughs</h2>
+                        <div class="breakthrough-grid">
+                            <div class="breakthrough-card">
+                                <h4><span class="year">2025</span> Weekly Insulin</h4>
+                                <p>Insulin Icodec approved - once-weekly injection replacing daily basal insulin shots.
+                                </p>
+                            </div>
+                            <div class="breakthrough-card">
+                                <h4><span class="year">2024</span> Dual Action GIP/GLP-1</h4>
+                                <p>Tirzepatide shows unprecedented A1C reductions up to 2.5% with significant weight
+                                    loss.</p>
+                            </div>
+                            <div class="breakthrough-card">
+                                <h4><span class="year">2024</span> Closed-Loop Systems</h4>
+                                <p>Advanced hybrid closed-loop insulin pumps with improved algorithms for better
+                                    overnight
+                                    control.</p>
+                            </div>
+                            <div class="breakthrough-card">
+                                <h4><span class="year">2023</span> Stem Cell Progress</h4>
+                                <p>First patients with Type 1 diabetes becoming insulin-independent after stem cell
+                                    therapy.</p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Article 2: Stem Cell Transplantation -->
-                    <div class="research-article">
-                        <img src="https://www.frontiersin.org/files/Articles/859638/xml-images/fendo-13-859638-g001.webp"
-                            alt="Stem Cell Transplantation">
-                        <div class="research-article-content">
-                            <span class="source">Frontiers in Endocrinology • 2022</span>
-                            <h3>Stem Cell Transplantation in Type 1 Diabetes</h3>
-                            <p>Comprehensive review of stem cell transplantation approaches for restoring beta cell
-                                function in Type 1 diabetes patients.</p>
-                            <a href="https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2022.859638/full"
-                                class="read-more-btn" target="_blank" rel="noopener noreferrer">
-                                Read Full Article →
-                            </a>
+                    <!-- Technology Section -->
+                    <section class="technology-section">
+                        <h2>🔧 Diabetes Technology</h2>
+                        <div class="tech-grid">
+                            <div class="tech-card">
+                                <div class="icon">📱</div>
+                                <h3>Continuous Glucose Monitors</h3>
+                                <p>Real-time glucose tracking with smartphone integration. Dexcom G7, Libre 3, and
+                                    Guardian 4
+                                    offer accurate readings without fingersticks.</p>
+                            </div>
+                            <div class="tech-card">
+                                <div class="icon">⌚</div>
+                                <h3>Smart Insulin Pumps</h3>
+                                <p>Automated insulin delivery systems that adjust doses based on CGM readings. Features
+                                    predictive alerts and closed-loop technology.</p>
+                            </div>
+                            <div class="tech-card">
+                                <div class="icon">🤖</div>
+                                <h3>AI-Powered Management</h3>
+                                <p>Artificial intelligence analyzes patterns to optimize insulin dosing, predict glucose
+                                    trends,
+                                    and provide personalized recommendations.</p>
+                            </div>
+                            <div class="tech-card">
+                                <div class="icon">💊</div>
+                                <h3>Smart Insulin Pens</h3>
+                                <p>Connected pens that track doses, timing, and temperature. Sync with apps to prevent
+                                    missed or
+                                    double doses.</p>
+                            </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <!-- Article 3: Functional Cure -->
-                    <div class="research-article">
-                        <img src="https://images.unsplash.com/photo-1579165466991-467135ad3110?w=800&h=400&fit=crop"
-                            alt="Stem Cell Research">
-                        <div class="research-article-content">
-                            <span class="source">Science Direct • 2024</span>
-                            <h3>Breakthrough in Human Induced Pluripotent Stem Cells for Type 1 Diabetes</h3>
-                            <p>This research explores stem-cell–derived insulin-producing cells as a potential
-                                functional cure for Type 1 diabetes.</p>
-                            <a href="https://www.sciencedirect.com/science/article/pii/S2666675824001814"
-                                class="read-more-btn" target="_blank" rel="noopener noreferrer">
-                                Read Full Article →
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Article 4: Bioartificial Pancreas -->
-                    <div class="research-article">
-                        <img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&h=400&fit=crop"
-                            alt="Bioartificial Pancreas">
-                        <div class="research-article-content">
-                            <span class="source">Frontiers in Biomaterials Science • 2025</span>
-                            <h3>Bioartificial Pancreas and Beta-Cell Technology</h3>
-                            <p>Bioengineered pancreas devices aim to replace insulin injections with automated,
-                                biological insulin production.</p>
-                            <a href="https://www.frontiersin.org/journals/biomaterials-science/articles/10.3389/fbiom.2025.1524518/full"
-                                class="read-more-btn" target="_blank" rel="noopener noreferrer">
-                                Read Full Article →
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Article 5: Future Therapies Lancet -->
-                    <div class="research-article">
-                        <img src="https://www.thelancet.com/cms/10.1016/S0140-6736%2825%2901438-2/asset/d2ea1bd5-4b57-4702-8781-1ea9481d63fb/main.assets/gr2_lrg.jpg"
-                            alt="Future Diabetes Therapies">
-                        <div class="research-article-content">
-                            <span class="source">The Lancet • 2025</span>
-                            <h3>The Future of Type 1 Diabetes Therapy</h3>
-                            <p>Comprehensive overview of gene therapy, stem cells, and artificial pancreas technology
-                                for future diabetes treatment.</p>
-                            <a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(25)01438-2/fulltext"
-                                class="read-more-btn" target="_blank" rel="noopener noreferrer">
-                                Read Full Article →
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Article 6: GLP-1 Therapies -->
-                    <div class="research-article">
-                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop"
-                            alt="GLP-1 Drug Therapy">
-                        <div class="research-article-content">
-                            <span class="source">Springer - Stem Cell Research & Therapy • 2025</span>
-                            <h3>GLP-1 Therapies and Stem Cells in Type 2 Diabetes</h3>
-                            <p>GLP-1 drugs help control blood sugar and improve insulin production, representing the
-                                latest advances in Type 2 diabetes care.</p>
-                            <a href="https://link.springer.com/article/10.1186/s13287-025-04369-4" class="read-more-btn"
-                                target="_blank" rel="noopener noreferrer">
-                                Read Full Article →
-                            </a>
-                        </div>
+                    <!-- Disclaimer -->
+                    <div class="disclaimer">
+                        <p><strong>⚠️ Medical Disclaimer:</strong> This information is for educational purposes only and
+                            should
+                            not replace professional medical advice. Always consult your healthcare provider before
+                            starting,
+                            stopping, or changing any medication or treatment plan.</p>
                     </div>
                 </div>
-            </section>
-
-            <section class="treatments-section">
-                <h2>💊 Modern Diabetes Treatments</h2>
-                <p class="subtitle">Explore the latest medications, therapies, and technologies revolutionizing diabetes
-                    management in 2026.</p>
-
-                <!-- Treatment Categories -->
-                <div class="treatment-categories">
-                    <div class="treatment-card">
-                        <h3>💉 Insulin Therapies</h3>
-                        <p>Advanced insulin options for precise blood sugar control:</p>
-                        <ul>
-                            <li>Ultra-rapid acting insulins (Fiasp, Lyumjev)</li>
-                            <li>Long-acting basal insulins (Tresiba, Toujeo)</li>
-                            <li>Weekly insulin injections (Icodec)</li>
-                            <li>Inhaled insulin (Afrezza)</li>
-                            <li>Smart insulin pens with tracking</li>
-                        </ul>
-                    </div>
-
-                    <div class="treatment-card">
-                        <h3>💊 Oral Medications</h3>
-                        <p>Pills that help manage Type 2 diabetes:</p>
-                        <ul>
-                            <li>SGLT2 inhibitors (kidney & heart protection)</li>
-                            <li>GLP-1 receptor agonists (oral form)</li>
-                            <li>Metformin (first-line treatment)</li>
-                            <li>DPP-4 inhibitors</li>
-                            <li>Combination therapies</li>
-                        </ul>
-                    </div>
-
-                    <div class="treatment-card">
-                        <h3>💉 Injectable Non-Insulin</h3>
-                        <p>Non-insulin injections for blood sugar and weight:</p>
-                        <ul>
-                            <li>Semaglutide (Ozempic, Wegovy)</li>
-                            <li>Tirzepatide (Mounjaro, Zepbound)</li>
-                            <li>Dulaglutide (Trulicity)</li>
-                            <li>Liraglutide (Victoza)</li>
-                            <li>Exenatide (Byetta, Bydureon)</li>
-                        </ul>
-                    </div>
-
-                    <div class="treatment-card">
-                        <h3>🔬 Emerging Therapies</h3>
-                        <p>Cutting-edge treatments in development:</p>
-                        <ul>
-                            <li>Stem cell therapies</li>
-                            <li>Beta cell regeneration</li>
-                            <li>Immunotherapy for Type 1</li>
-                            <li>Gene therapy approaches</li>
-                            <li>Artificial pancreas systems</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Medication Table -->
-                <h3 style="color: #667eea; text-align: center; margin: 40px 0 20px;">📋 Common Diabetes Medications</h3>
-                <div style="overflow-x: auto;">
-                    <table class="medication-table">
-                        <thead>
-                            <tr>
-                                <th>Medication</th>
-                                <th>Class</th>
-                                <th>Type</th>
-                                <th>Key Benefits</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Metformin</strong></td>
-                                <td>Biguanide</td>
-                                <td><span class="type-badge type2">Type 2</span></td>
-                                <td>First-line, weight neutral, low cost</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Semaglutide</strong></td>
-                                <td>GLP-1 RA</td>
-                                <td><span class="type-badge type2">Type 2</span></td>
-                                <td>Weight loss, heart protection, weekly</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Tirzepatide</strong></td>
-                                <td>GIP/GLP-1</td>
-                                <td><span class="type-badge type2">Type 2</span></td>
-                                <td>Superior A1C reduction, weight loss</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Empagliflozin</strong></td>
-                                <td>SGLT2i</td>
-                                <td><span class="type-badge type2">Type 2</span></td>
-                                <td>Heart & kidney protection</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Insulin Degludec</strong></td>
-                                <td>Basal Insulin</td>
-                                <td><span class="type-badge both">Type 1 & 2</span></td>
-                                <td>Ultra-long acting, flexible dosing</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Insulin Lispro-aabc</strong></td>
-                                <td>Rapid Insulin</td>
-                                <td><span class="type-badge both">Type 1 & 2</span></td>
-                                <td>Ultra-fast onset, meal flexibility</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Breakthrough Section -->
-            <div class="breakthrough-section">
-                <h2>🚀 Recent Breakthroughs</h2>
-                <div class="breakthrough-grid">
-                    <div class="breakthrough-card">
-                        <h4><span class="year">2025</span> Weekly Insulin</h4>
-                        <p>Insulin Icodec approved - once-weekly injection replacing daily basal insulin shots.</p>
-                    </div>
-                    <div class="breakthrough-card">
-                        <h4><span class="year">2024</span> Dual Action GIP/GLP-1</h4>
-                        <p>Tirzepatide shows unprecedented A1C reductions up to 2.5% with significant weight loss.</p>
-                    </div>
-                    <div class="breakthrough-card">
-                        <h4><span class="year">2024</span> Closed-Loop Systems</h4>
-                        <p>Advanced hybrid closed-loop insulin pumps with improved algorithms for better overnight
-                            control.</p>
-                    </div>
-                    <div class="breakthrough-card">
-                        <h4><span class="year">2023</span> Stem Cell Progress</h4>
-                        <p>First patients with Type 1 diabetes becoming insulin-independent after stem cell therapy.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Technology Section -->
-            <section class="technology-section">
-                <h2>🔧 Diabetes Technology</h2>
-                <div class="tech-grid">
-                    <div class="tech-card">
-                        <div class="icon">📱</div>
-                        <h3>Continuous Glucose Monitors</h3>
-                        <p>Real-time glucose tracking with smartphone integration. Dexcom G7, Libre 3, and Guardian 4
-                            offer accurate readings without fingersticks.</p>
-                    </div>
-                    <div class="tech-card">
-                        <div class="icon">⌚</div>
-                        <h3>Smart Insulin Pumps</h3>
-                        <p>Automated insulin delivery systems that adjust doses based on CGM readings. Features
-                            predictive alerts and closed-loop technology.</p>
-                    </div>
-                    <div class="tech-card">
-                        <div class="icon">🤖</div>
-                        <h3>AI-Powered Management</h3>
-                        <p>Artificial intelligence analyzes patterns to optimize insulin dosing, predict glucose trends,
-                            and provide personalized recommendations.</p>
-                    </div>
-                    <div class="tech-card">
-                        <div class="icon">💊</div>
-                        <h3>Smart Insulin Pens</h3>
-                        <p>Connected pens that track doses, timing, and temperature. Sync with apps to prevent missed or
-                            double doses.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Disclaimer -->
-            <div class="disclaimer">
-                <p><strong>⚠️ Medical Disclaimer:</strong> This information is for educational purposes only and should
-                    not replace professional medical advice. Always consult your healthcare provider before starting,
-                    stopping, or changing any medication or treatment plan.</p>
             </div>
         </div>
     </main>
