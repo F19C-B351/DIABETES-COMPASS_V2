@@ -1,0 +1,770 @@
+/* ====================================
+   COMPREHENSIVE RESPONSIVE DESIGN
+   Diabetes Compass V2
+   ==================================== */
+
+/* Large Desktop (1200px and above) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+    }
+
+    .calculator-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem;
+    }
+
+    .tiles-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .info-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .diet-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+/* Desktop (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .container {
+        max-width: 960px;
+        padding: 0 20px;
+    }
+
+    .calculator-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    .tiles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .diet-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* Tablet Landscape (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    body {
+        zoom: 90%;
+    }
+
+    .container {
+        max-width: 720px;
+        padding: 0 15px;
+    }
+
+    header {
+        padding: 100px 0 50px;
+    }
+
+    header h1 {
+        font-size: 2.2rem;
+    }
+
+    .header-content {
+        gap: 20px;
+    }
+
+    .header-logo {
+        width: 70px;
+        height: 70px;
+    }
+
+    .nav-menu {
+        gap: 1.5rem;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+    }
+
+    .tiles-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .calculator-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .calculator-card {
+        padding: 2rem;
+    }
+
+    .calculator-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .diet-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+
+    .diet-card {
+        padding: 20px !important;
+    }
+
+    .chatbot-container {
+        width: 380px;
+        height: 480px;
+    }
+
+    /* About Us page */
+    .video-section {
+        padding: 20px;
+    }
+
+    .video-section video {
+        max-height: 400px;
+    }
+
+    .about-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tablet Portrait (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    body {
+        zoom: 100%;
+    }
+
+    .container {
+        max-width: 540px;
+        padding: 0 15px;
+    }
+
+    header {
+        padding: 90px 0 40px;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    header p {
+        font-size: 0.95rem;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .header-text {
+        text-align: center;
+    }
+
+    .header-logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .nav-link {
+        font-size: 0.85rem;
+    }
+
+    .hero {
+        padding: 30px 20px;
+    }
+
+    .hero h2 {
+        font-size: 1.7rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .tiles-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .nav-tile {
+        height: 260px;
+    }
+
+    .tile-photo {
+        height: 160px;
+    }
+
+    .tile-content {
+        padding: 12px 15px;
+    }
+
+    .tile-content h3 {
+        font-size: 1.1rem;
+    }
+
+    .calculator-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .calculator-card {
+        padding: 1.5rem;
+    }
+
+    .calculator-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .input-group {
+        margin-bottom: 1rem;
+    }
+
+    .calc-button {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+
+    .info-section {
+        padding: 2rem 0;
+    }
+
+    .info-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .info-card {
+        padding: 1.5rem;
+    }
+
+    .diet-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+
+    .diet-card {
+        padding: 18px !important;
+    }
+
+    .diet-card h3 {
+        font-size: 1.1rem !important;
+    }
+
+    .chatbot-container {
+        width: 340px;
+        height: 450px;
+        right: 10px;
+        bottom: 10px;
+    }
+
+    .chatbot-toggle {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+
+    footer {
+        padding: 20px 0;
+        margin-top: 40px;
+    }
+
+    /* About Us page */
+    .video-section {
+        padding: 15px;
+        margin: 20px 0;
+    }
+
+    .video-section video {
+        max-height: 350px;
+    }
+
+    .welcome-section {
+        padding: 25px;
+    }
+
+    .welcome-section h2 {
+        font-size: 1.6rem;
+    }
+
+    .about-cards {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* Sidebar */
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: relative;
+        top: auto;
+        margin-top: 20px;
+    }
+}
+
+/* Mobile (max-width: 575px) */
+@media (max-width: 575px) {
+    body {
+        zoom: 100%;
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 0 12px;
+    }
+
+    header {
+        padding: 80px 0 30px;
+        margin-bottom: 20px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+
+    header p {
+        font-size: 0.9rem;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .header-text {
+        text-align: center;
+    }
+
+    .header-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .navbar {
+        padding: 0.75rem 0;
+    }
+
+    .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem 1rem;
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+        padding: 5px;
+    }
+
+    .hero {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
+
+    .hero h2 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    .tiles-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .nav-tile {
+        height: auto;
+        min-height: 220px;
+    }
+
+    .tile-photo {
+        height: 140px;
+    }
+
+    .tile-content {
+        padding: 12px;
+    }
+
+    .tile-content h3 {
+        font-size: 1.1rem;
+    }
+
+    /* Calculator Styles */
+    .calculator-section {
+        padding: 2rem 0;
+    }
+
+    .calculator-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .calculator-card {
+        padding: 1.2rem;
+        border-radius: 15px;
+    }
+
+    .calculator-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .input-group {
+        margin-bottom: 0.8rem;
+    }
+
+    .input-group label {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .input-group input,
+    .input-group select {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+    }
+
+    .calc-button {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+    }
+
+    .result-display {
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    /* Info Section */
+    .info-section {
+        padding: 1.5rem 0;
+    }
+
+    .info-section h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .info-card {
+        padding: 1.2rem;
+    }
+
+    .info-card h4 {
+        font-size: 1.1rem;
+    }
+
+    .info-card p,
+    .info-card li {
+        font-size: 0.9rem;
+    }
+
+    /* Diet Section */
+    .diet-section {
+        padding: 1.5rem 0 !important;
+    }
+
+    .diet-section h2 {
+        font-size: 1.3rem !important;
+        margin-bottom: 20px !important;
+    }
+
+    .diet-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .diet-card {
+        padding: 15px !important;
+        border-radius: 12px !important;
+    }
+
+    .diet-card h3 {
+        font-size: 1rem !important;
+        margin-bottom: 10px !important;
+    }
+
+    .diet-card li {
+        font-size: 0.85rem;
+        padding: 4px 0 !important;
+    }
+
+    /* Chatbot */
+    .chatbot-container {
+        width: 95vw;
+        max-width: 360px;
+        height: 65vh;
+        max-height: 500px;
+        bottom: 10px;
+        right: 2.5vw;
+        border-radius: 15px;
+    }
+
+    .chatbot-header {
+        padding: 12px 15px;
+    }
+
+    .chatbot-header h3 {
+        font-size: 1rem;
+    }
+
+    .assistant-img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .chatbot-messages {
+        padding: 12px;
+    }
+
+    .chatbot-input-area {
+        padding: 10px;
+    }
+
+    .chatbot-input-area input {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .chatbot-toggle {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 14px;
+        font-size: 0.85rem;
+        border-radius: 40px;
+    }
+
+    .toggle-text {
+        display: none;
+    }
+
+    /* Banner */
+    .banner-fact-text {
+        font-size: 0.95rem !important;
+        padding: 0 10px;
+    }
+
+    .banner-content {
+        padding: 15px 10px !important;
+    }
+
+    .fact-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+        padding: 15px 0;
+        margin-top: 30px;
+    }
+
+    footer p {
+        font-size: 0.8rem;
+    }
+
+    /* About Us page */
+    .video-section {
+        padding: 10px;
+        margin: 15px 0;
+        border-radius: 12px;
+    }
+
+    .video-section video {
+        max-height: 250px;
+        border-radius: 8px;
+    }
+
+    .welcome-section {
+        padding: 20px 15px;
+        margin: 15px 0;
+    }
+
+    .welcome-section h2 {
+        font-size: 1.4rem;
+    }
+
+    .welcome-section p {
+        font-size: 0.9rem;
+    }
+
+    .about-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .about-card {
+        padding: 20px;
+    }
+
+    .about-card h3 {
+        font-size: 1.2rem;
+    }
+
+    /* Sidebar */
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: relative;
+        top: auto;
+        margin-top: 15px;
+        max-height: none;
+    }
+
+    .sidebar-content {
+        padding: 15px;
+    }
+
+    .sidebar-content h3 {
+        font-size: 1.1rem;
+    }
+
+    .sidebar-item {
+        padding: 10px;
+    }
+
+    .sidebar-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+    }
+
+    .sidebar-text h4 {
+        font-size: 0.85rem;
+    }
+
+    .sidebar-text p {
+        font-size: 0.75rem;
+    }
+}
+
+/* Extra Small Mobile (max-width: 375px) */
+@media (max-width: 375px) {
+    body {
+        font-size: 13px;
+    }
+
+    header h1 {
+        font-size: 1.3rem;
+    }
+
+    .hero h2 {
+        font-size: 1.2rem;
+    }
+
+    .nav-menu {
+        gap: 0.4rem 0.8rem;
+    }
+
+    .nav-link {
+        font-size: 0.75rem;
+    }
+
+    .calculator-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .calc-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+    .chatbot-container {
+        width: 100vw;
+        height: 70vh;
+        right: 0;
+        bottom: 0;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .video-section video {
+        max-height: 200px;
+    }
+
+    .welcome-section h2 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Landscape orientation for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    header {
+        padding: 70px 0 20px;
+    }
+
+    .hero {
+        padding: 15px;
+    }
+
+    .chatbot-container {
+        height: 85vh;
+    }
+
+    .video-section video {
+        max-height: 180px;
+    }
+}
+
+/* Print Styles */
+@media print {
+
+    .navbar,
+    .chatbot-toggle,
+    .chatbot-container,
+    .sidebar,
+    footer {
+        display: none !important;
+    }
+
+    header {
+        padding: 20px 0;
+    }
+
+    body {
+        zoom: 100%;
+        background: white;
+    }
+
+    .main-layout {
+        display: block;
+    }
+
+    .main-content {
+        width: 100%;
+    }
+}
