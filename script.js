@@ -384,6 +384,22 @@ document.addEventListener('DOMContentLoaded', function () {
             "bmi calculator": {
                 response: "Our website features an interactive BMI calculator to help you track your health metrics. BMI is important for diabetes management as maintaining a healthy weight can improve blood sugar control and reduce complications.",
                 followUp: ["Want tips for healthy weight management?", "Need diet information?", "Interested in exercise for weight control?"]
+            },
+            "navigation": {
+                response: "Our navigation menu includes: Contact Us (email support), Share Your Story (contribute your diabetes journey), and Need a doctor? (find healthcare providers). You can access these from the top menu bar on any page.",
+                followUp: ["Need to contact us?", "Want to share your story?", "Looking for a doctor?"]
+            },
+            "tiles": {
+                response: "Our homepage features tiles covering key diabetes topics: Nutrition & Diet, Latest Treatments, Find a Doctor, Physical Activities, Events & Support, and About Us. Click any tile to explore that topic in detail.",
+                followUp: ["Interested in nutrition?", "Want to see physical activities?", "Need doctor information?"]
+            },
+            "nutrition": {
+                response: "Proper nutrition is essential for diabetes management. Our nutrition section covers meal planning, carbohydrate counting, healthy food choices, and diabetic-friendly recipes. A balanced diet helps maintain stable blood sugar levels.",
+                followUp: ["Need meal planning tips?", "Want recipe suggestions?", "Interested in carb counting?"]
+            },
+            "diabetes basics": {
+                response: "Diabetes is a condition affecting how your body processes blood sugar. Our website provides information on Type 1, Type 2, and gestational diabetes, along with management tips, lifestyle guidance, and resources for living well with diabetes.",
+                followUp: ["Want to learn about Type 1?", "Interested in Type 2 information?", "Need management tips?"]
             }
         },
         websiteFeatures: [
@@ -660,7 +676,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         avatarState: 'speaking'
                     };
                 },
-                'menu|navigation|navigate|contact|contribute|doctor': () => {
+                'menu|navigation|navigate|contact|share your story|share story|doctor': () => {
                     foundMatch = true;
                     return {
                         text: chatbotData.siteContent.navigation.response,
@@ -740,7 +756,7 @@ document.addEventListener('DOMContentLoaded', function () {
             addMessage(helpMessage, false, true);
             setTimeout(() => addFollowUpButtons(["Physical activities", "BMI calculator", "About us", "Navigation help"]), 100);
         } else if (message.toLowerCase().includes('show me what you know')) {
-            const knowledgeMessage = "Here's what I know about our Diabetes Compass website:\n\n• Physical Activities (Yoga, Running, Cycling, Group Activities, Hiking, Swimming)\n• BMI Calculator for health tracking\n• Navigation menu (Contact Us, Contribute, Need a doctor?)\n• Homepage tiles with diabetes resources\n• Basic diabetes information relevant to our site";
+            const knowledgeMessage = "Here's what I know about our Diabetes Compass website:\n\n• Physical Activities (Yoga, Running, Cycling, Group Activities, Hiking, Swimming)\n• BMI Calculator for health tracking\n• Navigation menu (Contact Us, Share Your Story, Need a doctor?)\n• Homepage tiles with diabetes resources\n• Basic diabetes information relevant to our site";
             addMessage(knowledgeMessage, false, true);
             setTimeout(() => addFollowUpButtons(["Tell me about physical activities", "Explain navigation", "About diabetes basics"]), 100);
         } else {
