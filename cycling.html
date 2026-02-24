@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cycling with Diabetes - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .cycling-intro {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cycling-intro h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .cycling-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .tip-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #00bcd4;
+            transition: transform 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .tip-card h3 {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tip-card h3 .icon {
+            font-size: 1.5rem;
+        }
+
+        .tip-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: #555;
+        }
+
+        .tip-card ul li {
+            padding: 5px 0;
+            padding-left: 20px;
+        }
+
+        .tip-card.cyan {
+            border-left-color: #00bcd4;
+        }
+
+        .tip-card.cyan h3 {
+            color: #00bcd4;
+        }
+
+        .tip-card.green {
+            border-left-color: #4caf50;
+        }
+
+        .tip-card.green h3 {
+            color: #4caf50;
+        }
+
+        .tip-card.orange {
+            border-left-color: #ff9800;
+        }
+
+        .tip-card.orange h3 {
+            color: #ff9800;
+        }
+
+        .tip-card.purple {
+            border-left-color: #9c27b0;
+        }
+
+        .tip-card.purple h3 {
+            color: #9c27b0;
+        }
+
+        .tip-card.blue {
+            border-left-color: #2196f3;
+        }
+
+        .tip-card.blue h3 {
+            color: #2196f3;
+        }
+
+        .tip-card.pink {
+            border-left-color: #e91e63;
+        }
+
+        .tip-card.pink h3 {
+            color: #e91e63;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .gear-card {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .gear-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .gear-card p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .gear-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .gear-card .tags span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .nutrition-card {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .nutrition-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .nutrition-card p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .nutrition-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nutrition-card .tags span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .warning-box h3 {
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+
+        .warning-box p {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+
+        .warning-box .symptoms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            color: #e65100;
+        }
+
+        .benefits-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .benefits-section h2 {
+            color: #00bcd4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .benefit-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid #00bcd4;
+        }
+
+        .benefit-item h4 {
+            color: #00bcd4;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .benefit-item p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .rule-box {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .rule-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .rule-box p {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 575px) {
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>Cycling with Diabetes</h1>
+                    <p>Tips and hints for safe and enjoyable cycling</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="physical-activities.html" class="back-link">← Back to Physical Activities</a>
+
+            <!-- Introduction -->
+            <div class="cycling-intro">
+                <h2>🚴 Cycling with Diabetes</h2>
+                <p>Cycling is an excellent low-impact exercise for people with diabetes. It helps improve cardiovascular
+                    health, aids in weight management, and can improve insulin sensitivity. Follow these tips to cycle
+                    safely while managing your blood sugar levels.</p>
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="benefits-section">
+                <h2>✨ Benefits of Cycling for Diabetes</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <h4>❤️ Heart Health</h4>
+                        <p>Cycling strengthens the heart and improves circulation, reducing cardiovascular risk.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>⚖️ Weight Management</h4>
+                        <p>Burns calories effectively, helping maintain a healthy weight for better glucose control.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>💉 Insulin Sensitivity</h4>
+                        <p>Regular cycling can improve how your body responds to insulin.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>🦵 Joint Friendly</h4>
+                        <p>Low-impact exercise that's gentle on knees, ankles, and hips.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>😊 Mental Health</h4>
+                        <p>Outdoor cycling reduces stress and improves mood through endorphin release.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>📉 Lower A1C</h4>
+                        <p>Consistent cycling can help reduce HbA1c levels over time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Grid -->
+            <h2 style="color: #00bcd4; text-align: center; margin-bottom: 30px;">📋 Essential Cycling Tips</h2>
+            <div class="tips-grid">
+                <!-- Tip 1 -->
+                <div class="tip-card cyan">
+                    <h3>
+                        <span class="icon">📊</span> Check Blood Sugar Before Cycling
+                    </h3>
+                    <ul>
+                        <li>✓ Test glucose 15–30 minutes before riding</li>
+                        <li>✓ Safe starting range: 100–180 mg/dL (5.5–10 mmol/L)</li>
+                        <li>✓ If below 100 mg/dL, eat a snack first</li>
+                        <li>⚠️ Don't cycle if glucose is above 250 mg/dL with ketones</li>
+                    </ul>
+                </div>
+
+                <!-- Tip 2 -->
+                <div class="tip-card green">
+                    <h3>
+                        <span class="icon">🍬</span> Carry Fast-Acting Carbs
+                    </h3>
+                    <ul>
+                        <li>✓ Glucose tablets or gels</li>
+                        <li>✓ Energy bars or dried fruit</li>
+                        <li>✓ Sports drinks</li>
+                        <li>✓ Keep 15–20g carbs accessible in jersey pocket</li>
+                    </ul>
+                </div>
+
+                <!-- Tip 3 -->
+                <div class="tip-card orange">
+                    <h3>
+                        <span class="icon">🆔</span> Wear Medical Identification
+                    </h3>
+                    <ul>
+                        <li>✓ Medical ID bracelet or Road ID</li>
+                        <li>✓ Include diabetes type and emergency contact</li>
+                        <li>✓ Carry phone with emergency info</li>
+                        <li>✓ Tell riding partners about your diabetes</li>
+                    </ul>
+                </div>
+
+                <!-- Tip 4 -->
+                <div class="tip-card purple">
+                    <h3>
+                        <span class="icon">⏱️</span> Plan for Longer Rides
+                    </h3>
+                    <ul>
+                        <li>✓ Pack extra snacks for rides over 30 minutes</li>
+                        <li>✓ Stop every 30–45 minutes to check glucose</li>
+                        <li>✓ Eat 15–30g carbs per hour of cycling</li>
+                        <li>✓ Bring your glucose meter or use CGM</li>
+                    </ul>
+                </div>
+
+                <!-- Tip 5 -->
+                <div class="tip-card blue">
+                    <h3>
+                        <span class="icon">🚲</span> Start with Short Rides
+                    </h3>
+                    <ul>
+                        <li>✓ Begin with 15–20 minute rides</li>
+                        <li>✓ Stick to flat terrain initially</li>
+                        <li>✓ Gradually increase distance and intensity</li>
+                        <li>✓ Learn how your body responds to cycling</li>
+                    </ul>
+                </div>
+
+                <!-- Tip 6 -->
+                <div class="tip-card pink">
+                    <h3>
+                        <span class="icon">📈</span> Understand Glucose Patterns
+                    </h3>
+                    <ul>
+                        <li>↓ Steady cycling usually lowers glucose</li>
+                        <li>↑ Intense sprints may temporarily raise glucose</li>
+                        <li>✓ Track patterns in a cycling log</li>
+                        <li>✓ Post-ride lows can occur hours later</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Gear & Nutrition Cards -->
+            <div class="info-cards">
+                <div class="gear-card">
+                    <h3>🎒 Essential Cycling Gear</h3>
+                    <p>Always carry diabetes supplies when cycling:</p>
+                    <div class="tags">
+                        <span>Glucose meter</span>
+                        <span>Fast-acting carbs</span>
+                        <span>Water bottle</span>
+                        <span>Medical ID</span>
+                        <span>Phone</span>
+                    </div>
+                </div>
+
+                <div class="nutrition-card">
+                    <h3>🍌 Pre-Ride Snacks</h3>
+                    <p>Eat 30–60 minutes before cycling if glucose is normal-low:</p>
+                    <div class="tags">
+                        <span>Banana</span>
+                        <span>Energy bar</span>
+                        <span>Whole-grain toast</span>
+                        <span>Peanut butter</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hydration Tips -->
+            <div
+                style="background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); color: white; border-radius: 20px; padding: 30px; margin-bottom: 40px;">
+                <h3 style="margin-bottom: 15px; font-size: 1.3rem;">💧 Hydration Guidelines</h3>
+                <p style="margin-bottom: 15px; opacity: 0.9;">Proper hydration is crucial for blood sugar management
+                    during cycling:</p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="padding: 8px 0;">✓ Drink 500ml water 2 hours before cycling</li>
+                    <li style="padding: 8px 0;">✓ Sip water every 15–20 minutes during the ride</li>
+                    <li style="padding: 8px 0;">✓ Use electrolyte drinks for rides over 1 hour</li>
+                    <li style="padding: 8px 0;">✓ Continue hydrating after your ride</li>
+                    <li style="padding: 8px 0;">⚠️ Dehydration can cause blood sugar to rise</li>
+                </ul>
+            </div>
+
+            <!-- Warning Signs -->
+            <div class="warning-box">
+                <h3>⚠️ Stop Cycling Immediately If You Experience</h3>
+                <p><strong>These may be signs of low blood sugar:</strong></p>
+                <div class="symptoms">
+                    <span>• Shaking or trembling</span>
+                    <span>• Excessive sweating</span>
+                    <span>• Dizziness or lightheadedness</span>
+                    <span>• Confusion</span>
+                    <span>• Rapid heartbeat</span>
+                    <span>• Blurred vision</span>
+                    <span>• Extreme fatigue</span>
+                </div>
+            </div>
+
+            <!-- Post-Ride Tips -->
+            <div
+                style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 30px;">
+                <h3 style="color: #00bcd4; margin-bottom: 20px;">🏁 After Your Ride</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <strong>Check Glucose</strong>
+                        <p style="margin: 5px 0 0; color: #666; font-size: 0.9rem;">Test immediately and again 2–4 hours
+                            later</p>
+                    </div>
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <strong>Eat a Snack</strong>
+                        <p style="margin: 5px 0 0; color: #666; font-size: 0.9rem;">Have protein + carbs within 30
+                            minutes</p>
+                    </div>
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <strong>Stay Hydrated</strong>
+                        <p style="margin: 5px 0 0; color: #666; font-size: 0.9rem;">Continue drinking water after
+                            cycling</p>
+                    </div>
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <strong>Log Your Ride</strong>
+                        <p style="margin: 5px 0 0; color: #666; font-size: 0.9rem;">Record distance, time, and glucose
+                            levels</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simple Rule Box -->
+            <div class="rule-box">
+                <h3>🚴 Cycling Safety Rules</h3>
+                <p>Test Before • Carry Carbs • Stay Hydrated • Ride Smart</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
