@@ -715,8 +715,27 @@
                 notifyUpdates: isSubscribed
             };
 
-            // In a real application, you would send this to a server
-            console.log('Story submitted:', formData);
+            // Construct email body
+            const emailSubject = `Diabetes Compass Story Submission: ${formData.topic}`;
+            const emailBody = `
+New Story Submission from Diabetes Compass
+
+From: ${formData.name}
+Email: ${formData.email}
+Topic: ${formData.topic}
+Notify of Updates: ${formData.notifyUpdates ? 'Yes' : 'No'}
+Consent Date: ${formData.consentDate}
+
+--- STORY ---
+
+${formData.story}
+
+--- END OF STORY ---
+            `.trim();
+
+            // Create mailto link and open email client
+            const mailtoLink = `mailto:denirylands@gmail.com?cc=${encodeURIComponent(formData.email)}&subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            window.location.href = mailtoLink;
 
             // Show success message
             document.getElementById('story-form-section').style.display = 'none';
