@@ -19,13 +19,12 @@
         .avatar-container {
             flex: 0 0 300px;
             display: flex;
-            align-items: stretch;
+            align-items: flex-start;
         }
 
-        .avatar-container img {
+        .avatar-container video {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
@@ -49,7 +48,7 @@
                 flex: 0 0 auto;
                 width: 100%;
                 max-width: 400px;
-                height: 300px;
+                height: auto;
             }
 
             .story-form-section {
@@ -448,7 +447,10 @@
 
             <div class="form-with-avatar">
                 <div class="avatar-container">
-                    <img src="images/avatar_DIA.png" alt="Diabetes Compass Avatar">
+                    <video autoplay muted loop playsinline>
+                        <source src="Diabetes_Story_Video_Generation.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
 
                 <section class="story-form-section" id="story-form-section">
