@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiking with Diabetes - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .hiking-intro {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hiking-intro h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .hiking-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+
+        .benefits-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .benefits-section h2 {
+            color: #4caf50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .benefit-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 4px solid #4caf50;
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .benefit-card h4 {
+            color: #4caf50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .trails-section {
+            margin-bottom: 40px;
+        }
+
+        .trails-section h2 {
+            color: #4caf50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .trails-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .trail-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .trail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .trail-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .trail-content {
+            padding: 25px;
+        }
+
+        .trail-content h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .trail-content .location {
+            color: #4caf50;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trail-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .trail-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .trail-info span {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .tips-section {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+
+        .tips-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .tip-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tip-item h4 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tip-item p {
+            opacity: 0.9;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .warning-box h3 {
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+
+        .warning-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .warning-box ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #e65100;
+        }
+
+        .warning-box ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #ff9800;
+            font-weight: bold;
+        }
+
+        .gear-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .gear-section h3 {
+            color: #4caf50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .gear-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .gear-item {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 575px) {
+            .trails-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>Hiking with Diabetes</h1>
+                    <p>Explore nature while managing your health</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="physical-activities.html" class="back-link">← Back to Physical Activities</a>
+
+            <!-- Introduction -->
+            <div class="hiking-intro">
+                <h2>🥾 Hiking with Diabetes</h2>
+                <p>Hiking is a wonderful way to stay active while enjoying the beauty of nature. Bulgaria offers some of
+                    the most stunning hiking trails in Europe. With proper preparation, hiking can be safe and
+                    incredibly rewarding for people with diabetes.</p>
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="benefits-section">
+                <h2>✨ Benefits of Hiking for Diabetes</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <h4>📉 Improved Blood Sugar Control</h4>
+                        <p>Hiking is a sustained aerobic activity that helps lower blood glucose levels and improves
+                            insulin sensitivity over time.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>❤️ Cardiovascular Health</h4>
+                        <p>Regular hiking strengthens the heart, improves circulation, and reduces the risk of heart
+                            disease—a common concern for diabetics.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>⚖️ Weight Management</h4>
+                        <p>A moderate hike can burn 400–700 calories per hour, helping maintain a healthy weight crucial
+                            for diabetes management.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>💪 Muscle Strength</h4>
+                        <p>Hiking builds leg muscles and core strength, which helps your body use glucose more
+                            efficiently.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>😌 Stress Reduction</h4>
+                        <p>Being in nature reduces cortisol levels and stress, which can otherwise spike blood sugar.
+                            Forest bathing has proven mental health benefits.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>🧠 Mental Clarity</h4>
+                        <p>Fresh air and natural surroundings improve mood, reduce anxiety, and help manage the
+                            emotional aspects of living with diabetes.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>🦴 Bone Health</h4>
+                        <p>Weight-bearing exercise like hiking helps maintain bone density, reducing osteoporosis risk
+                            that can be elevated in diabetes.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h4>😴 Better Sleep</h4>
+                        <p>Physical activity and outdoor exposure help regulate sleep patterns, which is important for
+                            blood sugar regulation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Best Hiking Trails in Bulgaria -->
+            <div class="trails-section">
+                <h2>🇧🇬 Best Hiking Trails in Bulgaria</h2>
+                <div class="trails-grid">
+                    <!-- Trail 1: Seven Rila Lakes -->
+                    <div class="trail-card">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop"
+                            alt="Seven Rila Lakes">
+                        <div class="trail-content">
+                            <h3>Seven Rila Lakes</h3>
+                            <span class="location">📍 Rila Mountains</span>
+                            <p>One of Bulgaria's most iconic hiking destinations. Seven glacial lakes at different
+                                altitudes, each with unique characteristics. Breathtaking alpine scenery.</p>
+                            <div class="trail-info">
+                                <span>⏱️ 4–6 hours</span>
+                                <span>📏 10 km</span>
+                                <span>⛰️ Moderate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trail 2: Musala Peak -->
+                    <div class="trail-card">
+                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=400&fit=crop"
+                            alt="Musala Peak">
+                        <div class="trail-content">
+                            <h3>Musala Peak</h3>
+                            <span class="location">📍 Rila Mountains</span>
+                            <p>At 2,925m, Musala is the highest peak in the Balkans. Multiple routes available, with the
+                                lift-assisted route being most accessible for beginners.</p>
+                            <div class="trail-info">
+                                <span>⏱️ 5–7 hours</span>
+                                <span>📏 12 km</span>
+                                <span>⛰️ Challenging</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trail 3: Vitosha Mountain -->
+                    <div class="trail-card">
+                        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&h=400&fit=crop"
+                            alt="Vitosha Mountain">
+                        <div class="trail-content">
+                            <h3>Vitosha Mountain - Cherni Vrah</h3>
+                            <span class="location">📍 Sofia Region</span>
+                            <p>Sofia's backyard mountain, perfect for day trips. Multiple trails lead to Cherni Vrah
+                                (2,290m). Great for beginners and families.</p>
+                            <div class="trail-info">
+                                <span>⏱️ 2–4 hours</span>
+                                <span>📏 6–8 km</span>
+                                <span>⛰️ Easy-Moderate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trail 4: Pirin Mountains -->
+                    <div class="trail-card">
+                        <img src="https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800&h=400&fit=crop"
+                            alt="Pirin Mountains">
+                        <div class="trail-content">
+                            <h3>Pirin National Park - Vihren</h3>
+                            <span class="location">📍 Pirin Mountains (UNESCO)</span>
+                            <p>UNESCO World Heritage site with marble peaks, glacial lakes, and ancient pine forests.
+                                Vihren (2,914m) is Bulgaria's second-highest peak.</p>
+                            <div class="trail-info">
+                                <span>⏱️ 5–6 hours</span>
+                                <span>📏 8 km</span>
+                                <span>⛰️ Challenging</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trail 5: Rhodope Mountains -->
+                    <div class="trail-card">
+                        <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=800&h=400&fit=crop"
+                            alt="Rhodope Mountains">
+                        <div class="trail-content">
+                            <h3>Rhodope Mountains - Wonderful Bridges</h3>
+                            <span class="location">📍 Rhodope Mountains</span>
+                            <p>Natural rock arches formed by erosion. Easy trails through stunning rock formations and
+                                pristine forests. Perfect for all fitness levels.</p>
+                            <div class="trail-info">
+                                <span>⏱️ 1–2 hours</span>
+                                <span>📏 3 km</span>
+                                <span>⛰️ Easy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trail 6: Central Balkan -->
+                    <div class="trail-card">
+                        <img src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=800&h=400&fit=crop"
+                            alt="Central Balkan">
+                        <div class="trail-content">
+                            <h3>Central Balkan - Botev Peak</h3>
+                            <span class="location">📍 Stara Planina</span>
+                            <p>The highest peak in the Balkan mountain range (2,376m). Historic trails with waterfalls
+                                and diverse flora. The E3 European long-distance path passes through.</p>
+                            <div class="trail-info">
+                                <span>⏱️ 6–8 hours</span>
+                                <span>📏 14 km</span>
+                                <span>⛰️ Challenging</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trail 7: Belogradchik Rocks -->
+                    <div class="trail-card">
+                        <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop"
+                            alt="Belogradchik Rocks">
+                        <div class="trail-content">
+                            <h3>Belogradchik Rocks</h3>
+                            <span class="location">📍 Northwest Bulgaria</span>
+                            <p>Spectacular sandstone rock formations up to 200m tall. Easy walking paths weave through
+                                unique geological formations with a historic fortress.</p>
+                            <div class="trail-info">
+                                <span>⏱️ 1–3 hours</span>
+                                <span>📏 2–5 km</span>
+                                <span>⛰️ Easy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trail 8: Krushuna Waterfalls -->
+                    <div class="trail-card">
+                        <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=800&h=400&fit=crop"
+                            alt="Krushuna Waterfalls">
+                        <div class="trail-content">
+                            <h3>Krushuna Waterfalls</h3>
+                            <span class="location">📍 Lovech Province</span>
+                            <p>Beautiful cascade of travertine waterfalls surrounded by lush greenery. Easy, shaded
+                                trails perfect for hot summer days. Nearby Devetashka Cave adds adventure.</p>
+                            <div class="trail-info">
+                                <span>⏱️ 1–2 hours</span>
+                                <span>📏 2 km</span>
+                                <span>⛰️ Easy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hiking Tips for Diabetics -->
+            <div class="tips-section">
+                <h2>💡 Hiking Tips for People with Diabetes</h2>
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <h4>📊 Monitor Blood Sugar</h4>
+                        <p>Check glucose before, during (every 30–60 min), and after your hike. Hiking can lower blood
+                            sugar significantly.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h4>🍫 Pack Extra Snacks</h4>
+                        <p>Bring more fast-acting carbs than you think you'll need. Energy gels, glucose tablets, dried
+                            fruit, and granola bars are great options.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h4>💧 Stay Hydrated</h4>
+                        <p>Dehydration affects blood sugar. Carry at least 2 liters of water for longer hikes. Consider
+                            electrolyte drinks.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h4>👥 Hike with a Buddy</h4>
+                        <p>Never hike alone. Tell someone your route and expected return time. Make sure companions know
+                            about your diabetes.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h4>🥾 Protect Your Feet</h4>
+                        <p>Wear proper hiking boots and moisture-wicking socks. Check feet before and after hikes for
+                            blisters or injuries.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h4>📱 Carry Technology</h4>
+                        <p>Bring your CGM, glucose meter, fully charged phone, and portable charger. Download offline
+                            maps of your trail.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Essential Gear -->
+            <div class="gear-section">
+                <h3>🎒 Essential Hiking Gear for Diabetics</h3>
+                <div class="gear-grid">
+                    <div class="gear-item">📊 Glucose meter</div>
+                    <div class="gear-item">🍬 Fast-acting carbs</div>
+                    <div class="gear-item">💧 2+ liters water</div>
+                    <div class="gear-item">🥾 Proper hiking boots</div>
+                    <div class="gear-item">🆔 Medical ID</div>
+                    <div class="gear-item">📱 Charged phone</div>
+                    <div class="gear-item">🧴 Sunscreen</div>
+                    <div class="gear-item">🩹 First aid kit</div>
+                    <div class="gear-item">🧥 Extra layers</div>
+                    <div class="gear-item">🍌 Snacks</div>
+                    <div class="gear-item">🔋 Portable charger</div>
+                    <div class="gear-item">🗺️ Trail map</div>
+                </div>
+            </div>
+
+            <!-- Warning Box -->
+            <div class="warning-box">
+                <h3>⚠️ Safety Reminders</h3>
+                <ul>
+                    <li>Always tell someone your hiking plans and expected return time</li>
+                    <li>Start with shorter, easier trails and build up gradually</li>
+                    <li>Turn back if your blood sugar drops below 70 mg/dL or you feel unwell</li>
+                    <li>Check weather conditions before setting out</li>
+                    <li>Carry emergency contact information and medical details</li>
+                    <li>Know the signs of hypoglycemia and hyperglycemia</li>
+                    <li>Rest when needed—there's no rush</li>
+                </ul>
+            </div>
+
+            <!-- Call to Action -->
+            <div
+                style="background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%); color: white; padding: 30px; border-radius: 20px; text-align: center;">
+                <h3 style="font-size: 1.5rem; margin-bottom: 10px;">🥾 Ready to Explore?</h3>
+                <p style="font-size: 1.1rem; opacity: 0.95;">Start with an easy trail, prepare properly, and enjoy the
+                    beauty of Bulgaria's mountains!</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
