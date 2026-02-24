@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yoga for Diabetes - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .yoga-intro {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .yoga-intro h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .yoga-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-content {
+            padding: 20px;
+        }
+
+        .video-content h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .video-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .benefits-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .benefits-section h2 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .benefit-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .benefit-item h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .benefit-item p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .tips-section {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .tips-section h3 {
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+
+        .tips-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tips-section ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+        }
+
+        .tips-section ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #ff9800;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>Yoga for Diabetes</h1>
+                    <p>Gentle exercises for blood sugar management and stress relief</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="physical-activities.html" class="back-link">← Back to Physical Activities</a>
+
+            <!-- Introduction -->
+            <div class="yoga-intro">
+                <h2>🧘 Yoga for Diabetes</h2>
+                <p>Gentle yoga routines designed to support people with diabetes through stretching, breathing
+                    exercises, and relaxation. Regular yoga practice can help improve insulin sensitivity, reduce
+                    stress, and promote overall well-being.</p>
+            </div>
+
+            <!-- Videos Section -->
+            <h2 style="color: #667eea; text-align: center; margin-bottom: 30px;">📹 Yoga Video Sessions</h2>
+            <div class="videos-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/R8NW6W_OtbY" title="Yoga for Diabetes (Full Session)"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-content">
+                        <h3>Yoga for Diabetes (Full Session)</h3>
+                        <p>A gentle yoga routine designed to support people with diabetes through stretching and
+                            relaxation exercises.</p>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/Aj3cPe4vR8o" title="Yoga Poses to Help Diabetes"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-content">
+                        <h3>Yoga Poses to Help Diabetes</h3>
+                        <p>Demonstrates yoga poses such as breathing exercises and stretches that may support blood
+                            sugar control and overall health.</p>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/R8NW6W_OtbY" title="Stanford Yoga for Diabetes Class"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-content">
+                        <h3>Stanford Yoga for Diabetes Class</h3>
+                        <p>A guided yoga session from Stanford Medicine with breathing exercises, stretches, and
+                            beginner-friendly poses for diabetes wellness.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="benefits-section">
+                <h2>✨ Benefits of Yoga for Diabetes</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <h4>📉 Lower Blood Sugar</h4>
+                        <p>Regular yoga practice can help improve insulin sensitivity and glucose uptake by muscles.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>😌 Reduce Stress</h4>
+                        <p>Breathing exercises and meditation help lower cortisol levels, which can affect blood sugar.
+                        </p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>💪 Build Strength</h4>
+                        <p>Yoga poses help build lean muscle mass, which improves metabolism and glucose control.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>🧠 Mental Clarity</h4>
+                        <p>Mindfulness practices improve focus and help manage the emotional aspects of diabetes.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>❤️ Heart Health</h4>
+                        <p>Yoga can help lower blood pressure and improve cardiovascular health.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>😴 Better Sleep</h4>
+                        <p>Relaxation techniques promote better sleep quality, important for blood sugar regulation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="tips-section">
+                <h3>⚠️ Tips for Practicing Yoga with Diabetes</h3>
+                <ul>
+                    <li>Check your blood sugar before and after your yoga session</li>
+                    <li>Keep fast-acting glucose nearby in case of low blood sugar</li>
+                    <li>Stay hydrated throughout your practice</li>
+                    <li>Start slowly and gradually increase intensity</li>
+                    <li>Listen to your body and rest when needed</li>
+                    <li>Consult your doctor before starting a new exercise routine</li>
+                    <li>Practice at the same time each day for consistent results</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
