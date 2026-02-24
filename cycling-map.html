@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cycling Map - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .map-intro {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .map-intro h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .map-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+
+        .map-container {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .map-container h3 {
+            color: #00bcd4;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .map-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .map-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .routes-section {
+            margin-bottom: 40px;
+        }
+
+        .routes-section h2 {
+            color: #00bcd4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .routes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .route-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #00bcd4;
+            transition: transform 0.3s ease;
+        }
+
+        .route-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .route-card h4 {
+            color: #0097a7;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .route-card .route-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .route-card .info-tag {
+            background: #e0f7fa;
+            color: #006064;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .route-card .difficulty {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .difficulty.easy {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .difficulty.moderate {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .difficulty.challenging {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+
+        .route-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .route-card .map-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #00bcd4;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .route-card .map-link:hover {
+            color: #0097a7;
+        }
+
+        .tips-box {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+
+        .tips-box h3 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .tip-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tip-item h4 {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tip-item p {
+            opacity: 0.9;
+            line-height: 1.5;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .resources-section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .resources-section h3 {
+            color: #00bcd4;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .resource-card {
+            background: #e0f7fa;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .resource-card h4 {
+            color: #0097a7;
+            margin-bottom: 10px;
+        }
+
+        .resource-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .resource-card a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .resource-card a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 188, 212, 0.3);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .cta-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .cta-section p {
+            opacity: 0.95;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 575px) {
+            .routes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>Cycling Map</h1>
+                    <p>Discover the best cycling routes in Sofia and Bulgaria</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="cycling.html" class="back-link">← Back to Cycling</a>
+
+            <!-- Introduction -->
+            <div class="map-intro">
+                <h2>🗺️ Cycling Routes for Diabetics</h2>
+                <p>Explore safe, scenic cycling routes in Sofia and beyond. These routes are selected with diabetics in
+                    mind—featuring rest stops, accessible locations, and varying difficulty levels. Always carry your
+                    glucose supplies and ride safely!</p>
+            </div>
+
+            <!-- Interactive Map -->
+            <div class="map-container">
+                <h3>📍 Sofia Cycling Map</h3>
+                <div class="map-wrapper">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d93822.03268912437!2d23.243679131249975!3d42.69568879999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa8682cb317bf5%3A0x400a01269bf5e60!2sSofia%2C%20Bulgaria!5e0!3m2!1sen!2sus!4v1708800000000!5m2!1sen!2sus"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+            <!-- Popular Routes -->
+            <div class="routes-section">
+                <h2>🚴 Popular Cycling Routes</h2>
+                <div class="routes-grid">
+                    <div class="route-card">
+                        <h4>South Park (Yuzhen Park)</h4>
+                        <div class="route-info">
+                            <span class="info-tag">📏 5-8 km loop</span>
+                            <span class="info-tag">⏱️ 30-45 min</span>
+                            <span class="difficulty easy">Easy</span>
+                        </div>
+                        <p>Flat, paved cycling paths through Sofia's largest park. Multiple rest areas, water
+                            fountains, and cafes. Perfect for beginners.</p>
+                        <a href="https://maps.google.com/?q=South+Park+Sofia" target="_blank" rel="noopener noreferrer"
+                            class="map-link">View on Map →</a>
+                    </div>
+
+                    <div class="route-card">
+                        <h4>Borisova Gradina (Boris's Garden)</h4>
+                        <div class="route-info">
+                            <span class="info-tag">📏 6 km loop</span>
+                            <span class="info-tag">⏱️ 35-50 min</span>
+                            <span class="difficulty easy">Easy</span>
+                        </div>
+                        <p>Historic park with shaded cycling lanes. Beautiful scenery, gentle terrain, and many benches
+                            for rest stops.</p>
+                        <a href="https://maps.google.com/?q=Borisova+Gradina+Sofia" target="_blank"
+                            rel="noopener noreferrer" class="map-link">View on Map →</a>
+                    </div>
+
+                    <div class="route-card">
+                        <h4>Vitosha Boulevard to NDK</h4>
+                        <div class="route-info">
+                            <span class="info-tag">📏 3 km one-way</span>
+                            <span class="info-tag">⏱️ 15-20 min</span>
+                            <span class="difficulty easy">Easy</span>
+                        </div>
+                        <p>Urban cycling through Sofia's main pedestrian street. Wide paths, plenty of cafes, and
+                            access to South Park.</p>
+                        <a href="https://maps.google.com/?q=Vitosha+Boulevard+Sofia" target="_blank"
+                            rel="noopener noreferrer" class="map-link">View on Map →</a>
+                    </div>
+
+                    <div class="route-card">
+                        <h4>Pancharevo Lake Loop</h4>
+                        <div class="route-info">
+                            <span class="info-tag">📏 15 km loop</span>
+                            <span class="info-tag">⏱️ 1-1.5 hours</span>
+                            <span class="difficulty moderate">Moderate</span>
+                        </div>
+                        <p>Scenic route around the beautiful Pancharevo Lake. Some gentle hills, great views,
+                            restaurants at the lake.</p>
+                        <a href="https://maps.google.com/?q=Pancharevo+Lake+Sofia" target="_blank"
+                            rel="noopener noreferrer" class="map-link">View on Map →</a>
+                    </div>
+
+                    <div class="route-card">
+                        <h4>Iskar River Trail</h4>
+                        <div class="route-info">
+                            <span class="info-tag">📏 20 km</span>
+                            <span class="info-tag">⏱️ 1.5-2 hours</span>
+                            <span class="difficulty moderate">Moderate</span>
+                        </div>
+                        <p>Follow the Iskar River through scenic landscapes. Mix of paved and gravel paths, multiple
+                            village stops for snacks.</p>
+                        <a href="https://maps.google.com/?q=Iskar+River+Sofia" target="_blank" rel="noopener noreferrer"
+                            class="map-link">View on Map →</a>
+                    </div>
+
+                    <div class="route-card">
+                        <h4>Vitosha Mountain - Dragalevtsi</h4>
+                        <div class="route-info">
+                            <span class="info-tag">📏 12 km</span>
+                            <span class="info-tag">⏱️ 1.5-2 hours</span>
+                            <span class="difficulty challenging">Challenging</span>
+                        </div>
+                        <p>Mountain cycling with elevation gain. Beautiful forest roads, challenging climbs. For
+                            experienced cyclists with good diabetes control.</p>
+                        <a href="https://maps.google.com/?q=Dragalevtsi+Sofia" target="_blank" rel="noopener noreferrer"
+                            class="map-link">View on Map →</a>
+                    </div>
+
+                    <div class="route-card">
+                        <h4>Studentski Grad - Mladost</h4>
+                        <div class="route-info">
+                            <span class="info-tag">📏 8 km</span>
+                            <span class="info-tag">⏱️ 40-50 min</span>
+                            <span class="difficulty easy">Easy</span>
+                        </div>
+                        <p>Flat urban route through residential areas with bike lanes. Parks, shops, and pharmacies
+                            along the way.</p>
+                        <a href="https://maps.google.com/?q=Studentski+Grad+Sofia" target="_blank"
+                            rel="noopener noreferrer" class="map-link">View on Map →</a>
+                    </div>
+
+                    <div class="route-card">
+                        <h4>Simeonovo to Aleko (Vitosha)</h4>
+                        <div class="route-info">
+                            <span class="info-tag">📏 18 km</span>
+                            <span class="info-tag">⏱️ 2-3 hours</span>
+                            <span class="difficulty challenging">Challenging</span>
+                        </div>
+                        <p>Epic mountain climb to Aleko ski resort. Significant elevation gain, requires excellent
+                            fitness and diabetes management.</p>
+                        <a href="https://maps.google.com/?q=Aleko+Vitosha" target="_blank" rel="noopener noreferrer"
+                            class="map-link">View on Map →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips for Diabetic Cyclists -->
+            <div class="tips-box">
+                <h3>💡 Route Planning Tips for Diabetics</h3>
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <h4>🏪 Know Rest Stops</h4>
+                        <p>Plan routes near shops, cafes, or pharmacies where you can get carbs or supplies if needed.
+                        </p>
+                    </div>
+                    <div class="tip-item">
+                        <h4>📱 Download Offline Maps</h4>
+                        <p>Save routes offline in case you need to find help or a rest stop without cell service.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h4>🔄 Plan Loop Routes</h4>
+                        <p>Loop routes mean you're never too far from your starting point if you need to cut the ride
+                            short.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h4>📊 Match Difficulty to Glucose</h4>
+                        <p>Start with easier routes and gradually increase difficulty as you learn how cycling affects
+                            your blood sugar.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h4>👥 Share Your Route</h4>
+                        <p>Tell someone your planned route and expected return time. Use GPS tracking apps.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h4>🌡️ Check Weather</h4>
+                        <p>Extreme heat or cold affects blood sugar. Avoid cycling in harsh conditions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Useful Resources -->
+            <div class="resources-section">
+                <h3>🔗 Cycling Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <h4>Bikemap</h4>
+                        <p>Find and share cycling routes worldwide. Many routes in Bulgaria.</p>
+                        <a href="https://www.bikemap.net/" target="_blank" rel="noopener noreferrer">Visit Site →</a>
+                    </div>
+                    <div class="resource-card">
+                        <h4>Komoot</h4>
+                        <p>Route planning with turn-by-turn navigation. Great for discovering new trails.</p>
+                        <a href="https://www.komoot.com/" target="_blank" rel="noopener noreferrer">Visit Site →</a>
+                    </div>
+                    <div class="resource-card">
+                        <h4>Strava</h4>
+                        <p>Track your rides, join challenges, and connect with other cyclists.</p>
+                        <a href="https://www.strava.com/" target="_blank" rel="noopener noreferrer">Visit Site →</a>
+                    </div>
+                    <div class="resource-card">
+                        <h4>Sofia Cycling Map (Official)</h4>
+                        <p>Official cycling infrastructure map from Sofia Municipality.</p>
+                        <a href="https://www.sofia.bg/" target="_blank" rel="noopener noreferrer">Visit Site →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h3>🚴 Ready to Ride?</h3>
+                <p>Check your glucose, pack your supplies, and enjoy the beautiful cycling routes of Sofia!</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
