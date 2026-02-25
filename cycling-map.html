@@ -84,10 +84,78 @@
             margin-bottom: 30px;
         }
 
-        .routes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        .carousel-container {
+            position: relative;
+            padding: 0 50px;
+        }
+
+        .routes-carousel {
+            display: flex;
             gap: 25px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 5px 20px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .routes-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 188, 212, 0.4);
+        }
+
+        .carousel-btn.prev {
+            left: 0;
+        }
+
+        .carousel-btn.next {
+            right: 0;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ccc;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: #00bcd4;
+            transform: scale(1.2);
         }
 
         .route-card {
@@ -97,6 +165,8 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             border-left: 4px solid #00bcd4;
             transition: transform 0.3s ease;
+            min-width: 320px;
+            flex-shrink: 0;
         }
 
         .route-card:hover {
@@ -316,6 +386,18 @@
         </div>
     </header>
 
+    <nav class="breadcrumbs">
+        <div class="container">
+            <a href="index.html">Home</a>
+            <span class="separator">›</span>
+            <a href="physical-activities.html">Physical Activities</a>
+            <span class="separator">›</span>
+            <a href="cycling.html">Cycling</a>
+            <span class="separator">›</span>
+            <span class="current">Cycling Map</span>
+        </div>
+    </nav>
+
     <main>
         <div class="container">
             <a href="cycling.html" class="back-link">← Back to Cycling</a>
@@ -341,111 +423,117 @@
             <!-- Popular Routes -->
             <div class="routes-section">
                 <h2>🚴 Popular Cycling Routes</h2>
-                <div class="routes-grid">
-                    <div class="route-card">
-                        <h4>South Park (Yuzhen Park)</h4>
-                        <div class="route-info">
-                            <span class="info-tag">📏 5-8 km loop</span>
-                            <span class="info-tag">⏱️ 30-45 min</span>
-                            <span class="difficulty easy">Easy</span>
+                <div class="carousel-container">
+                    <button class="carousel-btn prev" onclick="scrollCarousel(-1)">❮</button>
+                    <div class="routes-carousel" id="routesCarousel">
+                        <div class="route-card">
+                            <h4>South Park (Yuzhen Park)</h4>
+                            <div class="route-info">
+                                <span class="info-tag">📏 5-8 km loop</span>
+                                <span class="info-tag">⏱️ 30-45 min</span>
+                                <span class="difficulty easy">Easy</span>
+                            </div>
+                            <p>Flat, paved cycling paths through Sofia's largest park. Multiple rest areas, water
+                                fountains, and cafes. Perfect for beginners.</p>
+                            <a href="https://maps.google.com/?q=South+Park+Sofia" target="_blank"
+                                rel="noopener noreferrer" class="map-link">View on Map →</a>
                         </div>
-                        <p>Flat, paved cycling paths through Sofia's largest park. Multiple rest areas, water
-                            fountains, and cafes. Perfect for beginners.</p>
-                        <a href="https://maps.google.com/?q=South+Park+Sofia" target="_blank" rel="noopener noreferrer"
-                            class="map-link">View on Map →</a>
-                    </div>
 
-                    <div class="route-card">
-                        <h4>Borisova Gradina (Boris's Garden)</h4>
-                        <div class="route-info">
-                            <span class="info-tag">📏 6 km loop</span>
-                            <span class="info-tag">⏱️ 35-50 min</span>
-                            <span class="difficulty easy">Easy</span>
+                        <div class="route-card">
+                            <h4>Borisova Gradina (Boris's Garden)</h4>
+                            <div class="route-info">
+                                <span class="info-tag">📏 6 km loop</span>
+                                <span class="info-tag">⏱️ 35-50 min</span>
+                                <span class="difficulty easy">Easy</span>
+                            </div>
+                            <p>Historic park with shaded cycling lanes. Beautiful scenery, gentle terrain, and many
+                                benches
+                                for rest stops.</p>
+                            <a href="https://maps.google.com/?q=Borisova+Gradina+Sofia" target="_blank"
+                                rel="noopener noreferrer" class="map-link">View on Map →</a>
                         </div>
-                        <p>Historic park with shaded cycling lanes. Beautiful scenery, gentle terrain, and many benches
-                            for rest stops.</p>
-                        <a href="https://maps.google.com/?q=Borisova+Gradina+Sofia" target="_blank"
-                            rel="noopener noreferrer" class="map-link">View on Map →</a>
-                    </div>
 
-                    <div class="route-card">
-                        <h4>Vitosha Boulevard to NDK</h4>
-                        <div class="route-info">
-                            <span class="info-tag">📏 3 km one-way</span>
-                            <span class="info-tag">⏱️ 15-20 min</span>
-                            <span class="difficulty easy">Easy</span>
+                        <div class="route-card">
+                            <h4>Vitosha Boulevard to NDK</h4>
+                            <div class="route-info">
+                                <span class="info-tag">📏 3 km one-way</span>
+                                <span class="info-tag">⏱️ 15-20 min</span>
+                                <span class="difficulty easy">Easy</span>
+                            </div>
+                            <p>Urban cycling through Sofia's main pedestrian street. Wide paths, plenty of cafes, and
+                                access to South Park.</p>
+                            <a href="https://maps.google.com/?q=Vitosha+Boulevard+Sofia" target="_blank"
+                                rel="noopener noreferrer" class="map-link">View on Map →</a>
                         </div>
-                        <p>Urban cycling through Sofia's main pedestrian street. Wide paths, plenty of cafes, and
-                            access to South Park.</p>
-                        <a href="https://maps.google.com/?q=Vitosha+Boulevard+Sofia" target="_blank"
-                            rel="noopener noreferrer" class="map-link">View on Map →</a>
-                    </div>
 
-                    <div class="route-card">
-                        <h4>Pancharevo Lake Loop</h4>
-                        <div class="route-info">
-                            <span class="info-tag">📏 15 km loop</span>
-                            <span class="info-tag">⏱️ 1-1.5 hours</span>
-                            <span class="difficulty moderate">Moderate</span>
+                        <div class="route-card">
+                            <h4>Pancharevo Lake Loop</h4>
+                            <div class="route-info">
+                                <span class="info-tag">📏 15 km loop</span>
+                                <span class="info-tag">⏱️ 1-1.5 hours</span>
+                                <span class="difficulty moderate">Moderate</span>
+                            </div>
+                            <p>Scenic route around the beautiful Pancharevo Lake. Some gentle hills, great views,
+                                restaurants at the lake.</p>
+                            <a href="https://maps.google.com/?q=Pancharevo+Lake+Sofia" target="_blank"
+                                rel="noopener noreferrer" class="map-link">View on Map →</a>
                         </div>
-                        <p>Scenic route around the beautiful Pancharevo Lake. Some gentle hills, great views,
-                            restaurants at the lake.</p>
-                        <a href="https://maps.google.com/?q=Pancharevo+Lake+Sofia" target="_blank"
-                            rel="noopener noreferrer" class="map-link">View on Map →</a>
-                    </div>
 
-                    <div class="route-card">
-                        <h4>Iskar River Trail</h4>
-                        <div class="route-info">
-                            <span class="info-tag">📏 20 km</span>
-                            <span class="info-tag">⏱️ 1.5-2 hours</span>
-                            <span class="difficulty moderate">Moderate</span>
+                        <div class="route-card">
+                            <h4>Iskar River Trail</h4>
+                            <div class="route-info">
+                                <span class="info-tag">📏 20 km</span>
+                                <span class="info-tag">⏱️ 1.5-2 hours</span>
+                                <span class="difficulty moderate">Moderate</span>
+                            </div>
+                            <p>Follow the Iskar River through scenic landscapes. Mix of paved and gravel paths, multiple
+                                village stops for snacks.</p>
+                            <a href="https://maps.google.com/?q=Iskar+River+Sofia" target="_blank"
+                                rel="noopener noreferrer" class="map-link">View on Map →</a>
                         </div>
-                        <p>Follow the Iskar River through scenic landscapes. Mix of paved and gravel paths, multiple
-                            village stops for snacks.</p>
-                        <a href="https://maps.google.com/?q=Iskar+River+Sofia" target="_blank" rel="noopener noreferrer"
-                            class="map-link">View on Map →</a>
-                    </div>
 
-                    <div class="route-card">
-                        <h4>Vitosha Mountain - Dragalevtsi</h4>
-                        <div class="route-info">
-                            <span class="info-tag">📏 12 km</span>
-                            <span class="info-tag">⏱️ 1.5-2 hours</span>
-                            <span class="difficulty challenging">Challenging</span>
+                        <div class="route-card">
+                            <h4>Vitosha Mountain - Dragalevtsi</h4>
+                            <div class="route-info">
+                                <span class="info-tag">📏 12 km</span>
+                                <span class="info-tag">⏱️ 1.5-2 hours</span>
+                                <span class="difficulty challenging">Challenging</span>
+                            </div>
+                            <p>Mountain cycling with elevation gain. Beautiful forest roads, challenging climbs. For
+                                experienced cyclists with good diabetes control.</p>
+                            <a href="https://maps.google.com/?q=Dragalevtsi+Sofia" target="_blank"
+                                rel="noopener noreferrer" class="map-link">View on Map →</a>
                         </div>
-                        <p>Mountain cycling with elevation gain. Beautiful forest roads, challenging climbs. For
-                            experienced cyclists with good diabetes control.</p>
-                        <a href="https://maps.google.com/?q=Dragalevtsi+Sofia" target="_blank" rel="noopener noreferrer"
-                            class="map-link">View on Map →</a>
-                    </div>
 
-                    <div class="route-card">
-                        <h4>Studentski Grad - Mladost</h4>
-                        <div class="route-info">
-                            <span class="info-tag">📏 8 km</span>
-                            <span class="info-tag">⏱️ 40-50 min</span>
-                            <span class="difficulty easy">Easy</span>
+                        <div class="route-card">
+                            <h4>Studentski Grad - Mladost</h4>
+                            <div class="route-info">
+                                <span class="info-tag">📏 8 km</span>
+                                <span class="info-tag">⏱️ 40-50 min</span>
+                                <span class="difficulty easy">Easy</span>
+                            </div>
+                            <p>Flat urban route through residential areas with bike lanes. Parks, shops, and pharmacies
+                                along the way.</p>
+                            <a href="https://maps.google.com/?q=Studentski+Grad+Sofia" target="_blank"
+                                rel="noopener noreferrer" class="map-link">View on Map →</a>
                         </div>
-                        <p>Flat urban route through residential areas with bike lanes. Parks, shops, and pharmacies
-                            along the way.</p>
-                        <a href="https://maps.google.com/?q=Studentski+Grad+Sofia" target="_blank"
-                            rel="noopener noreferrer" class="map-link">View on Map →</a>
-                    </div>
 
-                    <div class="route-card">
-                        <h4>Simeonovo to Aleko (Vitosha)</h4>
-                        <div class="route-info">
-                            <span class="info-tag">📏 18 km</span>
-                            <span class="info-tag">⏱️ 2-3 hours</span>
-                            <span class="difficulty challenging">Challenging</span>
+                        <div class="route-card">
+                            <h4>Simeonovo to Aleko (Vitosha)</h4>
+                            <div class="route-info">
+                                <span class="info-tag">📏 18 km</span>
+                                <span class="info-tag">⏱️ 2-3 hours</span>
+                                <span class="difficulty challenging">Challenging</span>
+                            </div>
+                            <p>Epic mountain climb to Aleko ski resort. Significant elevation gain, requires excellent
+                                fitness and diabetes management.</p>
+                            <a href="https://maps.google.com/?q=Aleko+Vitosha" target="_blank" rel="noopener noreferrer"
+                                class="map-link">View on Map →</a>
                         </div>
-                        <p>Epic mountain climb to Aleko ski resort. Significant elevation gain, requires excellent
-                            fitness and diabetes management.</p>
-                        <a href="https://maps.google.com/?q=Aleko+Vitosha" target="_blank" rel="noopener noreferrer"
-                            class="map-link">View on Map →</a>
                     </div>
+                    <button class="carousel-btn next" onclick="scrollCarousel(1)">❯</button>
                 </div>
+                <div class="carousel-indicators" id="carouselIndicators"></div>
             </div>
 
             <!-- Tips for Diabetic Cyclists -->
@@ -524,6 +612,39 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Carousel functionality
+        const carousel = document.getElementById('routesCarousel');
+        const indicatorsContainer = document.getElementById('carouselIndicators');
+        const cards = carousel.querySelectorAll('.route-card');
+        const cardWidth = 345; // card width + gap
+
+        // Create indicators
+        cards.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+            dot.onclick = () => scrollToCard(index);
+            indicatorsContainer.appendChild(dot);
+        });
+
+        function scrollCarousel(direction) {
+            carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+        }
+
+        function scrollToCard(index) {
+            carousel.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+        }
+
+        // Update indicators on scroll
+        carousel.addEventListener('scroll', () => {
+            const scrollPosition = carousel.scrollLeft;
+            const activeIndex = Math.round(scrollPosition / cardWidth);
+            const dots = indicatorsContainer.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === activeIndex);
+            });
+        });
+    </script>
 </body>
 
 </html>
