@@ -892,15 +892,17 @@
         // Export tips to XLS
         function exportToXls() {
             const tips = document.querySelectorAll('.tip-checkbox-item');
-            let csvContent = 'Tips,Description\n';
+            let content = 'Tips\tDescription\n';
 
             tips.forEach(tip => {
-                const title = tip.querySelector('.tip-text h4').textContent.trim();
-                const desc = tip.querySelector('.tip-text p').textContent.trim().replace(/,/g, ';');
-                csvContent += `"${title}","${desc}"\n`;
+                let title = tip.querySelector('.tip-text h4').textContent.trim();
+                // Remove emojis and clean up the title
+                title = title.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
+                const desc = tip.querySelector('.tip-text p').textContent.trim();
+                content += `${title}\t${desc}\n`;
             });
 
-            const blob = new Blob([csvContent], { type: 'application/vnd.ms-excel' });
+            const blob = new Blob([content], { type: 'application/vnd.ms-excel' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
