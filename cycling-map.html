@@ -257,31 +257,71 @@
             margin-bottom: 25px;
         }
 
-        .tips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+        .tips-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        .tip-item {
+        .tip-checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
             background: rgba(255, 255, 255, 0.15);
-            padding: 15px;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
+            padding: 15px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
 
-        .tip-item h4 {
-            margin-bottom: 8px;
+        .tip-checkbox-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .tip-checkbox-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .tip-checkbox-item .checkbox-custom {
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
+            border: 2px solid white;
+            border-radius: 5px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            transition: background 0.3s ease;
+            margin-top: 2px;
         }
 
-        .tip-item p {
-            opacity: 0.9;
-            line-height: 1.5;
+        .tip-checkbox-item input[type="checkbox"]:checked+.checkbox-custom {
+            background: white;
+        }
+
+        .tip-checkbox-item input[type="checkbox"]:checked+.checkbox-custom::after {
+            content: '✔';
+            color: #0097a7;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .tip-checkbox-item .tip-text {
+            flex: 1;
+        }
+
+        .tip-checkbox-item .tip-text h4 {
+            margin: 0 0 4px 0;
+            font-size: 1rem;
+        }
+
+        .tip-checkbox-item .tip-text p {
             margin: 0;
-            font-size: 0.95rem;
+            opacity: 0.9;
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
 
         .resources-section {
@@ -544,34 +584,59 @@
             <!-- Tips for Diabetic Cyclists -->
             <div class="tips-box">
                 <h3>💡 Route Planning Tips for Diabetics</h3>
-                <div class="tips-grid">
-                    <div class="tip-item">
-                        <h4>🏪 Know Rest Stops</h4>
-                        <p>Plan routes near shops, cafes, or pharmacies where you can get carbs or supplies if needed.
-                        </p>
-                    </div>
-                    <div class="tip-item">
-                        <h4>📱 Download Offline Maps</h4>
-                        <p>Save routes offline in case you need to find help or a rest stop without cell service.</p>
-                    </div>
-                    <div class="tip-item">
-                        <h4>🔄 Plan Loop Routes</h4>
-                        <p>Loop routes mean you're never too far from your starting point if you need to cut the ride
-                            short.</p>
-                    </div>
-                    <div class="tip-item">
-                        <h4>📊 Match Difficulty to Glucose</h4>
-                        <p>Start with easier routes and gradually increase difficulty as you learn how cycling affects
-                            your blood sugar.</p>
-                    </div>
-                    <div class="tip-item">
-                        <h4>👥 Share Your Route</h4>
-                        <p>Tell someone your planned route and expected return time. Use GPS tracking apps.</p>
-                    </div>
-                    <div class="tip-item">
-                        <h4>🌡️ Check Weather</h4>
-                        <p>Extreme heat or cold affects blood sugar. Avoid cycling in harsh conditions.</p>
-                    </div>
+                <div class="tips-checklist">
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>🏪 Know Rest Stops</h4>
+                            <p>Plan routes near shops, cafes, or pharmacies where you can get carbs or supplies if
+                                needed.</p>
+                        </div>
+                    </label>
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>📱 Download Offline Maps</h4>
+                            <p>Save routes offline in case you need to find help or a rest stop without cell service.
+                            </p>
+                        </div>
+                    </label>
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>🔄 Plan Loop Routes</h4>
+                            <p>Loop routes mean you're never too far from your starting point if you need to cut the
+                                ride short.</p>
+                        </div>
+                    </label>
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>📊 Match Difficulty to Glucose</h4>
+                            <p>Start with easier routes and gradually increase difficulty as you learn how cycling
+                                affects your blood sugar.</p>
+                        </div>
+                    </label>
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>👥 Share Your Route</h4>
+                            <p>Tell someone your planned route and expected return time. Use GPS tracking apps.</p>
+                        </div>
+                    </label>
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>🌡️ Check Weather</h4>
+                            <p>Extreme heat or cold affects blood sugar. Avoid cycling in harsh conditions.</p>
+                        </div>
+                    </label>
                 </div>
             </div>
 
