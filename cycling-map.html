@@ -398,6 +398,93 @@
             font-size: 1.1rem;
         }
 
+        /* Page Layout with Sidebar */
+        .page-layout {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .main-content {
+            min-width: 0;
+        }
+
+        .right-sidebar {
+            position: sticky;
+            top: 80px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .sidebar-resources {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-resources h3 {
+            color: #00bcd4;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0f7fa;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: #e0f7fa;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .sidebar-link:hover {
+            background: #b2ebf2;
+            transform: translateX(5px);
+        }
+
+        .sidebar-link .link-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-link .link-text h4 {
+            color: #0097a7;
+            font-size: 0.95rem;
+            margin: 0 0 3px 0;
+        }
+
+        .sidebar-link .link-text p {
+            color: #666;
+            font-size: 0.8rem;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 900px) {
+            .page-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .right-sidebar {
+                position: static;
+                max-height: none;
+            }
+        }
+
         @media (max-width: 575px) {
             .routes-grid {
                 grid-template-columns: 1fr;
@@ -447,223 +534,217 @@
         <div class="container">
             <a href="cycling.html" class="back-link">← Back to Cycling</a>
 
-            <!-- Introduction -->
-            <div class="map-intro">
-                <h2>🗺️ Cycling Routes for Diabetics</h2>
-                <p>Explore safe, scenic cycling routes in Sofia and beyond. These routes are selected with diabetics in
-                    mind—featuring rest stops, accessible locations, and varying difficulty levels. Always carry your
-                    glucose supplies and ride safely!</p>
-            </div>
+            <div class="page-layout">
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Introduction -->
+                    <div class="map-intro">
+                        <h2>🗺️ Cycling Routes for Diabetics</h2>
+                        <p>Explore safe, scenic cycling routes in Sofia and beyond. These routes are selected with
+                            diabetics in
+                            mind—featuring rest stops, accessible locations, and varying difficulty levels. Always carry
+                            your
+                            glucose supplies and ride safely!</p>
+                    </div>
 
-            <!-- Interactive Map -->
-            <div class="map-container">
-                <h3>📍 Sofia Cycling Map</h3>
-                <div class="map-wrapper">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d93822.03268912437!2d23.243679131249975!3d42.69568879999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa8682cb317bf5%3A0x400a01269bf5e60!2sSofia%2C%20Bulgaria!5e0!3m2!1sen!2sus!4v1708800000000!5m2!1sen!2sus"
-                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-            </div>
-
-            <!-- Popular Routes -->
-            <div class="routes-section">
-                <h2>🚴 Popular Cycling Routes</h2>
-                <div class="carousel-container">
-                    <button class="carousel-btn prev" onclick="scrollCarousel(-1)">❮</button>
-                    <div class="routes-carousel" id="routesCarousel">
-                        <div class="route-card">
-                            <h4>South Park (Yuzhen Park)</h4>
-                            <div class="route-info">
-                                <span class="info-tag">📏 5-8 km loop</span>
-                                <span class="info-tag">⏱️ 30-45 min</span>
-                                <span class="difficulty easy">Easy</span>
-                            </div>
-                            <p>Flat, paved cycling paths through Sofia's largest park. Multiple rest areas, water
-                                fountains, and cafes. Perfect for beginners.</p>
-                            <a href="https://maps.google.com/?q=South+Park+Sofia" target="_blank"
-                                rel="noopener noreferrer" class="map-link">View on Map →</a>
-                        </div>
-
-                        <div class="route-card">
-                            <h4>Borisova Gradina (Boris's Garden)</h4>
-                            <div class="route-info">
-                                <span class="info-tag">📏 6 km loop</span>
-                                <span class="info-tag">⏱️ 35-50 min</span>
-                                <span class="difficulty easy">Easy</span>
-                            </div>
-                            <p>Historic park with shaded cycling lanes. Beautiful scenery, gentle terrain, and many
-                                benches
-                                for rest stops.</p>
-                            <a href="https://maps.google.com/?q=Borisova+Gradina+Sofia" target="_blank"
-                                rel="noopener noreferrer" class="map-link">View on Map →</a>
-                        </div>
-
-                        <div class="route-card">
-                            <h4>Vitosha Boulevard to NDK</h4>
-                            <div class="route-info">
-                                <span class="info-tag">📏 3 km one-way</span>
-                                <span class="info-tag">⏱️ 15-20 min</span>
-                                <span class="difficulty easy">Easy</span>
-                            </div>
-                            <p>Urban cycling through Sofia's main pedestrian street. Wide paths, plenty of cafes, and
-                                access to South Park.</p>
-                            <a href="https://maps.google.com/?q=Vitosha+Boulevard+Sofia" target="_blank"
-                                rel="noopener noreferrer" class="map-link">View on Map →</a>
-                        </div>
-
-                        <div class="route-card">
-                            <h4>Pancharevo Lake Loop</h4>
-                            <div class="route-info">
-                                <span class="info-tag">📏 15 km loop</span>
-                                <span class="info-tag">⏱️ 1-1.5 hours</span>
-                                <span class="difficulty moderate">Moderate</span>
-                            </div>
-                            <p>Scenic route around the beautiful Pancharevo Lake. Some gentle hills, great views,
-                                restaurants at the lake.</p>
-                            <a href="https://maps.google.com/?q=Pancharevo+Lake+Sofia" target="_blank"
-                                rel="noopener noreferrer" class="map-link">View on Map →</a>
-                        </div>
-
-                        <div class="route-card">
-                            <h4>Iskar River Trail</h4>
-                            <div class="route-info">
-                                <span class="info-tag">📏 20 km</span>
-                                <span class="info-tag">⏱️ 1.5-2 hours</span>
-                                <span class="difficulty moderate">Moderate</span>
-                            </div>
-                            <p>Follow the Iskar River through scenic landscapes. Mix of paved and gravel paths, multiple
-                                village stops for snacks.</p>
-                            <a href="https://maps.google.com/?q=Iskar+River+Sofia" target="_blank"
-                                rel="noopener noreferrer" class="map-link">View on Map →</a>
-                        </div>
-
-                        <div class="route-card">
-                            <h4>Vitosha Mountain - Dragalevtsi</h4>
-                            <div class="route-info">
-                                <span class="info-tag">📏 12 km</span>
-                                <span class="info-tag">⏱️ 1.5-2 hours</span>
-                                <span class="difficulty challenging">Challenging</span>
-                            </div>
-                            <p>Mountain cycling with elevation gain. Beautiful forest roads, challenging climbs. For
-                                experienced cyclists with good diabetes control.</p>
-                            <a href="https://maps.google.com/?q=Dragalevtsi+Sofia" target="_blank"
-                                rel="noopener noreferrer" class="map-link">View on Map →</a>
-                        </div>
-
-                        <div class="route-card">
-                            <h4>Studentski Grad - Mladost</h4>
-                            <div class="route-info">
-                                <span class="info-tag">📏 8 km</span>
-                                <span class="info-tag">⏱️ 40-50 min</span>
-                                <span class="difficulty easy">Easy</span>
-                            </div>
-                            <p>Flat urban route through residential areas with bike lanes. Parks, shops, and pharmacies
-                                along the way.</p>
-                            <a href="https://maps.google.com/?q=Studentski+Grad+Sofia" target="_blank"
-                                rel="noopener noreferrer" class="map-link">View on Map →</a>
-                        </div>
-
-                        <div class="route-card">
-                            <h4>Simeonovo to Aleko (Vitosha)</h4>
-                            <div class="route-info">
-                                <span class="info-tag">📏 18 km</span>
-                                <span class="info-tag">⏱️ 2-3 hours</span>
-                                <span class="difficulty challenging">Challenging</span>
-                            </div>
-                            <p>Epic mountain climb to Aleko ski resort. Significant elevation gain, requires excellent
-                                fitness and diabetes management.</p>
-                            <a href="https://maps.google.com/?q=Aleko+Vitosha" target="_blank" rel="noopener noreferrer"
-                                class="map-link">View on Map →</a>
+                    <!-- Interactive Map -->
+                    <div class="map-container">
+                        <h3>📍 Sofia Cycling Map</h3>
+                        <div class="map-wrapper">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d93822.03268912437!2d23.243679131249975!3d42.69568879999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa8682cb317bf5%3A0x400a01269bf5e60!2sSofia%2C%20Bulgaria!5e0!3m2!1sen!2sus!4v1708800000000!5m2!1sen!2sus"
+                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
-                    <button class="carousel-btn next" onclick="scrollCarousel(1)">❯</button>
-                </div>
-                <div class="carousel-indicators" id="carouselIndicators"></div>
-            </div>
 
-            <!-- Tips for Diabetic Cyclists -->
-            <div class="tips-box">
-                <h3>💡 Route Planning Tips for Diabetics</h3>
-                <div class="tips-checklist">
-                    <label class="tip-checkbox-item">
-                        <input type="checkbox">
-                        <span class="checkbox-custom"></span>
-                        <div class="tip-text">
-                            <h4>🏪 Know Rest Stops</h4>
-                            <p>Plan routes near shops, cafes, or pharmacies where you can get carbs or supplies if
-                                needed.</p>
-                        </div>
-                    </label>
-                    <label class="tip-checkbox-item">
-                        <input type="checkbox">
-                        <span class="checkbox-custom"></span>
-                        <div class="tip-text">
-                            <h4>📱 Download Offline Maps</h4>
-                            <p>Save routes offline in case you need to find help or a rest stop without cell service.
-                            </p>
-                        </div>
-                    </label>
-                    <label class="tip-checkbox-item">
-                        <input type="checkbox">
-                        <span class="checkbox-custom"></span>
-                        <div class="tip-text">
-                            <h4>🔄 Plan Loop Routes</h4>
-                            <p>Loop routes mean you're never too far from your starting point if you need to cut the
-                                ride short.</p>
-                        </div>
-                    </label>
-                    <label class="tip-checkbox-item">
-                        <input type="checkbox">
-                        <span class="checkbox-custom"></span>
-                        <div class="tip-text">
-                            <h4>📊 Match Difficulty to Glucose</h4>
-                            <p>Start with easier routes and gradually increase difficulty as you learn how cycling
-                                affects your blood sugar.</p>
-                        </div>
-                    </label>
-                    <label class="tip-checkbox-item">
-                        <input type="checkbox">
-                        <span class="checkbox-custom"></span>
-                        <div class="tip-text">
-                            <h4>👥 Share Your Route</h4>
-                            <p>Tell someone your planned route and expected return time. Use GPS tracking apps.</p>
-                        </div>
-                    </label>
-                    <label class="tip-checkbox-item">
-                        <input type="checkbox">
-                        <span class="checkbox-custom"></span>
-                        <div class="tip-text">
-                            <h4>🌡️ Check Weather</h4>
-                            <p>Extreme heat or cold affects blood sugar. Avoid cycling in harsh conditions.</p>
-                        </div>
-                    </label>
-                </div>
-            </div>
+                    <!-- Popular Routes -->
+                    <div class="routes-section">
+                        <h2>🚴 Popular Cycling Routes</h2>
+                        <div class="carousel-container">
+                            <button class="carousel-btn prev" onclick="scrollCarousel(-1)">❮</button>
+                            <div class="routes-carousel" id="routesCarousel">
+                                <div class="route-card">
+                                    <h4>South Park (Yuzhen Park)</h4>
+                                    <div class="route-info">
+                                        <span class="info-tag">📏 5-8 km loop</span>
+                                        <span class="info-tag">⏱️ 30-45 min</span>
+                                        <span class="difficulty easy">Easy</span>
+                                    </div>
+                                    <p>Flat, paved cycling paths through Sofia's largest park. Multiple rest areas,
+                                        water
+                                        fountains, and cafes. Perfect for beginners.</p>
+                                    <a href="https://maps.google.com/?q=South+Park+Sofia" target="_blank"
+                                        rel="noopener noreferrer" class="map-link">View on Map →</a>
+                                </div>
 
-            <!-- Useful Resources -->
-            <div class="resources-section">
-                <h3>🔗 Cycling Resources</h3>
-                <div class="resources-grid">
-                    <div class="resource-card">
-                        <h4>Bikemap</h4>
-                        <p>Find and share cycling routes worldwide. Many routes in Bulgaria.</p>
-                        <a href="https://www.bikemap.net/" target="_blank" rel="noopener noreferrer">Visit Site →</a>
+                                <div class="route-card">
+                                    <h4>Borisova Gradina (Boris's Garden)</h4>
+                                    <div class="route-info">
+                                        <span class="info-tag">📏 6 km loop</span>
+                                        <span class="info-tag">⏱️ 35-50 min</span>
+                                        <span class="difficulty easy">Easy</span>
+                                    </div>
+                                    <p>Historic park with shaded cycling lanes. Beautiful scenery, gentle terrain, and
+                                        many
+                                        benches
+                                        for rest stops.</p>
+                                    <a href="https://maps.google.com/?q=Borisova+Gradina+Sofia" target="_blank"
+                                        rel="noopener noreferrer" class="map-link">View on Map →</a>
+                                </div>
+
+                                <div class="route-card">
+                                    <h4>Vitosha Boulevard to NDK</h4>
+                                    <div class="route-info">
+                                        <span class="info-tag">📏 3 km one-way</span>
+                                        <span class="info-tag">⏱️ 15-20 min</span>
+                                        <span class="difficulty easy">Easy</span>
+                                    </div>
+                                    <p>Urban cycling through Sofia's main pedestrian street. Wide paths, plenty of
+                                        cafes, and
+                                        access to South Park.</p>
+                                    <a href="https://maps.google.com/?q=Vitosha+Boulevard+Sofia" target="_blank"
+                                        rel="noopener noreferrer" class="map-link">View on Map →</a>
+                                </div>
+
+                                <div class="route-card">
+                                    <h4>Pancharevo Lake Loop</h4>
+                                    <div class="route-info">
+                                        <span class="info-tag">📏 15 km loop</span>
+                                        <span class="info-tag">⏱️ 1-1.5 hours</span>
+                                        <span class="difficulty moderate">Moderate</span>
+                                    </div>
+                                    <p>Scenic route around the beautiful Pancharevo Lake. Some gentle hills, great
+                                        views,
+                                        restaurants at the lake.</p>
+                                    <a href="https://maps.google.com/?q=Pancharevo+Lake+Sofia" target="_blank"
+                                        rel="noopener noreferrer" class="map-link">View on Map →</a>
+                                </div>
+
+                                <div class="route-card">
+                                    <h4>Iskar River Trail</h4>
+                                    <div class="route-info">
+                                        <span class="info-tag">📏 20 km</span>
+                                        <span class="info-tag">⏱️ 1.5-2 hours</span>
+                                        <span class="difficulty moderate">Moderate</span>
+                                    </div>
+                                    <p>Follow the Iskar River through scenic landscapes. Mix of paved and gravel paths,
+                                        multiple
+                                        village stops for snacks.</p>
+                                    <a href="https://maps.google.com/?q=Iskar+River+Sofia" target="_blank"
+                                        rel="noopener noreferrer" class="map-link">View on Map →</a>
+                                </div>
+
+                                <div class="route-card">
+                                    <h4>Vitosha Mountain - Dragalevtsi</h4>
+                                    <div class="route-info">
+                                        <span class="info-tag">📏 12 km</span>
+                                        <span class="info-tag">⏱️ 1.5-2 hours</span>
+                                        <span class="difficulty challenging">Challenging</span>
+                                    </div>
+                                    <p>Mountain cycling with elevation gain. Beautiful forest roads, challenging climbs.
+                                        For
+                                        experienced cyclists with good diabetes control.</p>
+                                    <a href="https://maps.google.com/?q=Dragalevtsi+Sofia" target="_blank"
+                                        rel="noopener noreferrer" class="map-link">View on Map →</a>
+                                </div>
+
+                                <div class="route-card">
+                                    <h4>Studentski Grad - Mladost</h4>
+                                    <div class="route-info">
+                                        <span class="info-tag">📏 8 km</span>
+                                        <span class="info-tag">⏱️ 40-50 min</span>
+                                        <span class="difficulty easy">Easy</span>
+                                    </div>
+                                    <p>Flat urban route through residential areas with bike lanes. Parks, shops, and
+                                        pharmacies
+                                        along the way.</p>
+                                    <a href="https://maps.google.com/?q=Studentski+Grad+Sofia" target="_blank"
+                                        rel="noopener noreferrer" class="map-link">View on Map →</a>
+                                </div>
+
+                                <div class="route-card">
+                                    <h4>Simeonovo to Aleko (Vitosha)</h4>
+                                    <div class="route-info">
+                                        <span class="info-tag">📏 18 km</span>
+                                        <span class="info-tag">⏱️ 2-3 hours</span>
+                                        <span class="difficulty challenging">Challenging</span>
+                                    </div>
+                                    <p>Epic mountain climb to Aleko ski resort. Significant elevation gain, requires
+                                        excellent
+                                        fitness and diabetes management.</p>
+                                    <a href="https://maps.google.com/?q=Aleko+Vitosha" target="_blank"
+                                        rel="noopener noreferrer" class="map-link">View on Map →</a>
+                                </div>
+                            </div>
+                            <button class="carousel-btn next" onclick="scrollCarousel(1)">❯</button>
+                        </div>
+                        <div class="carousel-indicators" id="carouselIndicators"></div>
                     </div>
-                    <div class="resource-card">
-                        <h4>Komoot</h4>
-                        <p>Route planning with turn-by-turn navigation. Great for discovering new trails.</p>
-                        <a href="https://www.komoot.com/" target="_blank" rel="noopener noreferrer">Visit Site →</a>
+
+                    <!-- Tips for Diabetic Cyclists -->
+                    <div class="tips-box">
+                        <h3>💡 Route Planning Tips for Diabetics</h3>
+                        <div class="tips-checklist">
+                            <label class="tip-checkbox-item">
+                                <input type="checkbox">
+                                <span class="checkbox-custom"></span>
+                                <div class="tip-text">
+                                    <h4>🏪 Know Rest Stops</h4>
+                                    <p>Plan routes near shops, cafes, or pharmacies where you can get carbs or supplies
+                                        if
+                                        needed.</p>
+                                </div>
+                            </label>
+                            <label class="tip-checkbox-item">
+                                <input type="checkbox">
+                                <span class="checkbox-custom"></span>
+                                <div class="tip-text">
+                                    <h4>📱 Download Offline Maps</h4>
+                                    <p>Save routes offline in case you need to find help or a rest stop without cell
+                                        service.
+                                    </p>
+                                </div>
+                            </label>
+                            <label class="tip-checkbox-item">
+                                <input type="checkbox">
+                                <span class="checkbox-custom"></span>
+                                <div class="tip-text">
+                                    <h4>🔄 Plan Loop Routes</h4>
+                                    <p>Loop routes mean you're never too far from your starting point if you need to cut
+                                        the
+                                        ride short.</p>
+                                </div>
+                            </label>
+                            <label class="tip-checkbox-item">
+                                <input type="checkbox">
+                                <span class="checkbox-custom"></span>
+                                <div class="tip-text">
+                                    <h4>📊 Match Difficulty to Glucose</h4>
+                                    <p>Start with easier routes and gradually increase difficulty as you learn how
+                                        cycling
+                                        affects your blood sugar.</p>
+                                </div>
+                            </label>
+                            <label class="tip-checkbox-item">
+                                <input type="checkbox">
+                                <span class="checkbox-custom"></span>
+                                <div class="tip-text">
+                                    <h4>👥 Share Your Route</h4>
+                                    <p>Tell someone your planned route and expected return time. Use GPS tracking apps.
+                                    </p>
+                                </div>
+                            </label>
+                            <label class="tip-checkbox-item">
+                                <input type="checkbox">
+                                <span class="checkbox-custom"></span>
+                                <div class="tip-text">
+                                    <h4>🌡️ Check Weather</h4>
+                                    <p>Extreme heat or cold affects blood sugar. Avoid cycling in harsh conditions.</p>
+                                </div>
+                            </label>
+                        </div>
                     </div>
-                    <div class="resource-card">
-                        <h4>Strava</h4>
-                        <p>Track your rides, join challenges, and connect with other cyclists.</p>
-                        <a href="https://www.strava.com/" target="_blank" rel="noopener noreferrer">Visit Site →</a>
-                    </div>
-                    <div class="resource-card">
-                        <h4>Sofia Cycling Map (Official)</h4>
-                        <p>Official cycling infrastructure map from Sofia Municipality.</p>
-                        <a href="https://www.sofia.bg/" target="_blank" rel="noopener noreferrer">Visit Site →</a>
-                    </div>
+
                 </div>
             </div>
 
@@ -672,6 +753,43 @@
                 <h3>🚴 Ready to Ride?</h3>
                 <p>Check your glucose, pack your supplies, and enjoy the beautiful cycling routes of Sofia!</p>
             </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="sidebar-resources">
+                <h3>🔗 Cycling Resources</h3>
+                <a href="https://www.bikemap.net/" target="_blank" rel="noopener noreferrer" class="sidebar-link">
+                    <div class="link-icon">🚴</div>
+                    <div class="link-text">
+                        <h4>Bikemap</h4>
+                        <p>Find & share routes worldwide</p>
+                    </div>
+                </a>
+                <a href="https://www.komoot.com/" target="_blank" rel="noopener noreferrer" class="sidebar-link">
+                    <div class="link-icon">📍</div>
+                    <div class="link-text">
+                        <h4>Komoot</h4>
+                        <p>Turn-by-turn navigation</p>
+                    </div>
+                </a>
+                <a href="https://www.strava.com/" target="_blank" rel="noopener noreferrer" class="sidebar-link">
+                    <div class="link-icon">🏆</div>
+                    <div class="link-text">
+                        <h4>Strava</h4>
+                        <p>Track rides & challenges</p>
+                    </div>
+                </a>
+                <a href="https://www.sofia.bg/" target="_blank" rel="noopener noreferrer" class="sidebar-link">
+                    <div class="link-icon">🗺️</div>
+                    <div class="link-text">
+                        <h4>Sofia Cycling Map</h4>
+                        <p>Official municipality map</p>
+                    </div>
+                </a>
+            </div>
+        </aside>
+        </div>
         </div>
     </main>
 
