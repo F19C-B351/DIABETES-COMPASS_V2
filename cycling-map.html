@@ -91,7 +91,7 @@
 
         .routes-carousel {
             display: flex;
-            gap: 25px;
+            gap: 15px;
             overflow-x: auto;
             scroll-behavior: smooth;
             padding: 10px 5px 20px;
@@ -160,47 +160,48 @@
 
         .route-card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            border-left: 4px solid #00bcd4;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-left: 3px solid #00bcd4;
             transition: transform 0.3s ease;
-            min-width: 320px;
+            min-width: 240px;
+            max-width: 240px;
             flex-shrink: 0;
         }
 
         .route-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
         .route-card h4 {
             color: #0097a7;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-size: 1rem;
         }
 
         .route-card .route-info {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 10px;
         }
 
         .route-card .info-tag {
             background: #e0f7fa;
             color: #006064;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.85rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
             font-weight: 500;
         }
 
         .route-card .difficulty {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
             font-weight: 600;
         }
 
@@ -221,8 +222,9 @@
 
         .route-card p {
             color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
         }
 
         .route-card .map-link {
@@ -617,7 +619,7 @@
         const carousel = document.getElementById('routesCarousel');
         const indicatorsContainer = document.getElementById('carouselIndicators');
         const cards = carousel.querySelectorAll('.route-card');
-        const cardWidth = 345; // card width + gap
+        const cardWidth = 255; // card width + gap
 
         // Create indicators
         cards.forEach((_, index) => {
