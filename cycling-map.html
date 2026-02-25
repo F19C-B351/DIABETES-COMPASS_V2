@@ -892,13 +892,12 @@
         // Export tips to XLS
         function exportToXls() {
             const tips = document.querySelectorAll('.tip-checkbox-item');
-            let csvContent = 'Tip,Description,Checked\n';
+            let csvContent = 'Tips,Description\n';
 
             tips.forEach(tip => {
                 const title = tip.querySelector('.tip-text h4').textContent.trim();
                 const desc = tip.querySelector('.tip-text p').textContent.trim().replace(/,/g, ';');
-                const checked = tip.querySelector('input[type="checkbox"]').checked ? 'Yes' : 'No';
-                csvContent += `"${title}","${desc}","${checked}"\n`;
+                csvContent += `"${title}","${desc}"\n`;
             });
 
             const blob = new Blob([csvContent], { type: 'application/vnd.ms-excel' });
