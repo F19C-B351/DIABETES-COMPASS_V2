@@ -288,6 +288,134 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Route Planning Tips Section */
+        .tips-box {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+
+        .tips-box h3 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .tips-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tips-header h3 {
+            margin-bottom: 0;
+        }
+
+        .export-btn {
+            background: white;
+            color: #0097a7;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .tips-checklist {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .tips-checklist {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .tips-checklist {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tip-checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .tip-checkbox-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .tip-checkbox-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .tip-checkbox-item .checkbox-custom {
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
+            border: 2px solid white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            margin-top: 2px;
+        }
+
+        .tip-checkbox-item input[type="checkbox"]:checked+.checkbox-custom {
+            background: white;
+        }
+
+        .tip-checkbox-item input[type="checkbox"]:checked+.checkbox-custom::after {
+            content: '✔';
+            color: #0097a7;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .tip-checkbox-item .tip-text {
+            flex: 1;
+        }
+
+        .tip-checkbox-item .tip-text h4 {
+            margin: 0 0 4px 0;
+            font-size: 1rem;
+        }
+
+        .tip-checkbox-item .tip-text p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
     </style>
 </head>
 
@@ -539,6 +667,70 @@
                 </div>
             </div>
 
+            <!-- Route Planning Tips for Diabetics -->
+            <div class="tips-box">
+                <div class="tips-header">
+                    <h3>💡 Route Planning Tips for Diabetics</h3>
+                    <button class="export-btn" onclick="exportToXls()">
+                        📥 Export in XLS
+                    </button>
+                </div>
+                <div class="tips-checklist">
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>🏪 Know Rest Stops</h4>
+                            <p>Plan routes near shops, cafes, or pharmacies where you can get carbs or supplies if
+                                needed.</p>
+                        </div>
+                    </label>
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>📱 Download Offline Maps</h4>
+                            <p>Save routes offline in case you need to find help or a rest stop without cell service.
+                            </p>
+                        </div>
+                    </label>
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>🔄 Plan Loop Routes</h4>
+                            <p>Loop routes mean you're never too far from your starting point if you need to cut the
+                                ride short.</p>
+                        </div>
+                    </label>
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>📊 Match Difficulty to Glucose</h4>
+                            <p>Start with easier routes and gradually increase difficulty as you learn how cycling
+                                affects your blood sugar.</p>
+                        </div>
+                    </label>
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>👥 Share Your Route</h4>
+                            <p>Tell someone your planned route and expected return time. Use GPS tracking apps.</p>
+                        </div>
+                    </label>
+                    <label class="tip-checkbox-item">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <div class="tip-text">
+                            <h4>🌡️ Check Weather</h4>
+                            <p>Extreme heat or cold affects blood sugar. Avoid cycling in harsh conditions.</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
             <!-- Simple Rule Box -->
             <div class="rule-box">
                 <h3>🚴 Cycling Safety Rules</h3>
@@ -554,6 +746,39 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Export tips to XLS
+        function exportToXls() {
+            const tips = document.querySelectorAll('.tip-checkbox-item');
+
+            // Create HTML table format for proper Excel column separation
+            let htmlContent = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
+                <head><meta charset="UTF-8"></head>
+                <body>
+                <table border="1">
+                    <tr><th>Tips</th><th>Description</th></tr>
+            `;
+
+            tips.forEach(tip => {
+                let title = tip.querySelector('.tip-text h4').textContent.trim();
+                // Remove emojis
+                title = title.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
+                const desc = tip.querySelector('.tip-text p').textContent.trim();
+                htmlContent += `<tr><td>${title}</td><td>${desc}</td></tr>`;
+            });
+
+            htmlContent += '</table></body></html>';
+
+            const blob = new Blob([htmlContent], { type: 'application/vnd.ms-excel' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'route-planning-tips.xls';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
 </body>
 
 </html>

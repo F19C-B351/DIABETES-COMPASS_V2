@@ -767,84 +767,14 @@
                         <div class="carousel-indicators" id="carouselIndicators"></div>
                     </div>
 
-                    <!-- Tips for Diabetic Cyclists -->
-                    <div class="tips-box">
-                        <div class="tips-header">
-                            <h3>💡 Route Planning Tips for Diabetics</h3>
-                            <button class="export-btn" onclick="exportToXls()">
-                                📥 Export in XLS
-                            </button>
-                        </div>
-                        <div class="tips-checklist">
-                            <label class="tip-checkbox-item">
-                                <input type="checkbox">
-                                <span class="checkbox-custom"></span>
-                                <div class="tip-text">
-                                    <h4>🏪 Know Rest Stops</h4>
-                                    <p>Plan routes near shops, cafes, or pharmacies where you can get carbs or supplies
-                                        if
-                                        needed.</p>
-                                </div>
-                            </label>
-                            <label class="tip-checkbox-item">
-                                <input type="checkbox">
-                                <span class="checkbox-custom"></span>
-                                <div class="tip-text">
-                                    <h4>📱 Download Offline Maps</h4>
-                                    <p>Save routes offline in case you need to find help or a rest stop without cell
-                                        service.
-                                    </p>
-                                </div>
-                            </label>
-                            <label class="tip-checkbox-item">
-                                <input type="checkbox">
-                                <span class="checkbox-custom"></span>
-                                <div class="tip-text">
-                                    <h4>🔄 Plan Loop Routes</h4>
-                                    <p>Loop routes mean you're never too far from your starting point if you need to cut
-                                        the
-                                        ride short.</p>
-                                </div>
-                            </label>
-                            <label class="tip-checkbox-item">
-                                <input type="checkbox">
-                                <span class="checkbox-custom"></span>
-                                <div class="tip-text">
-                                    <h4>📊 Match Difficulty to Glucose</h4>
-                                    <p>Start with easier routes and gradually increase difficulty as you learn how
-                                        cycling
-                                        affects your blood sugar.</p>
-                                </div>
-                            </label>
-                            <label class="tip-checkbox-item">
-                                <input type="checkbox">
-                                <span class="checkbox-custom"></span>
-                                <div class="tip-text">
-                                    <h4>👥 Share Your Route</h4>
-                                    <p>Tell someone your planned route and expected return time. Use GPS tracking apps.
-                                    </p>
-                                </div>
-                            </label>
-                            <label class="tip-checkbox-item">
-                                <input type="checkbox">
-                                <span class="checkbox-custom"></span>
-                                <div class="tip-text">
-                                    <h4>🌡️ Check Weather</h4>
-                                    <p>Extreme heat or cold affects blood sugar. Avoid cycling in harsh conditions.</p>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
+                </div>
 
+                <!-- CTA Section -->
+                <div class="cta-section">
+                    <h3>🚴 Ready to Ride?</h3>
+                    <p>Check your glucose, pack your supplies, and enjoy the beautiful cycling routes of Sofia!</p>
                 </div>
             </div>
-
-            <!-- CTA Section -->
-            <div class="cta-section">
-                <h3>🚴 Ready to Ride?</h3>
-                <p>Check your glucose, pack your supplies, and enjoy the beautiful cycling routes of Sofia!</p>
-            </div>
-        </div>
         </div>
         </div>
     </main>
@@ -888,38 +818,6 @@
                 dot.classList.toggle('active', index === activeIndex);
             });
         });
-
-        // Export tips to XLS
-        function exportToXls() {
-            const tips = document.querySelectorAll('.tip-checkbox-item');
-
-            // Create HTML table format for proper Excel column separation
-            let htmlContent = `
-                <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
-                <head><meta charset="UTF-8"></head>
-                <body>
-                <table border="1">
-                    <tr><th>Tips</th><th>Description</th></tr>
-            `;
-
-            tips.forEach(tip => {
-                let title = tip.querySelector('.tip-text h4').textContent.trim();
-                // Remove emojis
-                title = title.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
-                const desc = tip.querySelector('.tip-text p').textContent.trim();
-                htmlContent += `<tr><td>${title}</td><td>${desc}</td></tr>`;
-            });
-
-            htmlContent += '</table></body></html>';
-
-            const blob = new Blob([htmlContent], { type: 'application/vnd.ms-excel' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'route-planning-tips.xls';
-            a.click();
-            window.URL.revokeObjectURL(url);
-        }
     </script>
 </body>
 
