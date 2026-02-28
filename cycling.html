@@ -673,7 +673,21 @@
     <script src="script.js"></script>
     <script>
         // Export tips to XLS
-        function exportToXls() {
+        async function exportToXls() {
+            // Check if user is logged in via Supabase
+            let user = null;
+            if (window.supabase && window.supabase.auth) {
+                // v2 API
+                const { data } = await window.supabase.auth.getUser();
+                user = data && data.user;
+            } else if (window.supabase) {
+                // fallback for v1
+                user = window.supabase.auth.user();
+            }
+            if (!user) {
+                alert('You must be logged in to export tips. Please log in first.');
+                return;
+            }
             const tips = document.querySelectorAll('.tip-checkbox-item');
 
             // Create HTML table format for proper Excel column separation
