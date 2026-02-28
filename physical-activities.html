@@ -10,16 +10,11 @@
 </head>
 
 <body>
-    <button class="login-btn-topright" id="show-login-btn">Login</button>
-    <!-- Inject Navbar/Login Modal -->
-    <div id="navbar-login-container"></div>
-    <script>
-        fetch('Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/components/navbar-login.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('navbar-login-container').innerHTML = html;
-            });
-    </script>
+
+    <!-- Navbar/Login Modal injected directly in HTML -->
+    <div id="navbar-login-container">
+        <!-- Insert your login modal HTML here -->
+    </div>
     <script src="Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/pages/login.js"></script>
     <nav class="navbar">
         <div class="nav-container">
@@ -129,5 +124,6 @@
 
     <script src="script.js"></script>
 </body>
+<script src="login-modal-inject.js"></script>
 
 </html>

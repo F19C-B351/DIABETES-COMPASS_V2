@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeRegisterModal = document.getElementById('close-register-modal');
     const showLoginLink = document.getElementById('show-login-link');
 
+    // Check all modal elements exist
+    if (!loginForm || !loginError || !registerForm || !registerError || !showRegisterBtn || !showLoginBtn || !loginModal || !registerModal || !closeLoginModal || !closeRegisterModal || !showLoginLink) {
+        console.error('Login/Register modal elements missing in DOM.');
+        return;
+    }
+
     // Show login modal
     showLoginBtn.addEventListener('click', function () {
         loginModal.classList.add('active');

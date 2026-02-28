@@ -1,3 +1,23 @@
+/* Register Button Top Right */
+.register-btn-topright {
+    position: relative;
+    padding: 8px 22px;
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.register-btn-topright:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.18);
+}
+
 /* Reset and base styles */
 * {
     margin: 0;
@@ -640,13 +660,7 @@ header p {
         font-size: 1.5rem;
     }
 
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
+    /* Removed invalid properties outside selector */
 }
 
 .chatbot-toggle:hover {
@@ -949,83 +963,83 @@ header p {
 .chatbot-messages::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
 }
+
+/* Removed stray closing brace and invalid nested selector */
+
+.banner-morning {
+    background: linear-gradient(135deg, #FFB75A 0%, #ED8F03 100%) !important;
 }
 
-.fact-text {
+.banner-afternoon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
 
-    /* Contextual Banner Styles for Time of Day */
-    .banner-morning {
-        background: linear-gradient(135deg, #FFB75A 0%, #ED8F03 100%) !important;
+.banner-evening {
+    background: linear-gradient(135deg, #2E3192 0%, #1BFFFF 100%) !important;
+}
+
+.banner-morning .fact-text {
+    animation-duration: 2s;
+}
+
+.banner-afternoon .fact-text {
+    animation-duration: 3s;
+}
+
+.banner-evening .fact-text {
+    animation-duration: 4s;
+}
+
+.banner-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.banner-particles::before,
+.banner-particles::after {
+    content: '✦';
+    position: absolute;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 12px;
+    animation: sparkle 3s infinite;
+}
+
+.banner-particles::before {
+    top: 20%;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.banner-particles::after {
+    top: 70%;
+    right: 20%;
+    animation-delay: 1.5s;
+}
+
+@keyframes sparkle {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
     }
 
-    .banner-afternoon {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    50% {
+        opacity: 1;
+        transform: scale(1) rotate(180deg);
     }
+}
 
-    .banner-evening {
-        background: linear-gradient(135deg, #2E3192 0%, #1BFFFF 100%) !important;
-    }
 
-    /* Contextual animation speeds */
-    .banner-morning .fact-text {
-        animation-duration: 2s;
-    }
-
-    .banner-afternoon .fact-text {
-        animation-duration: 3s;
-    }
-
-    .banner-evening .fact-text {
-        animation-duration: 4s;
-    }
-
-    /* Floating particles for enhanced visual appeal */
-    .banner-particles {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .banner-particles::before,
-    .banner-particles::after {
-        content: '✦';
-        position: absolute;
-        color: rgba(255, 255, 255, 0.4);
-        font-size: 12px;
-        animation: sparkle 3s infinite;
-    }
-
-    .banner-particles::before {
-        top: 20%;
-        left: 15%;
-        animation-delay: 0s;
-    }
-
-    .banner-particles::after {
-        top: 70%;
-        right: 20%;
-        animation-delay: 1.5s;
-    }
-
-    @keyframes sparkle {
-
-        0%,
-        100% {
-            opacity: 0;
-            transform: scale(0) rotate(0deg);
-        }
-
-        50% {
-            opacity: 1;
-            transform: scale(1) rotate(180deg);
-        }
-    }
-
-    min-height: 100px;
+.fact-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
 }
 
 .banner-controls {
@@ -1464,6 +1478,7 @@ footer p {
 .chatbot-messages::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
 }
+
 /* Breadcrumbs */
 .breadcrumbs {
     background: rgba(255, 255, 255, 0.95);
@@ -1500,4 +1515,3 @@ footer p {
     color: #666;
     font-size: 0.9rem;
     font-weight: 500;
-}

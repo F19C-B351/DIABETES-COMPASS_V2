@@ -43,7 +43,7 @@
 </head>
 
 <body>
-    <button class="login-btn-topright" id="show-login-btn">Login</button>
+
     <!-- Login Button Top Right -->
 
     <style>
@@ -395,15 +395,9 @@
     </head>
 
     <body>
-        <!-- Inject Navbar/Login Modal (top right) -->
-        <div id="navbar-login-container"></div>
-        <script>
-            fetch('src/components/navbar-login.html')
-                .then(res => res.text())
-                .then(html => {
-                    document.getElementById('navbar-login-container').innerHTML = html;
-                });
-        </script>
+        <!-- Navbar/Login Modal injected directly in HTML -->
+        <script src="script.js"></script>
+        <script src="login-modal-inject.js"></script>
         <script type="module" src="login.js"></script>
         <nav class="navbar">
             <div class="nav-container">
@@ -984,85 +978,7 @@ Diabetes Compass Team
 
         <!-- Supabase CDN for browser global usage -->
         <script type="module">
-            import { supabase } from './supabaseClient.js';
-            function openRegisterModal() {
-                document.getElementById('register-modal').classList.add('active');
-            }
-            function closeRegisterModal() {
-                document.getElementById('register-modal').classList.remove('active');
-                document.getElementById('register-form').reset();
-                document.getElementById('register-error').style.display = 'none';
-                document.getElementById('register-success').style.display = 'none';
-            }
-            document.addEventListener('DOMContentLoaded', function () {
-                document.getElementById('show-login-btn').addEventListener('click', function () {
-                    document.getElementById('login-modal').style.display = 'block';
-                });
-                document.getElementById('close-login-modal').addEventListener('click', function () {
-                    document.getElementById('login-modal').style.display = 'none';
-                });
-                document.getElementById('show-register-btn').addEventListener('click', function () {
-                    document.getElementById('login-modal').style.display = 'none';
-                    openRegisterModal();
-                });
-                document.getElementById('close-register-modal').addEventListener('click', closeRegisterModal);
-                document.getElementById('register-form').addEventListener('submit', async function (e) {
-                    e.preventDefault();
-                    const email = document.getElementById('register-email').value.trim();
-                    const password = document.getElementById('register-password').value;
-                    const name = document.getElementById('register-name').value.trim();
-                    const dtype = document.getElementById('register-diabetes-type').value;
-                    const gunit = document.getElementById('register-glucose-unit').value;
-                    const insulin = document.querySelector('input[name="register-insulin-user"]:checked')?.value;
-                    const errorDiv = document.getElementById('register-error');
-                    const successDiv = document.getElementById('register-success');
-                    errorDiv.style.display = 'none';
-                    successDiv.style.display = 'none';
-                    if (!email || !password || !name || !dtype || !gunit || !insulin) {
-                        errorDiv.textContent = 'All fields are required.';
-                        errorDiv.style.display = 'block';
-                        return;
-                    }
-                    // Register user
-                    const { data, error } = await supabase.auth.signUp({
-                        email,
-                        password,
-                        options: { data: { name } }
-                    });
-                    if (error) {
-                        errorDiv.textContent = error.message;
-                        errorDiv.style.display = 'block';
-                        return;
-                    }
-                    // Save profile
-                    const user = data.user || (supabase.auth.getUser ? (await supabase.auth.getUser()).data.user : null);
-                    if (user) {
-                        const { error: profileErrorUpsert } = await supabase.from('profiles').upsert({
-                            user_id: user.id,
-                            name,
-                            diabetes_type: dtype,
-                            glucose_unit: gunit,
-                            insulin_user: insulin
-                        });
-                        if (profileErrorUpsert) {
-                            errorDiv.textContent = profileErrorUpsert.message;
-                            errorDiv.style.display = 'block';
-                            return;
-                        }
-                    }
-                    successDiv.textContent = 'Registration successful! Please check your email to verify your account.';
-                    successDiv.style.display = 'block';
-                    setTimeout(() => {
-                        closeRegisterModal();
-                    }, 2500);
-                });
-                // Close modal with Escape key
-                document.addEventListener('keydown', function (e) {
-                    if (e.key === 'Escape' && document.getElementById('register-modal').classList.contains('active')) {
-                        closeRegisterModal();
-                    }
-                });
-            });
+            // Modal logic moved to login.js, no duplicate modal logic here
         </script>
     </body>
 
