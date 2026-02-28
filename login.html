@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Diabetes Compass</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../responsive.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 24px rgba(102, 126, 234, 0.10);
+            padding: 2.5rem 2rem 2rem 2rem;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-group select {
+            background: #f8f9fa;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .profile-section {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="login-name">Name</label>
+                <input type="text" id="login-name" required />
+            </div>
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" required />
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" required />
+            </div>
+            <div class="error-message" id="login-error" style="display:none;"></div>
+            <button type="submit" class="btn-primary">Login</button>
+        </form>
+        <div class="profile-section" id="profile-section">
+            <h2>Profile</h2>
+            <form id="profile-form">
+                <div class="form-group">
+                    <label for="profile-name">Name</label>
+                    <input type="text" id="profile-name" required />
+                </div>
+                <div class="form-group">
+                    <label for="diabetes-type">Diabetes Type</label>
+                    <select id="diabetes-type" required>
+                        <option value="">Select type</option>
+                        <option value="Type 1">Type 1</option>
+                        <option value="Type 2">Type 2</option>
+                        <option value="Gestational">Gestational</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="glucose-unit">Glucose Unit</label>
+                    <select id="glucose-unit" required>
+                        <option value="mmol/L">mmol/L</option>
+                        <option value="mg/dL">mg/dL</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="insulin-user">Insulin User</label>
+                    <select id="insulin-user" required>
+                        <option value="">Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Save Profile</button>
+            </form>
+            <div class="error-message" id="profile-error" style="display:none;"></div>
+            <div class="success-message" id="profile-success"
+                style="display:none; color: #388e3c; text-align:center; margin-top:1rem;">Profile saved!</div>
+        </div>
+    </div>
+    <script src="login.js"></script>
+</body>
+
+</html>
