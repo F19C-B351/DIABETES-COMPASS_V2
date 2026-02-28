@@ -7,6 +7,16 @@
     <title>Group Activities for Diabetes - Diabetes Compass</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive.css">
+    <!-- Inject Navbar/Login Modal (top right) -->
+    <div id="navbar-login-container"></div>
+    <script>
+        fetch('Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/components/navbar-login.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('navbar-login-container').innerHTML = html;
+            });
+    </script>
+    <script src="Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/pages/login.js"></script>
     <style>
         .back-link {
             display: inline-block;

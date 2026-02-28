@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Diabetes Compass</a>
         <div class="d-flex ms-auto">
-            <button id="show-login-btn" class="btn btn-outline-primary">Login</button>
+            <a href="Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/pages/login.html" class="btn btn-outline-primary" id="show-login-btn">Login</a>
         </div>
     </div>
 </nav>
@@ -29,25 +29,4 @@
         <div id="login-error" class="text-danger mt-3" style="display:none;"></div>
     </div>
 </div>
-<!-- Navbar and Login Modal Scripts (reusable) -->
-<script>
-    // Show/hide login modal logic
-    // This script should be included after the navbar and modal HTML
-    // and before login.js
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const loginModal = document.getElementById('login-modal');
-        const showLoginBtn = document.getElementById('show-login-btn');
-        const closeLoginModal = document.getElementById('close-login-modal');
-        if (showLoginBtn && loginModal) {
-            showLoginBtn.addEventListener('click', function () {
-                loginModal.style.display = 'block';
-            });
-        }
-        if (closeLoginModal && loginModal) {
-            closeLoginModal.addEventListener('click', function () {
-                loginModal.style.display = 'none';
-            });
-        }
-    });
-</script>
+<!-- No modal logic needed, button links to login page -->
