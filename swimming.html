@@ -7,16 +7,40 @@
     <title>Swimming with Diabetes - Diabetes Compass</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive.css">
-    <!-- Inject Navbar/Login Modal (top right) -->
-    <div id="navbar-login-container"></div>
-    <script>
-        fetch('Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/components/navbar-login.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('navbar-login-container').innerHTML = html;
-            });
-    </script>
-    <script src="Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/pages/login.js"></script>
+    <!-- Login Button Top Right -->
+    <style>
+        .login-btn-topright {
+            position: absolute;
+            top: 18px;
+            right: 32px;
+            z-index: 2000;
+            padding: 8px 22px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
+        .login-btn-topright:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.18);
+        }
+
+        @media (max-width: 600px) {
+            .login-btn-topright {
+                top: 10px;
+                right: 10px;
+                padding: 6px 14px;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+    <a href="login.html" class="login-btn-topright">Login</a>
     <style>
         .back-link {
             display: inline-block;
