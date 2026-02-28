@@ -11,6 +11,16 @@
 </head>
 
 <body>
+    <!-- Inject Navbar/Login Modal -->
+    <div id="navbar-login-container"></div>
+    <script>
+        fetch('Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/components/navbar-login.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('navbar-login-container').innerHTML = html;
+            });
+    </script>
+    <script src="Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/pages/login.js"></script>
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-menu">
@@ -35,6 +45,14 @@
     </header>
 
     <section class="did-you-know-banner">
+        <!-- Inject Navbar/Login Modal -->
+        <script>
+            fetch('src/components/navbar-login.html')
+                .then(res => res.text())
+                .then(html => {
+                    document.body.insertAdjacentHTML('afterbegin', html);
+                });
+        </script>
         <div class="banner-particles"></div>
         <div class="banner-container">
             <div class="banner-content">

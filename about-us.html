@@ -64,17 +64,19 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
-                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
-                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
-                    doctor?</a>
-            </div>
-        </div>
-    </nav>
+    <!-- Inject Navbar/Login Modal -->
+    <div id="navbar-login-container"></div>
+    <script>
+        fetch('Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/components/navbar-login.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('navbar-login-container').innerHTML = html;
+            });
+    </script>
+    <script src="Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/pages/login.js"></script>
+
+    <!-- Reusable Navbar with Login Button -->
+    <div id="navbar-login-include"></div>
 
     <header>
         <div class="container">
@@ -197,6 +199,20 @@
 
     <!-- Dia Chatbot (Reuse script for bot functionality) -->
     <script src="script.js"></script>
+    <!-- Inject Navbar/Login Modal -->
+    <script>
+        fetch('src/components/navbar-login.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('navbar-login-include').innerHTML = html;
+            });
+    </script>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client Config -->
+    <script src="src/pages/supabaseClient.js"></script>
+    <!-- Login Logic -->
+    <script src="src/pages/login.js"></script>
 </body>
 
 </html>

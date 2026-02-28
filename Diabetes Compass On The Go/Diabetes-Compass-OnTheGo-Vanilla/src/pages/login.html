@@ -1,18 +1,34 @@
-<!-- Login Page -->
-<div class="container mt-5" style="max-width: 400px;">
-    <h2 class="mb-4 text-center">Login</h2>
-    <form id="login-form">
-        <div class="mb-3">
-            <label for="login-email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="login-email" required />
+<!-- Top Navbar with Login Button -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Diabetes Compass</a>
+        <div class="d-flex ms-auto">
+            <button id="show-login-btn" class="btn btn-outline-primary">Login</button>
         </div>
-        <div class="mb-3">
-            <label for="login-password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="login-password" required />
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-    </form>
-    <div id="login-error" class="text-danger mt-3" style="display:none;"></div>
+    </div>
+</nav>
+
+<!-- Login Page (hidden by default, shown when Login button is clicked) -->
+<div id="login-modal"
+    style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1050;">
+    <div class="container mt-5"
+        style="max-width: 400px; background:#fff; border-radius:8px; box-shadow:0 2px 16px rgba(0,0,0,0.2); padding:2rem; position:relative; top:10vh;">
+        <button type="button" id="close-login-modal" class="btn-close position-absolute end-0 top-0 m-3"
+            aria-label="Close"></button>
+        <h2 class="mb-4 text-center">Login</h2>
+        <form id="login-form">
+            <div class="mb-3">
+                <label for="login-email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="login-email" required />
+            </div>
+            <div class="mb-3">
+                <label for="login-password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="login-password" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <div id="login-error" class="text-danger mt-3" style="display:none;"></div>
+    </div>
 </div>
 
 <!-- Profile Fields (to be shown after login) -->
@@ -60,10 +76,30 @@
     <div id="profile-success" class="text-success mt-3" style="display:none;"></div>
 </div>
 
+</div>
+
 <!-- Supabase JS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Supabase Client Config -->
 <script src="supabaseClient.js"></script>
 <!-- Login Logic -->
 <script src="login.js"></script>
+<script>
+    // Show/hide login modal logic
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginModal = document.getElementById('login-modal');
+        const showLoginBtn = document.getElementById('show-login-btn');
+        const closeLoginModal = document.getElementById('close-login-modal');
+        if (showLoginBtn && loginModal) {
+            showLoginBtn.addEventListener('click', function () {
+                loginModal.style.display = 'block';
+            });
+        }
+        if (closeLoginModal && loginModal) {
+            closeLoginModal.addEventListener('click', function () {
+                loginModal.style.display = 'none';
+            });
+        }
+    });
+</script>
 </div>

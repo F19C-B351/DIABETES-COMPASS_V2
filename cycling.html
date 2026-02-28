@@ -379,6 +379,16 @@
 </head>
 
 <body>
+    <!-- Inject Navbar/Login Modal -->
+    <div id="navbar-login-container"></div>
+    <script>
+        fetch('Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/components/navbar-login.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('navbar-login-container').innerHTML = html;
+            });
+    </script>
+    <script src="Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/pages/login.js"></script>
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-menu">
@@ -460,6 +470,20 @@
             animate();
         })();
     </script>
+    <!-- Inject Navbar/Login Modal -->
+    <script>
+        fetch('src/components/navbar-login.html')
+            .then(res => res.text())
+            .then(html => {
+                document.body.insertAdjacentHTML('afterbegin', html);
+            });
+    </script>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client Config -->
+    <script src="src/pages/supabaseClient.js"></script>
+    <!-- Login Logic -->
+    <script src="src/pages/login.js"></script>
 
     <nav class="breadcrumbs">
         <div class="container">
