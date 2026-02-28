@@ -5,61 +5,52 @@ document.addEventListener('DOMContentLoaded', function () {
     const loginError = document.getElementById('login-error');
     const registerForm = document.getElementById('register-form');
     const registerError = document.getElementById('register-error');
-    const profileSection = document.getElementById('profile-section');
-    const profileForm = document.getElementById('profile-form');
-    const profileError = document.getElementById('profile-error');
-    const profileSuccess = document.getElementById('profile-success');
-    const showRegisterLink = document.getElementById('show-register-link');
+    const showRegisterBtn = document.getElementById('show-register-btn');
+    const showLoginBtn = document.getElementById('show-login-btn');
+    const loginModal = document.getElementById('login-modal');
+    const registerModal = document.getElementById('register-modal');
+    const closeLoginModal = document.getElementById('close-login-modal');
+    const closeRegisterModal = document.getElementById('close-register-modal');
     const showLoginLink = document.getElementById('show-login-link');
 
-    // Show register form
-    showRegisterLink.addEventListener('click', function (e) {
-        e.preventDefault();
-        loginForm.style.display = 'none';
-        registerForm.style.display = 'block';
+    // Show login modal
+    showLoginBtn.addEventListener('click', function () {
+        loginModal.classList.add('active');
     });
-    // Show login form
+    // Close login modal
+    closeLoginModal.addEventListener('click', function () {
+        loginModal.classList.remove('active');
+    });
+    // Show register modal from login modal
+    showRegisterBtn.addEventListener('click', function () {
+        loginModal.classList.remove('active');
+        registerModal.classList.add('active');
+    });
+    // Close register modal
+    closeRegisterModal.addEventListener('click', function () {
+        registerModal.classList.remove('active');
+    });
+    // Show login modal from register modal link
     showLoginLink.addEventListener('click', function (e) {
         e.preventDefault();
-        registerForm.style.display = 'none';
-        loginForm.style.display = 'block';
+        registerModal.classList.remove('active');
+        loginModal.classList.add('active');
     });
 
     // Login form submit
     loginForm.addEventListener('submit', async function (e) {
         e.preventDefault();
+        const name = document.getElementById('login-name').value.trim();
         const email = document.getElementById('login-email').value.trim();
-        const password = document.getElementById('login-password').value;
         loginError.style.display = 'none';
-        if (!email || !password) {
-            loginError.textContent = 'All fields are required.';
+        if (!name || !email) {
+            loginError.textContent = 'Name and email are required.';
             loginError.style.display = 'block';
             return;
         }
-        let { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) {
-            loginError.textContent = error.message;
-            loginError.style.display = 'block';
-            return;
-        }
-        // Success: show profile section
-        profileSection.style.display = 'block';
-        loginForm.style.display = 'none';
-        // Optionally fetch profile if exists
-        const user = supabase.auth.getUser ? (await supabase.auth.getUser()).data.user : null;
-        if (user) {
-            const { data: profile } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('user_id', user.id)
-                .single();
-            if (profile) {
-                document.getElementById('profile-name').value = profile.name || '';
-                document.getElementById('diabetes-type').value = profile.diabetes_type || '';
-                document.getElementById('glucose-unit').value = profile.glucose_unit || 'mmol/L';
-                document.getElementById('insulin-user').value = profile.insulin_user || '';
-            }
-        }
+        // Optionally: You can implement a custom login logic here, or just close the modal for demo purposes
+        loginModal.classList.remove('active');
+        window.location.reload();
     });
 
     // Register form submit
@@ -71,7 +62,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const name = document.getElementById('register-name').value.trim();
         const dtype = document.getElementById('register-diabetes-type').value;
         const gunit = document.getElementById('register-glucose-unit').value;
-        const insulin = document.getElementById('register-insulin-user').value;
+        let insulin = '';
+        const insulinYes = document.getElementById('register-insulin-yes');
+        const insulinNo = document.getElementById('register-insulin-no');
+        if (insulinYes && insulinYes.checked) insulin = 'Yes';
+        else if (insulinNo && insulinNo.checked) insulin = 'No';
         if (!email || !password || !name || !dtype || !gunit || !insulin) {
             registerError.textContent = 'All fields are required.';
             registerError.style.display = 'block';
@@ -104,48 +99,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
         }
-        // Show profile section
-        registerForm.style.display = 'none';
-        profileSection.style.display = 'block';
-        document.getElementById('profile-name').value = name;
-        document.getElementById('diabetes-type').value = dtype;
-        document.getElementById('glucose-unit').value = gunit;
-        document.getElementById('insulin-user').value = insulin;
+        // Registration success: close modal and optionally reload page or update UI
+        registerModal.classList.remove('active');
+        window.location.reload();
     });
 
-    // Profile form submit
-    profileForm.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        profileError.style.display = 'none';
-        profileSuccess.style.display = 'none';
-        const pname = document.getElementById('profile-name').value.trim();
-        const dtype = document.getElementById('diabetes-type').value;
-        const gunit = document.getElementById('glucose-unit').value;
-        const insulin = document.getElementById('insulin-user').value;
-        if (!pname || !dtype || !gunit || !insulin) {
-            profileError.textContent = 'Please fill out all profile fields.';
-            profileError.style.display = 'block';
-            return;
-        }
-        // Save to Supabase
-        const user = supabase.auth.getUser ? (await supabase.auth.getUser()).data.user : null;
-        if (!user) {
-            profileError.textContent = 'User not authenticated.';
-            profileError.style.display = 'block';
-            return;
-        }
-        const { error } = await supabase.from('profiles').upsert({
-            user_id: user.id,
-            name: pname,
-            diabetes_type: dtype,
-            glucose_unit: gunit,
-            insulin_user: insulin
-        });
-        if (error) {
-            profileError.textContent = error.message;
-            profileError.style.display = 'block';
-        } else {
-            profileSuccess.style.display = 'block';
-        }
-    });
+    // Profile form submit removed (not used in modal-only flow)
 });

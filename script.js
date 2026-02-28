@@ -8,6 +8,91 @@ document.addEventListener('DOMContentLoaded', function () {
             "Morning tip: A 10-minute walk after breakfast can reduce post-meal blood sugar spikes by up to 30%.",
             "Did you know? Morning sunlight exposure for 15-20 minutes can help regulate your circadian rhythm and improve glucose metabolism."
         ],
+        // Enhanced Login/Register console
+        const loginBtn = document.getElementById('show-login-btn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', async function (e) {
+                e.preventDefault();
+                let username = '';
+                let email = '';
+                let action = '';
+                // Step 1: Ask for username
+                username = prompt('Login\n\nEnter your username:');
+                if (username === null) return;
+                // Step 2: Ask for email
+                email = prompt('Login\n\nEnter your email:');
+                if (email === null) return;
+                // Step 3: Ask for action
+                action = prompt('Type "1" to Login or "2" to Register:');
+                if (action === null) return;
+                if (action === '1') {
+                    // Login flow: ask for password
+                    const password = prompt('Login\n\nEnter your password:');
+                    if (password === null) return;
+                    // Try login with Supabase
+                    try {
+                        const { supabase } = await import('./supabaseClient.js');
+                        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                        if (error) {
+                            alert('Login failed: ' + error.message);
+                        } else {
+                            alert('Login successful!');
+                            window.location.reload();
+                        }
+                    } catch (err) {
+                        alert('Login error: ' + err.message);
+                    }
+                } else if (action === '2') {
+                    // Register flow: ask for registration fields
+                    const regEmail = prompt('Register\n\nEnter your email:');
+                    if (regEmail === null) return;
+                    const regPassword = prompt('Register\n\nEnter your password:');
+                    if (regPassword === null) return;
+                    const regName = prompt('Register\n\nEnter your name:');
+                    if (regName === null) return;
+                    const regDiabetesType = prompt('Register\n\nEnter diabetes type (Type 1, Type 2, Gestational, Other):');
+                    if (regDiabetesType === null) return;
+                    const regGlucoseUnit = prompt('Register\n\nEnter glucose unit (mmol/L or mg/dL):');
+                    if (regGlucoseUnit === null) return;
+                    const regInsulinUser = prompt('Register\n\nAre you an insulin user? (Yes/No):');
+                    if (regInsulinUser === null) return;
+                    // Register with Supabase
+                    try {
+                        const { supabase } = await import('./supabaseClient.js');
+                        const { data, error } = await supabase.auth.signUp({
+                            email: regEmail,
+                            password: regPassword,
+                            options: { data: { name: regName } }
+                        });
+                        if (error) {
+                            alert('Registration failed: ' + error.message);
+                            return;
+                        }
+                        // Save profile fields
+                        const user = data.user || (supabase.auth.getUser ? (await supabase.auth.getUser()).data.user : null);
+                        if (user) {
+                            const { error: profileErrorUpsert } = await supabase.from('profiles').upsert({
+                                user_id: user.id,
+                                name: regName,
+                                diabetes_type: regDiabetesType,
+                                glucose_unit: regGlucoseUnit,
+                                insulin_user: regInsulinUser
+                            });
+                            if (profileErrorUpsert) {
+                                alert('Profile save failed: ' + profileErrorUpsert.message);
+                                return;
+                            }
+                        }
+                        alert('Registration successful! Please check your email to confirm your account.');
+                        window.location.reload();
+                    } catch (err) {
+                        alert('Registration error: ' + err.message);
+                    }
+                } else {
+                    alert('Invalid action. Please try again.');
+                }
+            });
+        }
         afternoon: [
             "Afternoon reminder: If you're feeling tired, it might be your blood sugar. Stay hydrated and consider a healthy snack.",
             "Lunch fact: Eating vegetables first during meals can slow glucose absorption and improve blood sugar control.",

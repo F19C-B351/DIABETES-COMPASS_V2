@@ -203,6 +203,7 @@
 </head>
 
 <body>
+    <button class="login-btn-topright" id="show-login-btn">Login</button>
     <!-- Inject Navbar/Login Modal -->
     <div id="navbar-login-container"></div>
     <script>
@@ -289,7 +290,8 @@
                         <div class="video-lock-overlay" style="display:none;">
                             <div class="lock-message">
                                 <span style="font-size:2rem;">🔒</span><br>
-                                <span>This video is for members only.<br><a href="login.html" class="login-link">Log in to unlock</a></span>
+                                <span>This video is for members only.<br><a href="login.html" class="login-link">Log in
+                                        to unlock</a></span>
                             </div>
                         </div>
                     </div>
@@ -311,7 +313,8 @@
                         <div class="video-lock-overlay" style="display:none;">
                             <div class="lock-message">
                                 <span style="font-size:2rem;">🔒</span><br>
-                                <span>This video is for members only.<br><a href="login.html" class="login-link">Log in to unlock</a></span>
+                                <span>This video is for members only.<br><a href="login.html" class="login-link">Log in
+                                        to unlock</a></span>
                             </div>
                         </div>
                     </div>
@@ -321,31 +324,37 @@
                             beginner-friendly poses for diabetes wellness.</p>
                     </div>
                 </div>
-                        <style>
-                            .video-lock-overlay {
-                                position: absolute;
-                                top: 0; left: 0; right: 0; bottom: 0;
-                                background: rgba(255,255,255,0.92);
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                z-index: 10;
-                                border-radius: 12px;
-                            }
-                            .lockable-video {
-                                position: relative;
-                            }
-                            .lock-message {
-                                text-align: center;
-                                color: #667eea;
-                                font-weight: 600;
-                                font-size: 1.1rem;
-                            }
-                            .login-link {
-                                color: #764ba2;
-                                text-decoration: underline;
-                            }
-                        </style>
+                <style>
+                    .video-lock-overlay {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: rgba(255, 255, 255, 0.92);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10;
+                        border-radius: 12px;
+                    }
+
+                    .lockable-video {
+                        position: relative;
+                    }
+
+                    .lock-message {
+                        text-align: center;
+                        color: #667eea;
+                        font-weight: 600;
+                        font-size: 1.1rem;
+                    }
+
+                    .login-link {
+                        color: #764ba2;
+                        text-decoration: underline;
+                    }
+                </style>
                 <script>
                     // Lock all but the first video for users who are not logged in
                     document.addEventListener('DOMContentLoaded', async function () {

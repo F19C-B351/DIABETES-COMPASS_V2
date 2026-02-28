@@ -40,7 +40,261 @@
             }
         }
     </style>
-    <a href="login.html" class="login-btn-topright">Login</a>
+</head>
+
+<body>
+    <button class="login-btn-topright" id="show-login-btn">Login</button>
+    <!-- Login Button Top Right -->
+
+    <style>
+        .register-btn-topright {
+            position: absolute;
+            top: 18px;
+            right: 120px;
+            z-index: 2000;
+            padding: 8px 22px;
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
+        .register-btn-topright:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.18);
+        }
+
+        .register-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .register-modal.active {
+            display: flex;
+        }
+
+        .register-modal-content {
+            background: #fff;
+            padding: 40px 30px 30px 30px;
+            border-radius: 18px;
+            max-width: 420px;
+            width: 95%;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.18);
+            position: relative;
+        }
+
+        .register-modal-content h3 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .register-modal-content .form-group {
+            margin-bottom: 18px;
+        }
+
+        .register-modal-content label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        .register-modal-content input,
+        .register-modal-content select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .register-modal-content .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .register-modal-content .btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .register-modal-content .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .register-modal-content .error-message {
+            color: #d32f2f;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .register-modal-content .success-message {
+            color: #388e3c;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+    </style>
+    <!-- Login/Register Modal HTML (from login.html) -->
+    <div id="login-modal" class="modal-bg">
+        <div class="modal-content login-modal-content">
+            <button type="button" id="close-login-modal" class="btn-close position-absolute end-0 top-0 m-3"
+                aria-label="Close"></button>
+            <h2 class="mb-4 text-center">Login</h2>
+            <form id="login-form">
+                <div class="mb-3">
+                    <label for="login-name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="login-name" required />
+                </div>
+                <div class="mb-3">
+                    <label for="login-email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="login-email" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <button type="button" class="btn btn-secondary w-100 mt-2" id="show-register-btn">Register</button>
+            </form>
+            <div id="login-error" class="text-danger mt-3 error-message" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div id="register-modal" class="modal-bg">
+        <div class="modal-content register-modal-content">
+            <button type="button" id="close-register-modal" class="btn-close position-absolute end-0 top-0 m-3"
+                aria-label="Close"></button>
+            <h2 class="mb-4 text-center">Register</h2>
+            <form id="register-form">
+                <div class="mb-3">
+                    <label for="register-email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="register-email" required />
+                </div>
+                <div class="mb-3">
+                    <label for="register-password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="register-password" required />
+                </div>
+                <div class="mb-3">
+                    <label for="register-name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="register-name" required />
+                </div>
+                <div class="mb-3">
+                    <label for="register-diabetes-type" class="form-label">Diabetes Type</label>
+                    <select class="form-select" id="register-diabetes-type" required>
+                        <option value="">Select type</option>
+                        <option value="Type 1">Type 1</option>
+                        <option value="Type 2">Type 2</option>
+                        <option value="Gestational">Gestational</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="register-glucose-unit" class="form-label">Glucose Unit</label>
+                    <select class="form-select" id="register-glucose-unit" required>
+                        <option value="mmol/L">mmol/L</option>
+                        <option value="mg/dL">mg/dL</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Insulin User</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="register-insulin-user"
+                                id="register-insulin-yes" value="Yes" required />
+                            <label class="form-check-label" for="register-insulin-yes">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="register-insulin-user"
+                                id="register-insulin-no" value="No" required />
+                            <label class="form-check-label" for="register-insulin-no">No</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="register-error" class="text-danger mt-3 error-message" style="display:none;"></div>
+                <div id="register-success" class="text-success mt-3 success-message" style="display:none;"></div>
+                <style>
+                    .modal-bg {
+                        display: none;
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        background: rgba(0, 0, 0, 0.3);
+                        z-index: 1050;
+                    }
+
+                    .modal-bg.active {
+                        display: block;
+                    }
+
+                    .modal-content.login-modal-content {
+                        max-width: 420px;
+                        background: #fff;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+                        padding: 2rem;
+                        position: relative;
+                        top: 10vh;
+                        margin: 0 auto;
+                    }
+
+                    .modal-content.register-modal-content {
+                        max-width: 400px;
+                        background: #fff;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+                        padding: 2rem;
+                        position: relative;
+                        top: 10vh;
+                        margin: 0 auto;
+                    }
+
+                    .error-message {
+                        display: none;
+                        color: #d32f2f;
+                        margin-bottom: 1rem;
+                        text-align: center;
+                    }
+
+                    .success-message {
+                        display: none;
+                        color: #388e3c;
+                        margin-bottom: 1rem;
+                        text-align: center;
+                    }
+                </style>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+            <div class="mt-3 text-center">
+                <span>Already have an account? <a href="#" id="show-login-link">Login</a></span>
+            </div>
+        </div>
+    </div>
+
     <style>
         .email-modal {
             display: none;
@@ -138,273 +392,276 @@
             background: #e9ecef;
         }
     </style>
-</head>
+    </head>
 
-<body>
-    <!-- Inject Navbar/Login Modal (top right) -->
-    <div id="navbar-login-container"></div>
-    <script>
-        fetch('src/components/navbar-login.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('navbar-login-container').innerHTML = html;
-            });
-    </script>
-    <script src="src/pages/login.js"></script>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
-                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
-                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
-                    doctor?</a>
-            </div>
-        </div>
-    </nav>
-
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
-                <div class="header-text">
-                    <h1>BMI & Calorie Calculator</h1>
-                    <p>Track your health metrics for better diabetes management</p>
+    <body>
+        <!-- Inject Navbar/Login Modal (top right) -->
+        <div id="navbar-login-container"></div>
+        <script>
+            fetch('src/components/navbar-login.html')
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('navbar-login-container').innerHTML = html;
+                });
+        </script>
+        <script type="module" src="login.js"></script>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                    <a href="share-your-story.html" class="nav-link">Share Your Story</a>
+                    <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                        doctor?</a>
                 </div>
             </div>
-        </div>
-    </header>
+        </nav>
 
-    <nav class="breadcrumbs">
-        <div class="container">
-            <a href="index.html">Home</a>
-            <span class="separator">›</span>
-            <span class="current">BMI Calculator</span>
-        </div>
-    </nav>
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                    <div class="header-text">
+                        <h1>BMI & Calorie Calculator</h1>
+                        <p>Track your health metrics for better diabetes management</p>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-    <main>
-        <div class="container">
-            <section class="hero">
-                <h2>Monitor Your Health Journey</h2>
-                <p>Calculate your BMI and daily calorie needs to support your diabetes management goals.</p>
-            </section>
+        <nav class="breadcrumbs">
+            <div class="container">
+                <a href="index.html">Home</a>
+                <span class="separator">›</span>
+                <span class="current">BMI Calculator</span>
+            </div>
+        </nav>
 
-            <section class="calculator-section">
-                <div class="calculator-grid">
-                    <!-- BMI Calculator -->
-                    <div class="calculator-card">
-                        <h3>BMI Calculator</h3>
-                        <div class="calculator-form">
-                            <div class="input-group">
-                                <label for="height">Height (cm):</label>
-                                <input type="number" id="height" placeholder="Enter your height in cm">
+        <main>
+            <div class="container">
+                <section class="hero">
+                    <h2>Monitor Your Health Journey</h2>
+                    <p>Calculate your BMI and daily calorie needs to support your diabetes management goals.</p>
+                </section>
+
+                <section class="calculator-section">
+                    <div class="calculator-grid">
+                        <!-- BMI Calculator -->
+                        <div class="calculator-card">
+                            <h3>BMI Calculator</h3>
+                            <div class="calculator-form">
+                                <div class="input-group">
+                                    <label for="height">Height (cm):</label>
+                                    <input type="number" id="height" placeholder="Enter your height in cm">
+                                </div>
+                                <div class="input-group">
+                                    <label for="weight">Weight (kg):</label>
+                                    <input type="number" id="weight" placeholder="Enter your weight in kg">
+                                </div>
+                                <button onclick="calculateBMI()" class="calc-button">Calculate BMI</button>
+                                <div id="bmi-result" class="result-display"></div>
                             </div>
-                            <div class="input-group">
-                                <label for="weight">Weight (kg):</label>
-                                <input type="number" id="weight" placeholder="Enter your weight in kg">
+                        </div>
+
+                        <!-- Calorie Calculator -->
+                        <div class="calculator-card">
+                            <h3>Daily Calorie Calculator</h3>
+                            <div class="calculator-form">
+                                <div class="input-group">
+                                    <label for="age">Age:</label>
+                                    <input type="number" id="age" placeholder="Enter your age">
+                                </div>
+                                <div class="input-group">
+                                    <label for="gender">Gender:</label>
+                                    <select id="gender">
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="activity">Activity Level:</label>
+                                    <select id="activity">
+                                        <option value="">Select Activity Level</option>
+                                        <option value="1.2">Sedentary (little/no exercise)</option>
+                                        <option value="1.375">Light (light exercise 1-3 days/week)</option>
+                                        <option value="1.55">Moderate (moderate exercise 3-5 days/week)</option>
+                                        <option value="1.725">Very Active (hard exercise 6-7 days/week)</option>
+                                        <option value="1.9">Extremely Active (very hard exercise/physical job)</option>
+                                    </select>
+                                </div>
+                                <button onclick="calculateCalories()" class="calc-button">Calculate Calories</button>
+                                <div id="calorie-result" class="result-display"></div>
                             </div>
-                            <button onclick="calculateBMI()" class="calc-button">Calculate BMI</button>
-                            <div id="bmi-result" class="result-display"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Your Customized Diet Section -->
+                <section class="diet-section" id="diet-section" style="display: none;">
+                    <div
+                        style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
+                        <h2 style="color: #667eea; margin: 0;">🍽️ Your Customized Diet</h2>
+                        <button onclick="sendDietEmail()"
+                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 20px; border-radius: 10px; font-size: 0.95rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(102, 126, 234, 0.4)'"
+                            onmouseout="this.style.transform='none'; this.style.boxShadow='none'">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                </path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Send me this information via email
+                        </button>
+                    </div>
+                    <p style="text-align: center; color: #666; margin-bottom: 30px;">Based on your recommended calorie
+                        intake of <strong id="diet-calories">0</strong> calories per day</p>
+
+                    <div class="diet-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+                        <!-- Breakfast -->
+                        <div class="diet-card"
+                            style="background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #f39c12;">
+                            <h3 style="color: #f39c12; margin-bottom: 15px;">🌅 Breakfast</h3>
+                            <div id="breakfast-menu"></div>
+                        </div>
+
+                        <!-- Morning Snack -->
+                        <div class="diet-card"
+                            style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #4caf50;">
+                            <h3 style="color: #4caf50; margin-bottom: 15px;">🍎 Morning Snack</h3>
+                            <div id="morning-snack-menu"></div>
+                        </div>
+
+                        <!-- Lunch -->
+                        <div class="diet-card"
+                            style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #2196f3;">
+                            <h3 style="color: #2196f3; margin-bottom: 15px;">☀️ Lunch</h3>
+                            <div id="lunch-menu"></div>
+                        </div>
+
+                        <!-- Afternoon Snack -->
+                        <div class="diet-card"
+                            style="background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #e91e63;">
+                            <h3 style="color: #e91e63; margin-bottom: 15px;">🥜 Afternoon Snack</h3>
+                            <div id="afternoon-snack-menu"></div>
+                        </div>
+
+                        <!-- Dinner -->
+                        <div class="diet-card"
+                            style="background: linear-gradient(135deg, #ede7f6 0%, #d1c4e9 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #673ab7;">
+                            <h3 style="color: #673ab7; margin-bottom: 15px;">🌙 Dinner</h3>
+                            <div id="dinner-menu"></div>
+                        </div>
+
+                        <!-- Evening Snack -->
+                        <div class="diet-card"
+                            style="background: linear-gradient(135deg, #efebe9 0%, #d7ccc8 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #795548;">
+                            <h3 style="color: #795548; margin-bottom: 15px;">🌜 Evening Snack</h3>
+                            <div id="evening-snack-menu"></div>
                         </div>
                     </div>
 
-                    <!-- Calorie Calculator -->
-                    <div class="calculator-card">
-                        <h3>Daily Calorie Calculator</h3>
-                        <div class="calculator-form">
-                            <div class="input-group">
-                                <label for="age">Age:</label>
-                                <input type="number" id="age" placeholder="Enter your age">
-                            </div>
-                            <div class="input-group">
-                                <label for="gender">Gender:</label>
-                                <select id="gender">
-                                    <option value="">Select Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <label for="activity">Activity Level:</label>
-                                <select id="activity">
-                                    <option value="">Select Activity Level</option>
-                                    <option value="1.2">Sedentary (little/no exercise)</option>
-                                    <option value="1.375">Light (light exercise 1-3 days/week)</option>
-                                    <option value="1.55">Moderate (moderate exercise 3-5 days/week)</option>
-                                    <option value="1.725">Very Active (hard exercise 6-7 days/week)</option>
-                                    <option value="1.9">Extremely Active (very hard exercise/physical job)</option>
-                                </select>
-                            </div>
-                            <button onclick="calculateCalories()" class="calc-button">Calculate Calories</button>
-                            <div id="calorie-result" class="result-display"></div>
+                    <div
+                        style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; text-align: center;">
+                        <p style="color: #666; font-style: italic;">⚠️ This is a sample diet plan. Please consult with
+                            your
+                            healthcare provider or registered dietitian for personalized nutrition advice.</p>
+                    </div>
+                </section>
+
+                <!-- BMI Information Section -->
+                <section class="info-section">
+                    <h2>Understanding BMI for Diabetes Management</h2>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h4>BMI Categories</h4>
+                            <ul>
+                                <li><strong>Underweight:</strong> BMI below 18.5</li>
+                                <li><strong>Normal weight:</strong> BMI 18.5-24.9</li>
+                                <li><strong>Overweight:</strong> BMI 25-29.9</li>
+                                <li><strong>Obese:</strong> BMI 30 and above</li>
+                            </ul>
+                        </div>
+                        <div class="info-card">
+                            <h4>Diabetes & Weight</h4>
+                            <p>Maintaining a healthy weight is crucial for diabetes management. Even a small weight loss
+                                of
+                                5-10% can significantly improve blood sugar control and reduce the risk of diabetes
+                                complications.</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Healthy Goals</h4>
+                            <p>Work with your healthcare provider to set realistic weight and calorie goals. Gradual,
+                                sustainable changes in diet and physical activity are most effective for long-term
+                                diabetes
+                                management.</p>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
+        </main>
 
-            <!-- Your Customized Diet Section -->
-            <section class="diet-section" id="diet-section" style="display: none;">
-                <div
-                    style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
-                    <h2 style="color: #667eea; margin: 0;">🍽️ Your Customized Diet</h2>
-                    <button onclick="sendDietEmail()"
-                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 20px; border-radius: 10px; font-size: 0.95rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;"
-                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(102, 126, 234, 0.4)'"
-                        onmouseout="this.style.transform='none'; this.style.boxShadow='none'">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                            </path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        Send me this information via email
-                    </button>
-                </div>
-                <p style="text-align: center; color: #666; margin-bottom: 30px;">Based on your recommended calorie
-                    intake of <strong id="diet-calories">0</strong> calories per day</p>
-
-                <div class="diet-grid"
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
-                    <!-- Breakfast -->
-                    <div class="diet-card"
-                        style="background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #f39c12;">
-                        <h3 style="color: #f39c12; margin-bottom: 15px;">🌅 Breakfast</h3>
-                        <div id="breakfast-menu"></div>
+        <!-- Email Modal Form -->
+        <div class="email-modal" id="email-modal">
+            <div class="email-modal-content">
+                <h3>📧 Send Diet Plan via Email</h3>
+                <form id="email-form" onsubmit="submitEmailForm(event)">
+                    <div class="form-group">
+                        <label for="sender-name">Name</label>
+                        <input type="text" id="sender-name" placeholder="Enter your name" required>
                     </div>
-
-                    <!-- Morning Snack -->
-                    <div class="diet-card"
-                        style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #4caf50;">
-                        <h3 style="color: #4caf50; margin-bottom: 15px;">🍎 Morning Snack</h3>
-                        <div id="morning-snack-menu"></div>
+                    <div class="form-group">
+                        <label for="sender-email">Email Address</label>
+                        <input type="email" id="sender-email" placeholder="your.email@example.com" required>
                     </div>
-
-                    <!-- Lunch -->
-                    <div class="diet-card"
-                        style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #2196f3;">
-                        <h3 style="color: #2196f3; margin-bottom: 15px;">☀️ Lunch</h3>
-                        <div id="lunch-menu"></div>
+                    <div class="email-modal-buttons">
+                        <button type="button" class="btn-cancel" onclick="closeEmailModal()">Cancel</button>
+                        <button type="submit" class="btn-send">Send</button>
                     </div>
-
-                    <!-- Afternoon Snack -->
-                    <div class="diet-card"
-                        style="background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #e91e63;">
-                        <h3 style="color: #e91e63; margin-bottom: 15px;">🥜 Afternoon Snack</h3>
-                        <div id="afternoon-snack-menu"></div>
-                    </div>
-
-                    <!-- Dinner -->
-                    <div class="diet-card"
-                        style="background: linear-gradient(135deg, #ede7f6 0%, #d1c4e9 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #673ab7;">
-                        <h3 style="color: #673ab7; margin-bottom: 15px;">🌙 Dinner</h3>
-                        <div id="dinner-menu"></div>
-                    </div>
-
-                    <!-- Evening Snack -->
-                    <div class="diet-card"
-                        style="background: linear-gradient(135deg, #efebe9 0%, #d7ccc8 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #795548;">
-                        <h3 style="color: #795548; margin-bottom: 15px;">🌜 Evening Snack</h3>
-                        <div id="evening-snack-menu"></div>
-                    </div>
-                </div>
-
-                <div
-                    style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; text-align: center;">
-                    <p style="color: #666; font-style: italic;">⚠️ This is a sample diet plan. Please consult with your
-                        healthcare provider or registered dietitian for personalized nutrition advice.</p>
-                </div>
-            </section>
-
-            <!-- BMI Information Section -->
-            <section class="info-section">
-                <h2>Understanding BMI for Diabetes Management</h2>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h4>BMI Categories</h4>
-                        <ul>
-                            <li><strong>Underweight:</strong> BMI below 18.5</li>
-                            <li><strong>Normal weight:</strong> BMI 18.5-24.9</li>
-                            <li><strong>Overweight:</strong> BMI 25-29.9</li>
-                            <li><strong>Obese:</strong> BMI 30 and above</li>
-                        </ul>
-                    </div>
-                    <div class="info-card">
-                        <h4>Diabetes & Weight</h4>
-                        <p>Maintaining a healthy weight is crucial for diabetes management. Even a small weight loss of
-                            5-10% can significantly improve blood sugar control and reduce the risk of diabetes
-                            complications.</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>Healthy Goals</h4>
-                        <p>Work with your healthcare provider to set realistic weight and calorie goals. Gradual,
-                            sustainable changes in diet and physical activity are most effective for long-term diabetes
-                            management.</p>
-                    </div>
-                </div>
-            </section>
+                </form>
+            </div>
         </div>
-    </main>
 
-    <!-- Email Modal Form -->
-    <div class="email-modal" id="email-modal">
-        <div class="email-modal-content">
-            <h3>📧 Send Diet Plan via Email</h3>
-            <form id="email-form" onsubmit="submitEmailForm(event)">
-                <div class="form-group">
-                    <label for="sender-name">Name</label>
-                    <input type="text" id="sender-name" placeholder="Enter your name" required>
-                </div>
-                <div class="form-group">
-                    <label for="sender-email">Email Address</label>
-                    <input type="email" id="sender-email" placeholder="your.email@example.com" required>
-                </div>
-                <div class="email-modal-buttons">
-                    <button type="button" class="btn-cancel" onclick="closeEmailModal()">Cancel</button>
-                    <button type="submit" class="btn-send">Send</button>
-                </div>
-            </form>
-        </div>
-    </div>
+        <footer>
+            <div class="container">
+                <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+            </div>
+        </footer>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
-        </div>
-    </footer>
+        <script>
+            function calculateBMI() {
+                const height = parseFloat(document.getElementById('height').value);
+                const weight = parseFloat(document.getElementById('weight').value);
+                const resultDiv = document.getElementById('bmi-result');
 
-    <script>
-        function calculateBMI() {
-            const height = parseFloat(document.getElementById('height').value);
-            const weight = parseFloat(document.getElementById('weight').value);
-            const resultDiv = document.getElementById('bmi-result');
+                if (!height || !weight || height <= 0 || weight <= 0) {
+                    resultDiv.innerHTML = '<p style="color: #e74c3c;">Please enter valid height and weight values.</p>';
+                    return;
+                }
 
-            if (!height || !weight || height <= 0 || weight <= 0) {
-                resultDiv.innerHTML = '<p style="color: #e74c3c;">Please enter valid height and weight values.</p>';
-                return;
-            }
+                const heightInMeters = height / 100;
+                const bmi = weight / (heightInMeters * heightInMeters);
 
-            const heightInMeters = height / 100;
-            const bmi = weight / (heightInMeters * heightInMeters);
+                let category = '';
+                let color = '';
 
-            let category = '';
-            let color = '';
+                if (bmi < 18.5) {
+                    category = 'Underweight';
+                    color = '#3498db';
+                } else if (bmi < 25) {
+                    category = 'Normal weight';
+                    color = '#27ae60';
+                } else if (bmi < 30) {
+                    category = 'Overweight';
+                    color = '#f39c12';
+                } else {
+                    category = 'Obese';
+                    color = '#e74c3c';
+                }
 
-            if (bmi < 18.5) {
-                category = 'Underweight';
-                color = '#3498db';
-            } else if (bmi < 25) {
-                category = 'Normal weight';
-                color = '#27ae60';
-            } else if (bmi < 30) {
-                category = 'Overweight';
-                color = '#f39c12';
-            } else {
-                category = 'Obese';
-                color = '#e74c3c';
-            }
-
-            resultDiv.innerHTML = `
+                resultDiv.innerHTML = `
                 <div class="result-content">
                     <h4>Your BMI Result</h4>
                     <p><strong>BMI: ${bmi.toFixed(1)}</strong></p>
@@ -412,32 +669,32 @@
                     <p><em>Consult with your healthcare provider for personalized advice on diabetes management.</em></p>
                 </div>
             `;
-        }
-
-        function calculateCalories() {
-            const height = parseFloat(document.getElementById('height').value);
-            const weight = parseFloat(document.getElementById('weight').value);
-            const age = parseFloat(document.getElementById('age').value);
-            const gender = document.getElementById('gender').value;
-            const activity = parseFloat(document.getElementById('activity').value);
-            const resultDiv = document.getElementById('calorie-result');
-
-            if (!height || !weight || !age || !gender || !activity) {
-                resultDiv.innerHTML = '<p style="color: #e74c3c;">Please, calculate your BMI first!</p>';
-                return;
             }
 
-            let bmr;
-            if (gender === 'male') {
-                bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
-            } else {
-                bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
-            }
+            function calculateCalories() {
+                const height = parseFloat(document.getElementById('height').value);
+                const weight = parseFloat(document.getElementById('weight').value);
+                const age = parseFloat(document.getElementById('age').value);
+                const gender = document.getElementById('gender').value;
+                const activity = parseFloat(document.getElementById('activity').value);
+                const resultDiv = document.getElementById('calorie-result');
 
-            const totalCalories = Math.round(bmr * activity);
-            const diabeticCalories = Math.round(totalCalories * 0.85); // 15% reduction for diabetes management
+                if (!height || !weight || !age || !gender || !activity) {
+                    resultDiv.innerHTML = '<p style="color: #e74c3c;">Please, calculate your BMI first!</p>';
+                    return;
+                }
 
-            resultDiv.innerHTML = `
+                let bmr;
+                if (gender === 'male') {
+                    bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+                } else {
+                    bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+                }
+
+                const totalCalories = Math.round(bmr * activity);
+                const diabeticCalories = Math.round(totalCalories * 0.85); // 15% reduction for diabetes management
+
+                resultDiv.innerHTML = `
                 <div class="result-content">
                     <h4>Your Daily Calorie Needs</h4>
                     <p><strong>Maintenance Calories: ${totalCalories}</strong></p>
@@ -446,214 +703,214 @@
                 </div>
             `;
 
-            // Show customized diet section
-            generateCustomizedDiet(diabeticCalories);
-        }
-
-        function generateCustomizedDiet(calories) {
-            document.getElementById('diet-section').style.display = 'block';
-            document.getElementById('diet-calories').textContent = calories;
-
-            // Calculate meal distribution (diabetic-friendly: smaller, more frequent meals)
-            const breakfast = Math.round(calories * 0.25);
-            const morningSnack = Math.round(calories * 0.10);
-            const lunch = Math.round(calories * 0.30);
-            const afternoonSnack = Math.round(calories * 0.10);
-            const dinner = Math.round(calories * 0.20);
-            const eveningSnack = Math.round(calories * 0.05);
-
-            // Diet plans based on calorie levels
-            let dietPlan;
-            if (calories < 1400) {
-                dietPlan = {
-                    breakfast: [
-                        "1 slice whole grain toast with avocado",
-                        "1 scrambled egg",
-                        "1/2 cup berries",
-                        "Unsweetened green tea"
-                    ],
-                    morningSnack: [
-                        "10 almonds",
-                        "1 small apple"
-                    ],
-                    lunch: [
-                        "Grilled chicken salad (100g chicken)",
-                        "Mixed greens with olive oil dressing",
-                        "1/2 cup quinoa",
-                        "Water with lemon"
-                    ],
-                    afternoonSnack: [
-                        "1/2 cup Greek yogurt (unsweetened)",
-                        "Celery sticks"
-                    ],
-                    dinner: [
-                        "Baked salmon fillet (100g)",
-                        "Steamed broccoli and cauliflower",
-                        "Small side salad"
-                    ],
-                    eveningSnack: [
-                        "Herbal tea",
-                        "5 walnuts"
-                    ]
-                };
-            } else if (calories < 1800) {
-                dietPlan = {
-                    breakfast: [
-                        "Oatmeal (1/2 cup) with cinnamon",
-                        "2 scrambled eggs",
-                        "1/2 cup mixed berries",
-                        "Black coffee or tea"
-                    ],
-                    morningSnack: [
-                        "15 almonds",
-                        "1 medium apple",
-                        "String cheese"
-                    ],
-                    lunch: [
-                        "Grilled chicken breast (150g)",
-                        "Large mixed green salad",
-                        "1/2 cup brown rice",
-                        "Olive oil & vinegar dressing"
-                    ],
-                    afternoonSnack: [
-                        "1 cup Greek yogurt (unsweetened)",
-                        "Cucumber slices",
-                        "2 tbsp hummus"
-                    ],
-                    dinner: [
-                        "Grilled fish (150g) or lean meat",
-                        "Roasted vegetables (zucchini, peppers)",
-                        "1/2 cup sweet potato",
-                        "Side salad"
-                    ],
-                    eveningSnack: [
-                        "Chamomile tea",
-                        "1/4 cup mixed nuts"
-                    ]
-                };
-            } else {
-                dietPlan = {
-                    breakfast: [
-                        "2 slices whole grain toast",
-                        "2-3 scrambled eggs with vegetables",
-                        "1/2 avocado",
-                        "1 cup berries",
-                        "Coffee or tea"
-                    ],
-                    morningSnack: [
-                        "20 almonds",
-                        "1 medium banana",
-                        "String cheese"
-                    ],
-                    lunch: [
-                        "Grilled chicken or fish (200g)",
-                        "Large colorful salad",
-                        "3/4 cup brown rice or quinoa",
-                        "Olive oil dressing",
-                        "1 whole grain roll"
-                    ],
-                    afternoonSnack: [
-                        "1 cup Greek yogurt with berries",
-                        "Vegetable sticks",
-                        "3 tbsp hummus"
-                    ],
-                    dinner: [
-                        "Lean protein (200g - chicken, fish, or tofu)",
-                        "Large portion roasted vegetables",
-                        "1 medium sweet potato or 1 cup pasta",
-                        "Large side salad"
-                    ],
-                    eveningSnack: [
-                        "Herbal tea",
-                        "1/3 cup mixed nuts",
-                        "Small portion of cheese"
-                    ]
-                };
+                // Show customized diet section
+                generateCustomizedDiet(diabeticCalories);
             }
 
-            // Populate the diet cards
-            document.getElementById('breakfast-menu').innerHTML = `
+            function generateCustomizedDiet(calories) {
+                document.getElementById('diet-section').style.display = 'block';
+                document.getElementById('diet-calories').textContent = calories;
+
+                // Calculate meal distribution (diabetic-friendly: smaller, more frequent meals)
+                const breakfast = Math.round(calories * 0.25);
+                const morningSnack = Math.round(calories * 0.10);
+                const lunch = Math.round(calories * 0.30);
+                const afternoonSnack = Math.round(calories * 0.10);
+                const dinner = Math.round(calories * 0.20);
+                const eveningSnack = Math.round(calories * 0.05);
+
+                // Diet plans based on calorie levels
+                let dietPlan;
+                if (calories < 1400) {
+                    dietPlan = {
+                        breakfast: [
+                            "1 slice whole grain toast with avocado",
+                            "1 scrambled egg",
+                            "1/2 cup berries",
+                            "Unsweetened green tea"
+                        ],
+                        morningSnack: [
+                            "10 almonds",
+                            "1 small apple"
+                        ],
+                        lunch: [
+                            "Grilled chicken salad (100g chicken)",
+                            "Mixed greens with olive oil dressing",
+                            "1/2 cup quinoa",
+                            "Water with lemon"
+                        ],
+                        afternoonSnack: [
+                            "1/2 cup Greek yogurt (unsweetened)",
+                            "Celery sticks"
+                        ],
+                        dinner: [
+                            "Baked salmon fillet (100g)",
+                            "Steamed broccoli and cauliflower",
+                            "Small side salad"
+                        ],
+                        eveningSnack: [
+                            "Herbal tea",
+                            "5 walnuts"
+                        ]
+                    };
+                } else if (calories < 1800) {
+                    dietPlan = {
+                        breakfast: [
+                            "Oatmeal (1/2 cup) with cinnamon",
+                            "2 scrambled eggs",
+                            "1/2 cup mixed berries",
+                            "Black coffee or tea"
+                        ],
+                        morningSnack: [
+                            "15 almonds",
+                            "1 medium apple",
+                            "String cheese"
+                        ],
+                        lunch: [
+                            "Grilled chicken breast (150g)",
+                            "Large mixed green salad",
+                            "1/2 cup brown rice",
+                            "Olive oil & vinegar dressing"
+                        ],
+                        afternoonSnack: [
+                            "1 cup Greek yogurt (unsweetened)",
+                            "Cucumber slices",
+                            "2 tbsp hummus"
+                        ],
+                        dinner: [
+                            "Grilled fish (150g) or lean meat",
+                            "Roasted vegetables (zucchini, peppers)",
+                            "1/2 cup sweet potato",
+                            "Side salad"
+                        ],
+                        eveningSnack: [
+                            "Chamomile tea",
+                            "1/4 cup mixed nuts"
+                        ]
+                    };
+                } else {
+                    dietPlan = {
+                        breakfast: [
+                            "2 slices whole grain toast",
+                            "2-3 scrambled eggs with vegetables",
+                            "1/2 avocado",
+                            "1 cup berries",
+                            "Coffee or tea"
+                        ],
+                        morningSnack: [
+                            "20 almonds",
+                            "1 medium banana",
+                            "String cheese"
+                        ],
+                        lunch: [
+                            "Grilled chicken or fish (200g)",
+                            "Large colorful salad",
+                            "3/4 cup brown rice or quinoa",
+                            "Olive oil dressing",
+                            "1 whole grain roll"
+                        ],
+                        afternoonSnack: [
+                            "1 cup Greek yogurt with berries",
+                            "Vegetable sticks",
+                            "3 tbsp hummus"
+                        ],
+                        dinner: [
+                            "Lean protein (200g - chicken, fish, or tofu)",
+                            "Large portion roasted vegetables",
+                            "1 medium sweet potato or 1 cup pasta",
+                            "Large side salad"
+                        ],
+                        eveningSnack: [
+                            "Herbal tea",
+                            "1/3 cup mixed nuts",
+                            "Small portion of cheese"
+                        ]
+                    };
+                }
+
+                // Populate the diet cards
+                document.getElementById('breakfast-menu').innerHTML = `
                 <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${breakfast} calories</p>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     ${dietPlan.breakfast.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
                 </ul>
             `;
 
-            document.getElementById('morning-snack-menu').innerHTML = `
+                document.getElementById('morning-snack-menu').innerHTML = `
                 <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${morningSnack} calories</p>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     ${dietPlan.morningSnack.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
                 </ul>
             `;
 
-            document.getElementById('lunch-menu').innerHTML = `
+                document.getElementById('lunch-menu').innerHTML = `
                 <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${lunch} calories</p>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     ${dietPlan.lunch.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
                 </ul>
             `;
 
-            document.getElementById('afternoon-snack-menu').innerHTML = `
+                document.getElementById('afternoon-snack-menu').innerHTML = `
                 <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${afternoonSnack} calories</p>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     ${dietPlan.afternoonSnack.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
                 </ul>
             `;
 
-            document.getElementById('dinner-menu').innerHTML = `
+                document.getElementById('dinner-menu').innerHTML = `
                 <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${dinner} calories</p>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     ${dietPlan.dinner.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
                 </ul>
             `;
 
-            document.getElementById('evening-snack-menu').innerHTML = `
+                document.getElementById('evening-snack-menu').innerHTML = `
                 <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">~${eveningSnack} calories</p>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     ${dietPlan.eveningSnack.map(item => `<li style="padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">✓ ${item}</li>`).join('')}
                 </ul>
             `;
 
-            // Scroll to diet section
-            document.getElementById('diet-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+                // Scroll to diet section
+                document.getElementById('diet-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
 
-        function sendDietEmail() {
-            // Open the email modal form
-            document.getElementById('email-modal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+            function sendDietEmail() {
+                // Open the email modal form
+                document.getElementById('email-modal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
 
-        function closeEmailModal() {
-            document.getElementById('email-modal').classList.remove('active');
-            document.body.style.overflow = '';
-            document.getElementById('email-form').reset();
-        }
+            function closeEmailModal() {
+                document.getElementById('email-modal').classList.remove('active');
+                document.body.style.overflow = '';
+                document.getElementById('email-form').reset();
+            }
 
-        function submitEmailForm(event) {
-            event.preventDefault();
+            function submitEmailForm(event) {
+                event.preventDefault();
 
-            const userName = document.getElementById('sender-name').value;
-            const userEmail = document.getElementById('sender-email').value;
+                const userName = document.getElementById('sender-name').value;
+                const userEmail = document.getElementById('sender-email').value;
 
-            // Get BMI information
-            const bmiResult = document.getElementById('bmi-result').innerText;
+                // Get BMI information
+                const bmiResult = document.getElementById('bmi-result').innerText;
 
-            // Get calorie information
-            const calorieResult = document.getElementById('calorie-result').innerText;
+                // Get calorie information
+                const calorieResult = document.getElementById('calorie-result').innerText;
 
-            // Get the diet information from the page
-            const calories = document.getElementById('diet-calories').textContent;
+                // Get the diet information from the page
+                const calories = document.getElementById('diet-calories').textContent;
 
-            const breakfast = document.getElementById('breakfast-menu').innerText;
-            const morningSnack = document.getElementById('morning-snack-menu').innerText;
-            const lunch = document.getElementById('lunch-menu').innerText;
-            const afternoonSnack = document.getElementById('afternoon-snack-menu').innerText;
-            const dinner = document.getElementById('dinner-menu').innerText;
-            const eveningSnack = document.getElementById('evening-snack-menu').innerText;
+                const breakfast = document.getElementById('breakfast-menu').innerText;
+                const morningSnack = document.getElementById('morning-snack-menu').innerText;
+                const lunch = document.getElementById('lunch-menu').innerText;
+                const afternoonSnack = document.getElementById('afternoon-snack-menu').innerText;
+                const dinner = document.getElementById('dinner-menu').innerText;
+                const eveningSnack = document.getElementById('evening-snack-menu').innerText;
 
-            const emailSubject = `Your Diabetes Health Summary - BMI & Diet Plan`;
-            const emailBody = `
+                const emailSubject = `Your Diabetes Health Summary - BMI & Diet Plan`;
+                const emailBody = `
 Hi ${userName || 'Friend'},
 
 Here is your personalized Diabetes Health Summary from Diabetes Compass.
@@ -699,35 +956,114 @@ Best regards,
 Diabetes Compass Team
             `.trim();
 
-            // Close the modal
-            closeEmailModal();
-
-            // Open email client with user's email as the recipient
-            const mailtoLink = `mailto:${encodeURIComponent(userEmail)}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-            window.location.href = mailtoLink;
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('email-modal').addEventListener('click', function (e) {
-            if (e.target === this) {
+                // Close the modal
                 closeEmailModal();
-            }
-        });
 
-        // Close modal with Escape key
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && document.getElementById('email-modal').classList.contains('active')) {
-                closeEmailModal();
+                // Open email client with user's email as the recipient
+                const mailtoLink = `mailto:${encodeURIComponent(userEmail)}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+                window.location.href = mailtoLink;
             }
-        });
-    </script>
 
-    <!-- Supabase JS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Supabase Client Config -->
-    <script src="src/pages/supabaseClient.js"></script>
-    <!-- Login Logic -->
-    <script src="src/pages/login.js"></script>
-</body>
+            // Close modal when clicking outside
+            document.getElementById('email-modal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeEmailModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && document.getElementById('email-modal').classList.contains('active')) {
+                    closeEmailModal();
+                }
+            });
+        </script>
+
+
+        <!-- Registration Modal Script moved here for correct timing -->
+
+        <!-- Supabase CDN for browser global usage -->
+        <script type="module">
+            import { supabase } from './supabaseClient.js';
+            function openRegisterModal() {
+                document.getElementById('register-modal').classList.add('active');
+            }
+            function closeRegisterModal() {
+                document.getElementById('register-modal').classList.remove('active');
+                document.getElementById('register-form').reset();
+                document.getElementById('register-error').style.display = 'none';
+                document.getElementById('register-success').style.display = 'none';
+            }
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('show-login-btn').addEventListener('click', function () {
+                    document.getElementById('login-modal').style.display = 'block';
+                });
+                document.getElementById('close-login-modal').addEventListener('click', function () {
+                    document.getElementById('login-modal').style.display = 'none';
+                });
+                document.getElementById('show-register-btn').addEventListener('click', function () {
+                    document.getElementById('login-modal').style.display = 'none';
+                    openRegisterModal();
+                });
+                document.getElementById('close-register-modal').addEventListener('click', closeRegisterModal);
+                document.getElementById('register-form').addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    const email = document.getElementById('register-email').value.trim();
+                    const password = document.getElementById('register-password').value;
+                    const name = document.getElementById('register-name').value.trim();
+                    const dtype = document.getElementById('register-diabetes-type').value;
+                    const gunit = document.getElementById('register-glucose-unit').value;
+                    const insulin = document.querySelector('input[name="register-insulin-user"]:checked')?.value;
+                    const errorDiv = document.getElementById('register-error');
+                    const successDiv = document.getElementById('register-success');
+                    errorDiv.style.display = 'none';
+                    successDiv.style.display = 'none';
+                    if (!email || !password || !name || !dtype || !gunit || !insulin) {
+                        errorDiv.textContent = 'All fields are required.';
+                        errorDiv.style.display = 'block';
+                        return;
+                    }
+                    // Register user
+                    const { data, error } = await supabase.auth.signUp({
+                        email,
+                        password,
+                        options: { data: { name } }
+                    });
+                    if (error) {
+                        errorDiv.textContent = error.message;
+                        errorDiv.style.display = 'block';
+                        return;
+                    }
+                    // Save profile
+                    const user = data.user || (supabase.auth.getUser ? (await supabase.auth.getUser()).data.user : null);
+                    if (user) {
+                        const { error: profileErrorUpsert } = await supabase.from('profiles').upsert({
+                            user_id: user.id,
+                            name,
+                            diabetes_type: dtype,
+                            glucose_unit: gunit,
+                            insulin_user: insulin
+                        });
+                        if (profileErrorUpsert) {
+                            errorDiv.textContent = profileErrorUpsert.message;
+                            errorDiv.style.display = 'block';
+                            return;
+                        }
+                    }
+                    successDiv.textContent = 'Registration successful! Please check your email to verify your account.';
+                    successDiv.style.display = 'block';
+                    setTimeout(() => {
+                        closeRegisterModal();
+                    }, 2500);
+                });
+                // Close modal with Escape key
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && document.getElementById('register-modal').classList.contains('active')) {
+                        closeRegisterModal();
+                    }
+                });
+            });
+        </script>
+    </body>
 
 </html>

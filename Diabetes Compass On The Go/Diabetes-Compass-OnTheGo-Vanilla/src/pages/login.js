@@ -9,6 +9,76 @@ document.addEventListener('DOMContentLoaded', function () {
     const profileSuccess = document.getElementById('profile-success');
     const supabase = window.supabaseClient;
 
+    // Registration modal logic
+    const registerForm = document.getElementById('register-form');
+    const registerError = document.getElementById('register-error');
+    const registerSuccess = document.getElementById('register-success');
+    const registerModal = document.getElementById('register-modal');
+    const loginModal = document.getElementById('login-modal');
+
+    if (registerForm) {
+        registerForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            if (registerError) registerError.style.display = 'none';
+            if (registerSuccess) registerSuccess.style.display = 'none';
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+            const name = document.getElementById('register-name').value.trim();
+            const dtype = document.getElementById('register-diabetes-type').value;
+            const gunit = document.getElementById('register-glucose-unit').value;
+            const insulin = document.querySelector('input[name="register-insulin-user"]:checked')?.value;
+            if (!email || !password || !name || !dtype || !gunit || !insulin) {
+                if (registerError) {
+                    registerError.textContent = 'All fields are required.';
+                    registerError.style.display = 'block';
+                }
+                return;
+            }
+            // Register user
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+                options: { data: { name } }
+            });
+            if (error) {
+                if (registerError) {
+                    registerError.textContent = error.message;
+                    registerError.style.display = 'block';
+                }
+                return;
+            }
+            // Save profile
+            const user = data.user || (supabase.auth.getUser ? (await supabase.auth.getUser()).data.user : null);
+            if (user) {
+                const { error: profileErrorUpsert } = await supabase.from('profiles').upsert({
+                    user_id: user.id,
+                    name,
+                    diabetes_type: dtype,
+                    glucose_unit: gunit,
+                    insulin_user: insulin
+                });
+                if (profileErrorUpsert) {
+                    if (registerError) {
+                        registerError.textContent = profileErrorUpsert.message;
+                        registerError.style.display = 'block';
+                    }
+                    return;
+                }
+            }
+            if (registerSuccess) {
+                registerSuccess.textContent = 'Registration successful! Please check your email to verify your account.';
+                registerSuccess.style.display = 'block';
+            }
+            setTimeout(() => {
+                if (registerModal) registerModal.style.display = 'none';
+                if (loginModal) loginModal.style.display = 'block';
+                if (registerForm) registerForm.reset();
+                if (registerError) registerError.style.display = 'none';
+                if (registerSuccess) registerSuccess.style.display = 'none';
+            }, 2500);
+        });
+    }
+
     // Helper: Show/hide sections
     function showProfileSection() {
         loginForm.style.display = 'none';
