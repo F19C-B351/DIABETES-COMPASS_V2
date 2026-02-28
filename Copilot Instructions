@@ -1,0 +1,43 @@
+#Diabetes Compass is a comprehensive web application designed to help people with diabetes manage their condition through reliable information, practical tools, and personalized tracking. The platform acts as a digital guide that supports users in making informed decisions about their health while maintaining a balanced lifestyle.
+#Architecture and Technology Stack
+Classical Client - Server App:
+Front end - JS App,HTML, CSS, JavaScript and Bootstrap
+Backend: Supabase as a backend
+Database - PostgreSQL
+Authentication and storage - Supabase auth
+Build tools: Node.js, npm, Vite.
+API: Supabase REST API
+Hosting: Netlify.
+Source code: Github
+
+# UI Guidelines
+Use HTML, CSS and vanilla JavaScript for the Frontend development. 
+Use modern design principles to create a user-friendly and visually appealing interface. 
+Ensure the app is responsive and works well on various screen sizes, including mobile devices,responsive design
+
+#Pages and navigation
+Split the app into multiple pages to enhance user experience and organization.
+Implement pages as components that can be reused across the application.
+Implement routing to navigate between different pages of the app, ensuring smooth transitions and a seamless user experience.
+Use Bootstrap for styling and layout to create a consistent and visually appealing design across all pages.
+Act like a professional UX designer and implement modern responsive design principles to ensure the app looks and functions well on various screen sizes, including mobile devices
+Act like a professional graphic designer, and use the same color scheme and appropriate icons, graphics, animations. etc
+Use routinng to navigate between different pages of the app, ensuring smooth transitions and a seamless user experience.
+Implement RLS policies in the database to ensure that users can only access their own data, enhancing security and privacy.
+Use full URL paths for routing to ensure proper navigation and bookmarking capabilities.
+When changing DB schema, ensure that the frontend is updated accordingly to reflect the changes and maintain functionality keep, and always use migration to keep track of changes.
+After applying After applying the migration, keep a copy of SQL file to track changes.
+#Authentication and User Management
+USE Supabase for storage and authentication, and implement secure authentication mechanisms to protect user data and ensure that only authorized users can access their information.
+#Authentication and User Management
+Use Supabase authentication features to manage user registration, login, and password
+ recovery processes.
+# Key Features
+Blood glucose tracking with historical records
+Insulin intake logging
+Daily calorie tracking
+Physical activity monitoring
+Weight management support
+Secure synchronization with the Diabetes Compass website
+Easy-to-use mobile interface
+Free access for all registered Diabetes Compass website users
