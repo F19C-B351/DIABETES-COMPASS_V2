@@ -184,11 +184,11 @@
                 try {
                     const { data: profile } = await window.supabase
                         .from('profiles')
-                        .select('full_name')
+                        .select('name')
                         .eq('user_id', session.user.id)
                         .single();
-                    if (profile && profile.full_name) {
-                        userName = profile.full_name;
+                    if (profile && profile.name) {
+                        userName = profile.name;
                     }
                 } catch (e) {
                     console.log('Could not fetch profile name, using email');
