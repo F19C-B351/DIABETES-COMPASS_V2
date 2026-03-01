@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Supabase Test</title>
+</head>
+
+<body>
+    <h1>Testing Supabase Connection...</h1>
+    <p>Status: <span id="status">Loading...</span></p>
+    <p>Result: <span id="result"></span></p>
+
+    <!-- Load Supabase from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+
+    <script>
+        const statusEl = document.getElementById('status');
+        const resultEl = document.getElementById('result');
+
+        async function test() {
+            try {
+                statusEl.textContent = 'Checking if library loaded...';
+
+                // Wait for library to load
+                let attempts = 0;
+                while (!window.supabase && attempts < 50) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    attempts++;
+                }
+
+                if (!window.supabase) {
+                    throw new Error('CDN library did not load after 5 seconds');
+                }
+
+                statusEl.textContent = 'Library loaded!';
+                resultEl.textContent = 'createClient exists: ' + (!!window.supabase.createClient);
+
+                // Try to create client
+                const client = window.supabase.createClient(
+                    'https://uzwinhyzipndpjxmprns.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6d2luaHl6aXBuZHBqeG1wcm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxODc0MDUsImV4cCI6MjA4Nzc2MzQwNX0.-nDE5lYtJa5qUL06BT-Hh_EJ5d-Xns3nCyRRNfMb7G4'
+                );
+
+                statusEl.textContent = 'Client created!';
+
+                // Try to query
+                const { data, error } = await client
+                    .from('profiles')
+                    .select('*')
+                    .limit(1);
+
+                if (error) {
+                    resultEl.textContent = '❌ Query error: ' + error.message;
+                } else {
+                    resultEl.textContent = '✓ Query successful! Got ' + (data ? data.length : 0) + ' rows';
+                }
+
+            } catch (e) {
+                statusEl.textContent = 'Error!';
+                resultEl.textContent = e.message;
+            }
+        }
+
+        // Start test when page loads
+        window.addEventListener('load', test);
+    </script>
+</body>
+
+</html>

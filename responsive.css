@@ -98,7 +98,7 @@
 /* Tablet Landscape (768px - 991px) */
 @media (min-width: 768px) and (max-width: 991px) {
     body {
-        zoom: 90%;
+        zoom: 85%;
     }
 
     .container {
@@ -190,7 +190,7 @@
 /* Tablet Portrait (576px - 767px) */
 @media (min-width: 576px) and (max-width: 767px) {
     body {
-        zoom: 100%;
+        zoom: 85%;
     }
 
     .container {
@@ -384,7 +384,7 @@
 /* Mobile (max-width: 575px) */
 @media (max-width: 575px) {
     body {
-        zoom: 100%;
+        zoom: 85%;
         font-size: 14px;
     }
 
@@ -822,7 +822,7 @@
     }
 
     body {
-        zoom: 100%;
+        zoom: 85%;
         background: white;
     }
 

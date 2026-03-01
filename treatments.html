@@ -7,6 +7,8 @@
     <title>Latest Treatments - Diabetes Compass</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="modal-styles.css">
+    <link rel="stylesheet" href="user-styles.css">
     <!-- Login Button Top Right -->
     <style>
         .login-btn-topright {
@@ -40,7 +42,7 @@
             }
         }
     </style>
-    <a href="login.html" class="login-btn-topright">Login</a>
+
     <style>
         /* Page Layout */
         .treatments-page-layout {
@@ -502,6 +504,52 @@
 </head>
 
 <body>
+    <script type="module" src="supabase-utils.js"></script>
+    <!-- Load Supabase SDK from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+    <!-- Initialize Supabase -->
+    <script src="supabase-init.js"></script>
+    <!-- Inject Login/Register Modal -->
+    <script src="login-modal-inject.js"></script>
+    <!-- Demo: Fetch profiles button -->
+    <button id="fetch-profiles-demo" style="position:fixed;bottom:20px;right:20px;z-index:100002;">Fetch Profiles
+        (Demo)</button>
+    <script type="module">
+        import { fetchProfiles } from './supabase-utils.js';
+        document.getElementById('fetch-profiles-demo').onclick = async () => {
+            const profiles = await fetchProfiles();
+            console.log('Profiles:', profiles);
+        };
+    </script>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner"
+        style="display:none;position:fixed;top:0;left:0;width:100vw;height:6px;z-index:100000;background:linear-gradient(90deg,#667eea 0%,#764ba2 100%);animation:spinner-bar 1s linear infinite;">
+    </div>
+    <!-- Toast Notifications -->
+    <div id="toast-container" style="position:fixed;top:20px;right:20px;z-index:100001;"></div>
+    <style>
+        @keyframes spinner-bar {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100vw;
+            }
+        }
+
+        .toast {
+            background: #333;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            font-size: 1rem;
+            opacity: 0.95;
+            transition: opacity 0.3s;
+        }
+    </style>
 
     <!-- Inject Navbar/Login Modal -->
     <div id="navbar-login-container"></div>
@@ -781,11 +829,24 @@
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        <div class="footer-container">
+            <h4>Diabetes Compass</h4>
+            <p>Your trusted guide for diabetes management and healthy living.</p>
+            <div class="footer-content">
+                <a href="mailto:denirylands@gmail.com">Contact Us</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Diabetes Compass</p>
+                <div class="footer-social">
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="Instagram">📷</a>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <script src="login-modal-inject.js"></script>
 </body>
-<script src="login-modal-inject.js"></script>
 
 </html>

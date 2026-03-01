@@ -7,6 +7,8 @@
     <title>BMI & Calorie Calculator - Diabetes Compass</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="modal-styles.css">
+    <link rel="stylesheet" href="user-styles.css">
     <!-- Login Button Top Right -->
     <style>
         .login-btn-topright {
@@ -169,12 +171,12 @@
             <h2 class="mb-4 text-center">Login</h2>
             <form id="login-form">
                 <div class="mb-3">
-                    <label for="login-name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="login-name" required />
-                </div>
-                <div class="mb-3">
                     <label for="login-email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="login-email" required />
+                </div>
+                <div class="mb-3">
+                    <label for="login-password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="login-password" required />
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
                 <button type="button" class="btn btn-secondary w-100 mt-2" id="show-register-btn">Register</button>
@@ -397,6 +399,11 @@
     <body>
         <!-- Navbar/Login Modal injected directly in HTML -->
         <script src="script.js"></script>
+        <!-- Load Supabase SDK from CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+        <!-- Initialize Supabase -->
+        <script src="supabase-init.js"></script>
+        <!-- Inject Login/Register Modal -->
         <script src="login-modal-inject.js"></script>
         <script type="module" src="login.js"></script>
         <nav class="navbar">
@@ -618,9 +625,37 @@
             </div>
         </div>
 
+        <!-- Login Required Modal -->
+        <div class="email-modal" id="login-required-modal">
+            <div class="email-modal-content" style="text-align: center;">
+                <h3>🔐 Login Required</h3>
+                <p style="color: #666; margin: 20px 0; font-size: 1rem; line-height: 1.6;">
+                    In order to receive this information, you need to log in.
+                </p>
+                <div class="email-modal-buttons" style="justify-content: center;">
+                    <button type="button" class="btn-cancel" onclick="closeLoginRequiredModal()">Close</button>
+                    <button type="button" class="btn-send"
+                        onclick="closeLoginRequiredModal(); document.getElementById('login-modal').classList.add('active');">Log
+                        In</button>
+                </div>
+            </div>
+        </div>
+
         <footer>
-            <div class="container">
-                <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+            <div class="footer-container">
+                <h4>Diabetes Compass</h4>
+                <p>Your trusted guide for diabetes management and healthy living.</p>
+                <div class="footer-content">
+                    <a href="mailto:denirylands@gmail.com">Contact Us</a>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Diabetes Compass</p>
+                    <div class="footer-social">
+                        <a href="#" title="Facebook">📘</a>
+                        <a href="#" title="Twitter">🐦</a>
+                        <a href="#" title="Instagram">📷</a>
+                    </div>
+                </div>
             </div>
         </footer>
 
@@ -869,10 +904,33 @@
                 document.getElementById('diet-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
 
-            function sendDietEmail() {
-                // Open the email modal form
+            async function sendDietEmail() {
+                // Check if user is logged in
+                let isLoggedIn = false;
+                if (window.supabase && window.supabase.auth) {
+                    try {
+                        const { data } = await window.supabase.auth.getUser();
+                        isLoggedIn = data && data.user;
+                    } catch (e) {
+                        isLoggedIn = false;
+                    }
+                }
+
+                if (!isLoggedIn) {
+                    // Show login required popup
+                    document.getElementById('login-required-modal').classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    return;
+                }
+
+                // User is logged in - open the email modal form
                 document.getElementById('email-modal').classList.add('active');
                 document.body.style.overflow = 'hidden';
+            }
+
+            function closeLoginRequiredModal() {
+                document.getElementById('login-required-modal').classList.remove('active');
+                document.body.style.overflow = '';
             }
 
             function closeEmailModal() {
@@ -965,10 +1023,22 @@ Diabetes Compass Team
                 }
             });
 
+            // Close login-required modal when clicking outside
+            document.getElementById('login-required-modal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeLoginRequiredModal();
+                }
+            });
+
             // Close modal with Escape key
             document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && document.getElementById('email-modal').classList.contains('active')) {
-                    closeEmailModal();
+                if (e.key === 'Escape') {
+                    if (document.getElementById('email-modal').classList.contains('active')) {
+                        closeEmailModal();
+                    }
+                    if (document.getElementById('login-required-modal').classList.contains('active')) {
+                        closeLoginRequiredModal();
+                    }
                 }
             });
         </script>

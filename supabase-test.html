@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #667eea;
+        }
+
+        .test-item {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+
+        .test-item.success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .test-item.error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button.secondary {
+            background: #6c757d;
+        }
+
+        button.secondary:hover {
+            background: #5a6268;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .status {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status.online {
+            background: #28a745;
+        }
+
+        .status.offline {
+            background: #dc3545;
+        }
+
+        .status.pending {
+            background: #ffc107;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔍 Supabase Connection Test</h1>
+        <p>This page tests your Supabase connection and helps diagnose any issues.</p>
+
+        <div id="results"></div>
+
+        <div style="margin-top: 30px;">
+            <button onclick="runAllTests()">🧪 Run All Tests</button>
+            <button class="secondary" onclick="clearResults()">Clear Results</button>
+            <button class="secondary" onclick="openConsole()">📋 Open Browser Console (F12)</button>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Supabase
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        const SUPABASE_URL = 'https://uzwinhyzipndpjxmprns.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6d2luaHl6aXBuZHBqeG1wcm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxODc0MDUsImV4cCI6MjA4Nzc2MzQwNX0.-nDE5lYtJa5qUL06BT-Hh_EJ5d-Xns3nCyRRNfMb7G4';
+
+        let testResults = [];
+
+        function addResult(name, status, message, details = null) {
+            testResults.push({ name, status, message, details });
+            renderResults();
+        }
+
+        function renderResults() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = testResults.map(r => `
+                <div class="test-item ${r.status === 'success' ? 'success' : 'error'}">
+                    <strong><span class="status ${r.status === 'success' ? 'online' : 'offline'}"></span>${r.name}</strong>
+                    <p>${r.message}</p>
+                    ${r.details ? `<pre>${JSON.stringify(r.details, null, 2)}</pre>` : ''}
+                </div>
+            `).join('');
+        }
+
+        window.runAllTests = async function () {
+            testResults = [];
+            addResult('Starting Tests', 'pending', 'Running all diagnostic tests...');
+
+            // Test 1: Check if Supabase SDK is loaded
+            try {
+                console.log('Test 1: Importing Supabase SDK...');
+                addResult('Step 1: Supabase SDK', 'success', 'Supabase SDK loaded successfully from CDN');
+            } catch (error) {
+                addResult('Step 1: Supabase SDK', 'error', 'Failed to load Supabase SDK', error);
+                return;
+            }
+
+            // Test 2: Create client
+            try {
+                console.log('Test 2: Creating Supabase client...');
+                const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+                console.log('Client created:', supabase);
+                window.testClient = supabase;
+                addResult('Step 2: Client Creation', 'success', 'Supabase client created successfully');
+            } catch (error) {
+                addResult('Step 2: Client Creation', 'error', 'Failed to create client', error);
+                return;
+            }
+
+            // Test 3: Check connection to API
+            try {
+                console.log('Test 3: Testing connection to Supabase API...');
+                const response = await fetch(SUPABASE_URL + '/rest/v1/', {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                    }
+                });
+
+                console.log('API Response:', response.status);
+
+                if (response.ok) {
+                    addResult('Step 3: API Connection', 'success', 'Successfully connected to Supabase API (HTTP ' + response.status + ')');
+                } else {
+                    addResult('Step 3: API Connection', 'error', 'API returned status ' + response.status, { status: response.status });
+                }
+            } catch (error) {
+                addResult('Step 3: API Connection', 'error', 'Failed to connect to Supabase API: ' + error.message, error);
+            }
+
+            // Test 4: Try to fetch profiles
+            try {
+                console.log('Test 4: Fetching profiles from database...');
+                const { data, error } = await window.testClient
+                    .from('profiles')
+                    .select('count', { count: 'exact' });
+
+                if (error) {
+                    addResult('Step 4: Database Access', 'error', 'Failed to access profiles table: ' + error.message, error);
+                } else {
+                    addResult('Step 4: Database Access', 'success', 'Successfully accessed profiles table');
+                }
+            } catch (error) {
+                addResult('Step 4: Database Access', 'error', 'Exception while accessing database: ' + error.message, error);
+            }
+
+            // Test 5: Test Auth Signup
+            try {
+                console.log('Test 5: Testing auth signup (no actual signup)...');
+                const testEmail = 'test-' + Date.now() + '@example.com';
+                const testPass = 'TestPassword123!';
+
+                console.log('Attempting test signup with:', testEmail);
+
+                const { data, error } = await window.testClient.auth.signUp({
+                    email: testEmail,
+                    password: testPass,
+                });
+
+                if (error) {
+                    console.error('Auth signup test error:', error);
+                    addResult('Step 5: Auth Signup', 'error', 'Auth signup error: ' + error.message, error);
+                } else {
+                    console.log('Auth signup test response:', data);
+                    addResult('Step 5: Auth Signup', 'success', 'Auth signup endpoint is working');
+                }
+            } catch (error) {
+                addResult('Step 5: Auth Signup', 'error', 'Exception during auth signup: ' + error.message, error);
+            }
+
+            // Summary
+            const successCount = testResults.filter(r => r.status === 'success').length;
+            const errorCount = testResults.filter(r => r.status === 'error').length;
+
+            if (errorCount === 0) {
+                console.log('✅ All tests passed!');
+            } else {
+                console.log(`⚠️  ${errorCount} test(s) failed, ${successCount} passed`);
+            }
+        };
+
+        window.clearResults = function () {
+            testResults = [];
+            document.getElementById('results').innerHTML = '';
+        };
+
+        window.openConsole = function () {
+            console.log('%c=== Diabetes Compass Supabase Debug ===', 'color: #667eea; font-size: 14px; font-weight: bold;');
+            console.log('To run tests in console, type: runAllTests()');
+            console.log('Test client available at: window.testClient');
+            alert('Browser console opened. Press F12 or right-click → Inspect → Console');
+        };
+
+        // Expose test function globally
+        window.runAllTests = window.runAllTests;
+        window.clearResults = window.clearResults;
+        window.openConsole = window.openConsole;
+
+        console.log('%c=== Supabase Test Page Loaded ===', 'color: #667eea; font-size: 14px; font-weight: bold;');
+        console.log('Run window.runAllTests() to start testing');
+    </script>
+</body>
+
+</html>

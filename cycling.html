@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="modal-styles.css">
+    <link rel="stylesheet" href="user-styles.css">
     <!-- Login Button Top Right -->
     <style>
         .login-btn-topright {
@@ -514,11 +516,12 @@
             });
     </script>
     <!-- Supabase JS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Supabase Client Config -->
-    <script src="src/pages/supabaseClient.js"></script>
-    <!-- Login Logic -->
-    <script src="src/pages/login.js"></script>
+    <!-- Load Supabase SDK from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+    <!-- Initialize Supabase -->
+    <script src="supabase-init.js"></script>
+    <!-- Inject Login/Register Modal -->
+    <script src="login-modal-inject.js"></script>
 
     <nav class="breadcrumbs">
         <div class="container">
@@ -666,8 +669,20 @@
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Diabetes Compass. All rights reserved.</p>
+        <div class="footer-container">
+            <h4>Diabetes Compass</h4>
+            <p>Your trusted guide for diabetes management and healthy living.</p>
+            <div class="footer-content">
+                <a href="mailto:denirylands@gmail.com">Contact Us</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Diabetes Compass</p>
+                <div class="footer-social">
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="Instagram">📷</a>
+                </div>
+            </div>
         </div>
     </footer>
 

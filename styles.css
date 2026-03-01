@@ -1,7 +1,10 @@
-/* Register Button Top Right */
+/* Login/Register Button Top Right */
+.login-btn-topright,
 .register-btn-topright {
-    position: relative;
-    padding: 8px 22px;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    padding: 10px 24px;
     background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
     color: #fff;
     border: none;
@@ -11,8 +14,11 @@
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
     transition: background 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
+.login-btn-topright:hover,
 .register-btn-topright:hover {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     box-shadow: 0 4px 16px rgba(102, 126, 234, 0.18);
@@ -23,6 +29,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    zoom: 85%;
+    -moz-transform: scale(0.85);
+    -moz-transform-origin: 0 0;
 }
 
 body {
@@ -243,10 +255,6 @@ header p {
 
 .exercise-tile .tile-photo {
     background-image: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.3)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center');
-}
-
-.events-tile .tile-photo {
-    background-image: linear-gradient(135deg, rgba(52, 73, 94, 0.3), rgba(44, 62, 80, 0.3)), url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop&crop=center');
 }
 
 /* Physical Activities Page Tiles */
@@ -1055,16 +1063,140 @@ header p {
 
 /* Footer */
 footer {
-    background: #2c3e50;
+    background: linear-gradient(135deg, #4682B4, #6495ED);
     color: white;
-    text-align: center;
-    padding: 30px 0;
-    margin-top: 60px;
+    padding: 16px 0 13px;
+    margin-top: 40px;
 }
 
-footer p {
+.footer-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 26px;
+    text-align: center;
+}
+
+.footer-container h4 {
+    color: #fff;
+    font-size: 1.25rem;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+}
+
+.footer-container>p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.3;
+    margin: 0 0 8px 0;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px 16px;
+    margin-bottom: 8px;
+}
+
+.footer-content a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.footer-content a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.footer-section h4 {
+    color: #fff;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.footer-section p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 12px;
+    justify-content: center;
+}
+
+.footer-section ul li {
+    margin: 0;
+}
+
+.footer-section ul li a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: color 0.2s;
+}
+
+.footer-section ul li a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.footer-bottom p {
     font-size: 0.9rem;
     opacity: 0.8;
+    margin: 0;
+}
+
+.footer-social {
+    display: flex;
+    gap: 10px;
+}
+
+.footer-social a {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.footer-social a:hover {
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .footer-container {
+        margin: 0 15px;
+        max-width: none;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 6px;
+    }
 }
 
 /* Responsive design */

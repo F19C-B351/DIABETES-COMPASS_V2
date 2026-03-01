@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Compass - User Profiles</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="modal-styles.css">
+    <link rel="stylesheet" href="user-styles.css">
+    <style>
+        .page-container {
+            max-width: 1000px;
+            margin: 60px auto 40px;
+            padding: 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-action.secondary {
+            background: #6c757d;
+        }
+
+        .btn-action.secondary:hover {
+            background: #5a6268;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 15px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border-left: 4px solid #667eea;
+        }
+
+        .profile-card:hover {
+            box-shadow: 0 4px 24px rgba(102, 126, 234, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .profile-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .profile-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .profile-detail {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 140px;
+        }
+
+        .detail-value {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .badge-type1 {
+            background: #ffe0e0;
+            color: #c41e3a;
+        }
+
+        .badge-type2 {
+            background: #e0f0ff;
+            color: #0066cc;
+        }
+
+        .badge-gestational {
+            background: #fff5e0;
+            color: #ff9800;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .stats {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1>👥 User Profiles</h1>
+            <p>Fetching data from Supabase</p>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn-action" onclick="fetchProfiles()">🔄 Refresh Data</button>
+            <button class="btn-action secondary" onclick="window.location.href='/'">← Back Home</button>
+        </div>
+
+        <div id="message"></div>
+        <div id="stats"></div>
+        <div id="loading" class="loading" style="display:none;">
+            <div class="spinner"></div>
+            <span>Loading profiles from Supabase...</span>
+        </div>
+        <div id="profiles" class="profiles-grid"></div>
+    </div>
+
+    <!-- Supabase Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+    <script src="supabase-init.js"></script>
+
+    <script>
+        // Fetch and display profiles
+        async function fetchProfiles() {
+            const loading = document.getElementById('loading');
+            const profiles = document.getElementById('profiles');
+            const message = document.getElementById('message');
+            const stats = document.getElementById('stats');
+
+            loading.style.display = 'block';
+            profiles.innerHTML = '';
+            message.innerHTML = '';
+            stats.innerHTML = '';
+
+            try {
+                // Wait for Supabase to be ready
+                if (!window.supabase) {
+                    throw new Error('Supabase client not initialized');
+                }
+
+                console.log('Fetching profiles from Supabase...');
+
+                // Fetch profiles from database
+                const { data: profilesData, error } = await window.supabase
+                    .from('profiles')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                loading.style.display = 'none';
+
+                if (error) {
+                    console.error('Error fetching profiles:', error);
+                    message.innerHTML = `
+                        <div class="error-message">
+                            <strong>Error:</strong> ${error.message}
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (!profilesData || profilesData.length === 0) {
+                    profiles.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <div class="empty-state-icon">📭</div>
+                            <h3>No profiles yet</h3>
+                            <p>Register a new account to create a profile</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                console.log('Successfully fetched profiles:', profilesData);
+
+                // Show success message
+                message.innerHTML = `
+                    <div class="success-message">
+                        ✓ Successfully connected to Supabase and fetched ${profilesData.length} profile(s)
+                    </div>
+                `;
+
+                // Show statistics
+                const type1Count = profilesData.filter(p => p.diabetes_type === 'Type 1').length;
+                const type2Count = profilesData.filter(p => p.diabetes_type === 'Type 2').length;
+                const gestationalCount = profilesData.filter(p => p.diabetes_type === 'Gestational').length;
+
+                stats.innerHTML = `
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-number">${profilesData.length}</div>
+                            <div class="stat-label">Total Users</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${type1Count}</div>
+                            <div class="stat-label">Type 1</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${type2Count}</div>
+                            <div class="stat-label">Type 2</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${gestationalCount}</div>
+                            <div class="stat-label">Gestational</div>
+                        </div>
+                    </div>
+                `;
+
+                // Display profile cards
+                profilesData.forEach(profile => {
+                    const typeClass = profile.diabetes_type === 'Type 1' ? 'badge-type1' :
+                        profile.diabetes_type === 'Type 2' ? 'badge-type2' : 'badge-gestational';
+
+                    const firstLetter = (profile.name || 'U').charAt(0).toUpperCase();
+
+                    const card = document.createElement('div');
+                    card.className = 'profile-card';
+                    card.innerHTML = `
+                        <div class="profile-card-header">
+                            <div class="profile-avatar">${firstLetter}</div>
+                            <h3 class="profile-name">${profile.name || 'Unknown'}</h3>
+                        </div>
+                        <div class="profile-detail">
+                            <span class="detail-label">Diabetes Type:</span>
+                            <span class="badge ${typeClass}">${profile.diabetes_type}</span>
+                        </div>
+                        <div class="profile-detail">
+                            <span class="detail-label">Glucose Unit:</span>
+                            <span class="detail-value">${profile.glucose_unit || 'N/A'}</span>
+                        </div>
+                        <div class="profile-detail">
+                            <span class="detail-label">Insulin User:</span>
+                            <span class="detail-value">${profile.insulin_user || 'N/A'}</span>
+                        </div>
+                        <div class="profile-detail" style="font-size: 0.85rem; color: #999; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+                            <span class="detail-label" style="color: #999;">Created:</span>
+                            <span class="detail-value">${new Date(profile.created_at).toLocaleDateString()}</span>
+                        </div>
+                    `;
+                    profiles.appendChild(card);
+                });
+
+            } catch (error) {
+                loading.style.display = 'none';
+                console.error('Error:', error);
+                message.innerHTML = `
+                    <div class="error-message">
+                        <strong>Connection Error:</strong> ${error.message}
+                        <p style="margin: 10px 0 0 0; font-size: 0.9rem;">Make sure the HTTP server is running and Supabase client is initialized.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Fetch profiles when page loads
+        window.addEventListener('load', () => {
+            // Give Supabase a moment to initialize
+            setTimeout(fetchProfiles, 500);
+        });
+    </script>
+</body>
+
+</html>

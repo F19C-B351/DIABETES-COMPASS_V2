@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .log {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔧 CDN & Library Test</h1>
+    <div id="output"></div>
+
+    <script>
+        const output = document.getElementById('output');
+
+        function log(msg, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `log ${type}`;
+            div.textContent = msg;
+            output.appendChild(div);
+            console.log(msg);
+        }
+
+        // Test 1: Check initial globals
+        log('=== Test 1: Initial Global Check ===');
+        log(`window.supabase exists: ${!!window.supabase}`);
+        log(`window.supabase.createClient exists: ${!!(window.supabase && window.supabase.createClient)}`);
+
+        // Test 2: Add CDN script dynamically
+        log('=== Test 2: Loading Supabase CDN ===');
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0';
+        script.onload = () => log('CDN script loaded', 'success');
+        script.onerror = () => log('CDN script failed to load', 'error');
+        document.head.appendChild(script);
+
+        // Test 3: Wait and check if library loaded
+        setTimeout(() => {
+            log('=== Test 3: Library Status (500ms later) ===');
+            log(`window.supabase exists: ${!!window.supabase}`, window.supabase ? 'success' : 'error');
+            log(`typeof window.supabase: ${typeof window.supabase}`);
+
+            if (window.supabase) {
+                log(`window.supabase.createClient exists: ${!!window.supabase.createClient}`);
+
+                // Try to create a client
+                if (window.supabase.createClient) {
+                    try {
+                        const client = window.supabase.createClient(
+                            'https://uzwinhyzipndpjxmprns.supabase.co',
+                            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6d2luaHl6aXBuZHBqeG1wcm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxODc0MDUsImV4cCI6MjA4Nzc2MzQwNX0.-nDE5lYtJa5qUL06BT-Hh_EJ5d-Xns3nCyRRNfMb7G4'
+                        );
+                        log(`Client created successfully`, 'success');
+                        log(`Client type: ${typeof client}`);
+
+                        // Try to use the client
+                        client.from('profiles').select('count', { head: true }).then(result => {
+                            if (result.error) {
+                                log(`Database query error: ${result.error.message}`, 'error');
+                            } else {
+                                log(`Database query successful`, 'success');
+                            }
+                        }).catch(e => {
+                            log(`Database query exception: ${e.message}`, 'error');
+                        });
+
+                    } catch (e) {
+                        log(`Failed to create client: ${e.message}`, 'error');
+                    }
+                }
+            } else {
+                log(`CDN did not load Supabase library`, 'error');
+            }
+        }, 500);
+    </script>
+</body>
+
+</html>

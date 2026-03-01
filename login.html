@@ -178,8 +178,12 @@
                 style="display:none; color: #388e3c; text-align:center; margin-top:1rem;">Profile saved!</div>
         </div>
     </div>
-    <script type="module" src="supabaseClient.js"></script>
-    <script type="module" src="login.js"></script>
+    <!-- Load Supabase SDK from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+    <!-- Initialize Supabase -->
+    <script src="supabase-init.js"></script>
+    <!-- Inject Login/Register Modal -->
+    <script src="login-modal-inject.js"></script>
 </body>
 
 </html>
