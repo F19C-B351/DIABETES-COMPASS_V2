@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Diabetes Compass</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="modal-styles.css">
+    <link rel="stylesheet" href="user-styles.css">
+    <style>
+        .faq-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .faq-hero p {
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .faq-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-category-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            background: #f0f0f0;
+            color: #333;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-category-btn:hover,
+        .faq-category-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .faq-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .faq-section h3 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-item {
+            border: 1px solid #eee;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-question {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #333;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: linear-gradient(135deg, #f0f0f0 0%, #f8f9fa 100%);
+        }
+
+        .faq-question .icon {
+            font-size: 1.5rem;
+            color: #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-question .icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 20px 25px;
+            background: white;
+            color: #555;
+            line-height: 1.7;
+            border-top: 1px solid #eee;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        .faq-answer ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .faq-answer ul li {
+            margin-bottom: 8px;
+        }
+
+        .faq-answer strong {
+            color: #333;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 4px solid #4caf50;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .search-box {
+            max-width: 500px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 2px solid #eee;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .faq-hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .faq-section {
+                padding: 20px;
+            }
+
+            .faq-question {
+                padding: 15px 20px;
+                font-size: 0.95rem;
+            }
+
+            .faq-answer {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
+                <a href="share-your-story.html" class="nav-link">Share Your Story</a>
+                <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
+                    doctor?</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="images/Diabetes Compass.jpg" alt="Diabetes Compass Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>Frequently Asked Questions</h1>
+                    <p>Find answers to common questions about diabetes management</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs">
+        <div class="container">
+            <a href="index.html">Home</a>
+            <span class="separator">›</span>
+            <span class="current">FAQ</span>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <!-- Hero Section -->
+            <div class="faq-hero">
+                <h2>❓ How Can We Help You?</h2>
+                <p>Find answers to the most frequently asked questions about diabetes management, nutrition, exercise,
+                    and treatments. Can't find what you're looking for? Contact us!</p>
+            </div>
+
+            <!-- Search Box -->
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="faq-search" placeholder="Search for questions...">
+            </div>
+
+            <!-- Category Filters -->
+            <div class="faq-categories">
+                <button class="faq-category-btn active" data-category="all">All Questions</button>
+                <button class="faq-category-btn" data-category="general">General</button>
+                <button class="faq-category-btn" data-category="nutrition">Nutrition</button>
+                <button class="faq-category-btn" data-category="exercise">Exercise</button>
+                <button class="faq-category-btn" data-category="treatment">Treatment</button>
+                <button class="faq-category-btn" data-category="tools">Tools & Features</button>
+            </div>
+
+            <!-- General Questions -->
+            <section class="faq-section" data-category="general">
+                <h3>📋 General Questions</h3>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is Diabetes Compass?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Diabetes Compass is your comprehensive guide to diabetes care and management. We provide
+                            evidence-based information on nutrition, physical activities, latest treatments, and helpful
+                            tools like BMI calculators and calorie trackers to help you manage diabetes effectively.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How many people are affected by diabetes worldwide?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Diabetes affects over <strong>422 million people worldwide</strong>. However, with proper
+                            management, people with diabetes can live healthy, fulfilling lives. That's why Diabetes
+                            Compass exists—to help you navigate your diabetes journey with confidence.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is the information on Diabetes Compass medically reviewed?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our content is based on current medical research and guidelines. However, we always recommend
+                            consulting with your healthcare provider before making any changes to your diabetes
+                            management plan. For immediate medical assistance, use our "Need a doctor?" link to connect
+                            with healthcare professionals.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How can I share my diabetes story?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We encourage community sharing! Visit our <a href="share-your-story.html">"Share Your
+                                Story"</a> page to submit your experience with diabetes. Your story can inspire and help
+                            others in their diabetes management journey.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Nutrition Questions -->
+            <section class="faq-section" data-category="nutrition">
+                <h3>🥗 Nutrition & Diet</h3>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is the Glycemic Index (GI)?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The Glycemic Index (GI) is a ranking system for carbohydrates based on how quickly they raise
+                            blood sugar levels after eating. Foods are categorized as:</p>
+                        <ul>
+                            <li><strong>Low GI (0-55):</strong> Slow digestion, gradual blood sugar rise (e.g., lentils,
+                                apples, Greek yogurt)</li>
+                            <li><strong>Medium GI (56-69):</strong> Moderate blood sugar impact (e.g., brown rice, whole
+                                wheat bread, oatmeal)</li>
+                            <li><strong>High GI (70+):</strong> Rapid blood sugar spike (e.g., white bread, white rice,
+                                baked potato)</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>Tip:</strong> Choose low GI foods most often to maintain stable blood sugar levels.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Which foods have a low glycemic index?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Excellent low GI food choices include:</p>
+                        <ul>
+                            <li><strong>Proteins:</strong> Eggs (GI: 0), Greek yogurt (GI: 11), peanuts (GI: 14)</li>
+                            <li><strong>Vegetables:</strong> Lettuce, spinach (GI: 15), most non-starchy vegetables</li>
+                            <li><strong>Legumes:</strong> Chickpeas (GI: 28), lentils (GI: 32)</li>
+                            <li><strong>Fruits:</strong> Apples (GI: 36), oranges, berries</li>
+                        </ul>
+                        <p>Visit our <a href="nutrition.html">Nutrition page</a> for a complete GI chart you can
+                            download.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What foods should I avoid or limit with diabetes?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Foods to limit include high GI options that cause rapid blood sugar spikes:</p>
+                        <ul>
+                            <li>White bread (GI: 75)</li>
+                            <li>White rice (GI: 73)</li>
+                            <li>Baked potatoes (GI: 85)</li>
+                            <li>Cornflakes (GI: 81)</li>
+                            <li>Sugary drinks and processed snacks</li>
+                        </ul>
+                        <div class="warning-box">
+                            <strong>Note:</strong> You don't have to eliminate these foods entirely—just consume them in
+                            moderation and pair with protein or fiber to slow absorption.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How does insulin response relate to food choices?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Insulin response measures how much insulin your body needs to process a food. High GI foods
+                            typically trigger a high insulin response, which can:</p>
+                        <ul>
+                            <li>Cause energy crashes</li>
+                            <li>Increase hunger shortly after eating</li>
+                            <li>Make blood sugar management more difficult</li>
+                        </ul>
+                        <p>Choosing foods with lower insulin responses helps maintain steady energy and better diabetes
+                            control.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exercise Questions -->
+            <section class="faq-section" data-category="exercise">
+                <h3>🏃 Physical Activities & Exercise</h3>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What types of exercise are best for diabetes?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We recommend a variety of diabetes-friendly activities:</p>
+                        <ul>
+                            <li><strong>Yoga:</strong> Gentle stretches that improve flexibility, reduce stress, and
+                                help manage blood sugar</li>
+                            <li><strong>Swimming:</strong> Low-impact, joint-friendly exercise excellent for
+                                cardiovascular health</li>
+                            <li><strong>Cycling:</strong> Great aerobic exercise that's easy on the joints</li>
+                            <li><strong>Running/Walking:</strong> Cardiovascular exercise perfect for diabetes
+                                management</li>
+                            <li><strong>Hiking:</strong> Outdoor activity that combines exercise with nature</li>
+                            <li><strong>Group Activities:</strong> Zumba, Tai Chi, water aerobics—fun and motivating
+                            </li>
+                        </ul>
+                        <p>Explore our <a href="physical-activities.html">Physical Activities</a> section for detailed
+                            guides on each activity.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How does swimming benefit people with diabetes?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Swimming is excellent for diabetes management because:</p>
+                        <ul>
+                            <li>It's low-impact and gentle on joints</li>
+                            <li>Water supports your body, reducing injury risk</li>
+                            <li>Great for those with neuropathy or foot issues</li>
+                            <li>Improves cardiovascular health</li>
+                            <li>Burns calories effectively</li>
+                            <li>Cooling exercise—great for hot weather</li>
+                        </ul>
+                        <p>Learn more on our <a href="swimming.html">Swimming page</a>.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Why is yoga recommended for diabetes?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yoga offers multiple benefits for diabetes management:</p>
+                        <ul>
+                            <li><strong>Stress reduction:</strong> Lower cortisol helps regulate blood sugar</li>
+                            <li><strong>Improved flexibility:</strong> Gentle movements maintain joint health</li>
+                            <li><strong>Better sleep:</strong> Quality sleep improves insulin sensitivity</li>
+                            <li><strong>Mind-body connection:</strong> Increases awareness of your body's signals</li>
+                        </ul>
+                        <p>Visit our <a href="yoga.html">Yoga page</a> for beginner-friendly video tutorials.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What safety precautions should I take when exercising with diabetes?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="warning-box">
+                            <strong>Important Safety Tips:</strong>
+                        </div>
+                        <ul>
+                            <li>Check blood sugar before, during, and after exercise</li>
+                            <li>Don't exercise if blood sugar is above 250 mg/dL with ketones or below 100 mg/dL</li>
+                            <li>Always carry fast-acting glucose (tablets or juice)</li>
+                            <li>Stay hydrated—dehydration affects blood sugar</li>
+                            <li>Wear proper footwear and check feet after exercise</li>
+                            <li>Wear a medical ID bracelet</li>
+                            <li>Stop immediately if you feel dizzy, confused, or have chest pain</li>
+                            <li>Talk to your doctor before starting new exercise programs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How often should I exercise with diabetes?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>General recommendations include:</p>
+                        <ul>
+                            <li><strong>Aerobic exercise:</strong> At least 150 minutes per week (30 minutes, 5 days)
+                            </li>
+                            <li><strong>Strength training:</strong> 2-3 sessions per week</li>
+                            <li><strong>Flexibility:</strong> Daily stretching or yoga</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>Tip:</strong> Start slowly and gradually increase intensity. Even a 10-minute walk
+                            after meals can significantly improve blood sugar control.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Treatment Questions -->
+            <section class="faq-section" data-category="treatment">
+                <h3>💊 Treatments & Medications</h3>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What are the latest diabetes treatment options?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Modern diabetes treatment includes several approaches:</p>
+                        <ul>
+                            <li><strong>Oral Medications:</strong> Pills that help control blood sugar</li>
+                            <li><strong>Injectable Medications:</strong> GLP-1 agonists and other non-insulin
+                                injectables</li>
+                            <li><strong>Insulin Therapy:</strong> Various insulin types for different needs</li>
+                            <li><strong>Continuous Glucose Monitors (CGMs):</strong> Real-time blood sugar tracking</li>
+                            <li><strong>Insulin Pumps:</strong> Automated insulin delivery systems</li>
+                        </ul>
+                        <p>Visit our <a href="treatments.html">Treatments page</a> for comprehensive information on each
+                            option.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is a continuous glucose monitor (CGM)?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>A CGM is a device that continuously tracks your glucose levels throughout the day and night.
+                            Benefits include:</p>
+                        <ul>
+                            <li>No more finger pricks for routine monitoring</li>
+                            <li>Real-time readings on your phone or receiver</li>
+                            <li>Alerts for high and low blood sugar</li>
+                            <li>Trend data to see how food and activity affect you</li>
+                            <li>Share data with your healthcare team</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Should I consult a doctor before making treatment changes?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Absolutely yes!</strong> Always consult your healthcare provider before:</p>
+                        <ul>
+                            <li>Starting or stopping any medication</li>
+                            <li>Changing your insulin dosage</li>
+                            <li>Beginning a new exercise program</li>
+                            <li>Making significant dietary changes</li>
+                        </ul>
+                        <p>Need a doctor? Use our <a href="https://superdoc.bg/" target="_blank">"Need a doctor?"</a>
+                            link to connect with healthcare professionals.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tools Questions -->
+            <section class="faq-section" data-category="tools">
+                <h3>🛠️ Tools & Features</h3>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I use the BMI Calculator?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our <a href="bmi-calculator.html">BMI Calculator</a> helps you:</p>
+                        <ul>
+                            <li>Calculate your Body Mass Index (BMI)</li>
+                            <li>Estimate your daily calorie needs</li>
+                            <li>Get personalized diet recommendations</li>
+                            <li>Email your results for your records</li>
+                        </ul>
+                        <p>Simply enter your height, weight, age, and activity level to get instant results.</p>
+                        <div class="highlight-box">
+                            <strong>Note:</strong> The email feature is available for registered users. Create a free
+                            account to access all features.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I export the Glycemic Index chart?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! On our <a href="nutrition.html">Nutrition page</a>, you can click the "Export to Excel"
+                            button to download a formatted spreadsheet containing:</p>
+                        <ul>
+                            <li>Complete list of foods with GI values</li>
+                            <li>GI category classification (Low/Medium/High)</li>
+                            <li>Insulin response information</li>
+                            <li>Color-coded for easy reference</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do I need to create an account?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Creating an account is <strong>free and optional</strong>. Benefits of registering include:
+                        </p>
+                        <ul>
+                            <li>Save your BMI calculations and diet plans</li>
+                            <li>Email personalized reports to yourself</li>
+                            <li>Track your progress over time</li>
+                            <li>Share your diabetes story with the community</li>
+                        </ul>
+                        <p>Click the Login/Register button in the navigation to get started.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I find cycling routes near me?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our <a href="cycling-map.html">Cycling Map</a> feature allows you to:</p>
+                        <ul>
+                            <li>Find bike-friendly routes in your area</li>
+                            <li>View route difficulty levels</li>
+                            <li>See estimated calories burned</li>
+                            <li>Filter routes by distance and terrain</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <div class="faq-hero" style="margin-top: 40px;">
+                <h2>Still Have Questions?</h2>
+                <p>We're here to help! Contact us at <a href="mailto:denirylands@gmail.com"
+                        style="color: white; text-decoration: underline;">denirylands@gmail.com</a> or visit our Contact
+                    Us page for more ways to reach us.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <h4>Diabetes Compass</h4>
+            <p>Your trusted guide for diabetes management and healthy living.</p>
+            <div class="footer-content">
+                <a href="mailto:denirylands@gmail.com">Contact Us</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Diabetes Compass</p>
+                <div class="footer-social">
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="Instagram">📷</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasOpen = item.classList.contains('open');
+
+                // Close all items
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+
+                // Toggle current item
+                if (!wasOpen) {
+                    item.classList.add('open');
+                }
+            });
+        });
+
+        // Category filtering
+        document.querySelectorAll('.faq-category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.dataset.category;
+
+                // Update active button
+                document.querySelectorAll('.faq-category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filter sections
+                document.querySelectorAll('.faq-section').forEach(section => {
+                    if (category === 'all' || section.dataset.category === category) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Search functionality
+        document.getElementById('faq-search').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const question = item.querySelector('.faq-question span:first-child').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    if (searchTerm.length > 2) {
+                        item.classList.add('open');
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show all sections when searching
+            if (searchTerm.length > 0) {
+                document.querySelectorAll('.faq-section').forEach(section => {
+                    section.style.display = 'block';
+                });
+                document.querySelectorAll('.faq-category-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.faq-category-btn[data-category="all"]').classList.add('active');
+            }
+        });
+    </script>
+
+    <script src="script.js"></script>
+    <!-- Load Supabase SDK from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+    <!-- Initialize Supabase -->
+    <script src="supabase-init.js"></script>
+    <!-- Inject Login/Register Modal -->
+    <script src="login-modal-inject.js"></script>
+</body>
+
+</html>
