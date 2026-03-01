@@ -97,12 +97,6 @@
 
 /* Tablet Landscape (768px - 991px) */
 @media (min-width: 768px) and (max-width: 991px) {
-    html {
-        zoom: 85%;
-        -moz-transform: scale(0.85);
-        -moz-transform-origin: 0 0;
-    }
-
     .container {
         max-width: 720px;
         padding: 0 15px;
@@ -191,12 +185,6 @@
 
 /* Tablet Portrait (576px - 767px) */
 @media (min-width: 576px) and (max-width: 767px) {
-    html {
-        zoom: 85%;
-        -moz-transform: scale(0.85);
-        -moz-transform-origin: 0 0;
-    }
-
     .container {
         max-width: 540px;
         padding: 0 15px;
@@ -387,12 +375,6 @@
 
 /* Mobile (max-width: 575px) */
 @media (max-width: 575px) {
-    html {
-        zoom: 85%;
-        -moz-transform: scale(0.85);
-        -moz-transform-origin: 0 0;
-    }
-
     body {
         font-size: 14px;
     }
@@ -828,12 +810,6 @@
 
     header {
         padding: 20px 0;
-    }
-
-    html {
-        zoom: 85%;
-        -moz-transform: scale(0.85);
-        -moz-transform-origin: 0 0;
     }
 
     body {
