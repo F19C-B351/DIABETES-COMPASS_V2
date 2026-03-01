@@ -1,0 +1,32 @@
+<!-- Navbar with Login Button (reusable component) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Diabetes Compass</a>
+        <div class="d-flex ms-auto">
+            <a href="Diabetes Compass On The Go/Diabetes-Compass-OnTheGo-Vanilla/src/pages/login.html" class="btn btn-outline-primary" id="show-login-btn">Login</a>
+        </div>
+    </div>
+</nav>
+<!-- Login Modal (reusable component) -->
+<div id="login-modal"
+    style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1050;">
+    <div class="container mt-5"
+        style="max-width: 400px; background:#fff; border-radius:8px; box-shadow:0 2px 16px rgba(0,0,0,0.2); padding:2rem; position:relative; top:10vh;">
+        <button type="button" id="close-login-modal" class="btn-close position-absolute end-0 top-0 m-3"
+            aria-label="Close"></button>
+        <h2 class="mb-4 text-center">Login</h2>
+        <form id="login-form">
+            <div class="mb-3">
+                <label for="login-email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="login-email" required />
+            </div>
+            <div class="mb-3">
+                <label for="login-password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="login-password" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <div id="login-error" class="text-danger mt-3" style="display:none;"></div>
+    </div>
+</div>
+<!-- No modal logic needed, button links to login page -->
