@@ -1,3 +1,9 @@
+/* Hide chatbot - temporarily disabled */
+.chatbot-toggle,
+.chatbot-container {
+    display: none !important;
+}
+
 /* Login/Register Button Top Right */
 .login-btn-topright,
 .register-btn-topright {

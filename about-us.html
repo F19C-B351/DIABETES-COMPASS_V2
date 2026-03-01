@@ -333,16 +333,7 @@
             transition: opacity 0.3s;
         }
     </style>
-    <!-- Demo: Fetch profiles button -->
-    <button id="fetch-profiles-demo" style="position:fixed;bottom:20px;right:20px;z-index:100002;">Fetch Profiles
-        (Demo)</button>
-    <script type="module">
-        import { fetchProfiles } from './supabase-utils.js';
-        document.getElementById('fetch-profiles-demo').onclick = async () => {
-            const profiles = await fetchProfiles();
-            console.log('Profiles:', profiles);
-        };
-    </script>
+
 
     <!-- Inject Navbar/Login Modal -->
     <div id="navbar-login-container"></div>

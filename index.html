@@ -43,16 +43,7 @@
             transition: opacity 0.3s;
         }
     </style>
-    <!-- Demo: Fetch profiles button -->
-    <button id="fetch-profiles-demo" style="position:fixed;bottom:20px;right:20px;z-index:100002;">Fetch Profiles
-        (Demo)</button>
-    <script type="module">
-        import { fetchProfiles } from './supabase-utils.js';
-        document.getElementById('fetch-profiles-demo').onclick = async () => {
-            const profiles = await fetchProfiles();
-            console.log('Profiles:', profiles);
-        };
-    </script>
+
 
     <!-- Login Button Top Right - Styles now in styles.css -->
     <style>
@@ -64,6 +55,7 @@
             <div class="nav-menu">
                 <a href="profiles.html" class="nav-link">👥 User Profiles</a>
                 <a href="dashboard.html" class="nav-link">📊 Analytics Dashboard</a>
+                <a href="faq.html" class="nav-link">❓ FAQ</a>
                 <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
                 <a href="share-your-story.html" class="nav-link">Share Your Story</a>
                 <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a

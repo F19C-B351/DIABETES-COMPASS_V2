@@ -528,6 +528,63 @@ const chatbotData = {
         "diabetes basics": {
             response: "Diabetes is a condition affecting how your body processes blood sugar. Our website provides information on Type 1, Type 2, and gestational diabetes, along with management tips, lifestyle guidance, and resources for living well with diabetes.",
             followUp: ["Want to learn about Type 1?", "Interested in Type 2 information?", "Need management tips?"]
+        },
+        // FAQ Content
+        "glycemic index": {
+            response: "The Glycemic Index (GI) is a ranking system for carbohydrates based on how quickly they raise blood sugar levels. Foods are categorized as: Low GI (0-55) for slow digestion and gradual blood sugar rise (e.g., lentils, apples, Greek yogurt), Medium GI (56-69) for moderate impact (e.g., brown rice, oatmeal), and High GI (70+) for rapid blood sugar spike (e.g., white bread, white rice). Choose low GI foods most often to maintain stable blood sugar levels.",
+            followUp: ["Show me low GI foods", "What foods should I avoid?", "Tell me about insulin response"]
+        },
+        "low gi foods": {
+            response: "Excellent low GI food choices include: Proteins like eggs (GI: 0), Greek yogurt (GI: 11), and peanuts (GI: 14). Vegetables like lettuce and spinach (GI: 15). Legumes like chickpeas (GI: 28) and lentils (GI: 32). Fruits like apples (GI: 36). Visit our Nutrition page for a complete GI chart you can download!",
+            followUp: ["What about medium GI foods?", "Foods to avoid?", "Export GI chart"]
+        },
+        "foods to avoid": {
+            response: "Foods to limit with diabetes include high GI options that cause rapid blood sugar spikes: White bread (GI: 75), White rice (GI: 73), Baked potatoes (GI: 85), Cornflakes (GI: 81), and sugary drinks. You don't have to eliminate them entirely—just consume in moderation and pair with protein or fiber to slow absorption.",
+            followUp: ["What can I eat instead?", "Tell me about low GI foods", "Nutrition tips"]
+        },
+        "insulin response": {
+            response: "Insulin response measures how much insulin your body needs to process a food. High GI foods typically trigger a high insulin response, which can cause energy crashes, increase hunger shortly after eating, and make blood sugar management more difficult. Choosing foods with lower insulin responses helps maintain steady energy and better diabetes control.",
+            followUp: ["What is glycemic index?", "Low GI foods", "Nutrition page"]
+        },
+        "best exercise for diabetes": {
+            response: "The best exercises for diabetes include: Yoga (reduces stress, improves blood sugar), Swimming (low-impact, joint-friendly), Cycling (great aerobic exercise), Running/Walking (cardiovascular health), Hiking (combines exercise with nature), and Group Activities like Zumba and Tai Chi. Aim for 150 minutes of aerobic exercise per week plus 2-3 strength training sessions.",
+            followUp: ["Tell me about yoga", "Swimming benefits", "Exercise safety tips"]
+        },
+        "swimming diabetes": {
+            response: "Swimming is excellent for diabetes management because: It's low-impact and gentle on joints, water supports your body reducing injury risk, great for those with neuropathy or foot issues, improves cardiovascular health, burns calories effectively, and it's a cooling exercise great for hot weather.",
+            followUp: ["Other exercises?", "Exercise safety", "Group activities"]
+        },
+        "yoga diabetes": {
+            response: "Yoga offers multiple benefits for diabetes: Stress reduction (lower cortisol helps regulate blood sugar), improved flexibility with gentle movements, better sleep which improves insulin sensitivity, and increased body awareness. Visit our Yoga page for beginner-friendly video tutorials!",
+            followUp: ["Other exercises?", "Exercise safety", "Swimming benefits"]
+        },
+        "exercise safety": {
+            response: "Important safety tips for exercising with diabetes: Check blood sugar before, during, and after exercise. Don't exercise if blood sugar is above 250 mg/dL with ketones or below 100 mg/dL. Always carry fast-acting glucose (tablets or juice). Stay hydrated. Wear proper footwear and check feet after exercise. Wear a medical ID bracelet. Stop immediately if you feel dizzy, confused, or have chest pain.",
+            followUp: ["Best exercises?", "How often should I exercise?", "Physical activities page"]
+        },
+        "how often exercise": {
+            response: "General exercise recommendations for diabetes: Aerobic exercise at least 150 minutes per week (30 minutes, 5 days), Strength training 2-3 sessions per week, and daily stretching or yoga for flexibility. Start slowly and gradually increase intensity. Even a 10-minute walk after meals can significantly improve blood sugar control!",
+            followUp: ["Exercise safety tips", "Best exercises?", "Yoga benefits"]
+        },
+        "bmi": {
+            response: "Our BMI Calculator helps you calculate your Body Mass Index, estimate daily calorie needs, get personalized diet recommendations, and email your results. Simply enter your height, weight, age, and activity level to get instant results. The email feature is available for registered users.",
+            followUp: ["How is BMI calculated?", "What's a healthy BMI?", "Create an account"]
+        },
+        "export gi chart": {
+            response: "Yes! On our Nutrition page, you can click the 'Export to Excel' button to download a formatted spreadsheet containing the complete list of foods with GI values, GI category classification (Low/Medium/High), insulin response information, and color-coded formatting for easy reference.",
+            followUp: ["What is glycemic index?", "Low GI foods", "Visit nutrition page"]
+        },
+        "create account": {
+            response: "Creating an account is free and optional. Benefits include: Save your BMI calculations and diet plans, email personalized reports, track your progress over time, and share your diabetes story. Click the Login/Register button in the navigation to get started!",
+            followUp: ["BMI calculator", "Share your story", "Site features"]
+        },
+        "cgm|continuous glucose monitor": {
+            response: "A Continuous Glucose Monitor (CGM) is a device that continuously tracks your glucose levels throughout the day and night. Benefits include: No more finger pricks for routine monitoring, real-time readings on your phone or receiver, alerts for high and low blood sugar, trend data to see how food and activity affect you, and ability to share data with your healthcare team.",
+            followUp: ["Other treatments?", "Latest treatments page", "Diabetes technology"]
+        },
+        "faq|frequently asked questions": {
+            response: "Our FAQ page covers questions about: General diabetes information, Nutrition & Diet (glycemic index, foods to eat/avoid), Physical Activities & Exercise, Treatments & Medications, and our website Tools & Features. Visit the FAQ page for detailed answers with search and category filters!",
+            followUp: ["Nutrition questions", "Exercise questions", "Treatment questions"]
         }
     },
     websiteFeatures: [
@@ -536,13 +593,14 @@ const chatbotData = {
         "BMI calculator",
         "navigation menu",
         "homepage tiles",
-        "basic diabetes information"
+        "basic diabetes information",
+        "FAQ section with searchable answers"
     ],
-    chatgptOffer: "I don't have that specific information on our Diabetes Compass website. Do you want me to ask ChatGPT for a more detailed answer about your question?",
+    chatgptOffer: "Unfortunately, I cannot answer your question but my friend <a href='https://chat.openai.com/' target='_blank' style='color: #667eea; font-weight: bold;'>Chat</a> will probably help you! Click on 'Chat' to open ChatGPT in a new tab.",
     fallbacks: [
-        "I'm designed to help with information available on our Diabetes Compass website. Do you want me to ask ChatGPT?",
-        "That question is outside my knowledge of our website content. Would you like me to ask ChatGPT?",
-        "I can only provide information from our Diabetes Compass site. Should I ask ChatGPT?"
+        "Unfortunately, I cannot answer your question but my friend <a href='https://chat.openai.com/' target='_blank' style='color: #667eea; font-weight: bold;'>Chat</a> will probably help you!",
+        "I don't have that information, but my friend <a href='https://chat.openai.com/' target='_blank' style='color: #667eea; font-weight: bold;'>Chat</a> will probably help you!",
+        "That's outside my knowledge, but <a href='https://chat.openai.com/' target='_blank' style='color: #667eea; font-weight: bold;'>Chat</a> can help you with that!"
     ]
 };
 
@@ -555,6 +613,20 @@ const chatbotSend = document.getElementById('chatbot-send');
 
 let conversationContext = [];
 let lastUnansweredQuestion = '';
+
+// Toggle chatbot visibility
+function toggleChatbot() {
+    if (chatbotContainer) {
+        chatbotContainer.classList.toggle('active');
+        const isOpen = chatbotContainer.classList.contains('active');
+        if (isOpen && chatbotInput) {
+            chatbotInput.focus();
+        }
+        console.log('Chatbot toggled:', isOpen ? 'opened' : 'closed');
+    } else {
+        console.error('Chatbot container not found!');
+    }
+}
 
 function createDiaAvatar(state = 'idle') {
     const emoji = state === 'thinking' ? '🤔' : '😊';
@@ -800,7 +872,7 @@ function processMessage(userMessage) {
             'bmi|body mass index|weight|calculate': () => {
                 foundMatch = true;
                 return {
-                    text: chatbotData.siteContent["bmi calculator"].response,
+                    text: chatbotData.siteContent["bmi"].response,
                     avatarState: 'speaking'
                 };
             },
@@ -831,6 +903,84 @@ function processMessage(userMessage) {
                     text: chatbotData.siteContent["diabetes basics"].response,
                     avatarState: 'speaking'
                 };
+            },
+            // FAQ-related keywords
+            'glycemic index|gi value|gi foods': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["glycemic index"].response,
+                    avatarState: 'speaking'
+                };
+            },
+            'low gi|low glycemic': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["low gi foods"].response,
+                    avatarState: 'speaking'
+                };
+            },
+            'avoid|shouldn\'t eat|bad foods|high gi': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["foods to avoid"].response,
+                    avatarState: 'speaking'
+                };
+            },
+            'insulin response|insulin level': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["insulin response"].response,
+                    avatarState: 'speaking'
+                };
+            },
+            'best exercise|exercise for diabetes|workout': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["best exercise for diabetes"].response,
+                    avatarState: 'excited'
+                };
+            },
+            'exercise safety|safe exercise|precaution': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["exercise safety"].response,
+                    avatarState: 'speaking'
+                };
+            },
+            'how often|exercise frequency|how much exercise': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["how often exercise"].response,
+                    avatarState: 'speaking'
+                };
+            },
+            'cgm|continuous glucose|glucose monitor': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["cgm|continuous glucose monitor"].response,
+                    avatarState: 'speaking'
+                };
+            },
+            'faq|frequently asked|questions': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["faq|frequently asked questions"].response,
+                    avatarState: 'speaking'
+                };
+            },
+            'export|download|excel': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["export gi chart"].response,
+                    avatarState: 'speaking'
+                };
+            },
+            'account|register|sign up': () => {
+                foundMatch = true;
+                return {
+                    text: chatbotData.siteContent["create account"].response,
+                    avatarState: 'speaking'
+                };
             }
         };
 
@@ -844,18 +994,18 @@ function processMessage(userMessage) {
                     response = result.text;
                     avatarState = result.avatarState;
                 }
-                followUp = ["Explore our physical activities", "Check our BMI calculator", "Learn about our site navigation"];
+                followUp = ["Explore our FAQ", "Check our BMI calculator", "Learn about nutrition"];
                 break;
             }
         }
     }
 
-    // If no site-specific content matches, offer ChatGPT
+    // If no site-specific content matches, offer Chat (ChatGPT) as friend
     if (!foundMatch || !response) {
         lastUnansweredQuestion = userMessage; // Store for ChatGPT redirect
         response = chatbotData.chatgptOffer;
         avatarState = 'thinking';
-        followUp = ["Yes, ask ChatGPT", "No, help with website info", "Show me what you know"];
+        followUp = ["Visit FAQ page", "Show me website features", "Tell me about nutrition"];
     }
 
     return { response, followUp, avatarState };
@@ -865,8 +1015,11 @@ function processMessage(userMessage) {
 function handleQuickAction(message) {
     addMessage(message, true);
 
-    // Special handling for ChatGPT requests
-    if (message.toLowerCase().includes('yes, ask chatgpt')) {
+    // Handle FAQ page visit
+    if (message.toLowerCase().includes('visit faq') || message.toLowerCase().includes('explore our faq')) {
+        window.location.href = 'faq.html';
+        return;
+    } else if (message.toLowerCase().includes('yes, ask chatgpt')) {
         handleChatGPTRequest();
     } else if (message.toLowerCase().includes('copy question again')) {
         const success = copyToClipboardWithFeedback(lastUnansweredQuestion);

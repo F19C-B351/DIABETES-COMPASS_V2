@@ -511,16 +511,7 @@
     <script src="supabase-init.js"></script>
     <!-- Inject Login/Register Modal -->
     <script src="login-modal-inject.js"></script>
-    <!-- Demo: Fetch profiles button -->
-    <button id="fetch-profiles-demo" style="position:fixed;bottom:20px;right:20px;z-index:100002;">Fetch Profiles
-        (Demo)</button>
-    <script type="module">
-        import { fetchProfiles } from './supabase-utils.js';
-        document.getElementById('fetch-profiles-demo').onclick = async () => {
-            const profiles = await fetchProfiles();
-            console.log('Profiles:', profiles);
-        };
-    </script>
+
     <!-- Loading Spinner -->
     <div id="loading-spinner"
         style="display:none;position:fixed;top:0;left:0;width:100vw;height:6px;z-index:100000;background:linear-gradient(90deg,#667eea 0%,#764ba2 100%);animation:spinner-bar 1s linear infinite;">
@@ -565,6 +556,7 @@
         <div class="nav-container">
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">Home</a>
+                <a href="faq.html" class="nav-link">❓ FAQ</a>
                 <a href="mailto:denirylands@gmail.com" class="nav-link">Contact Us</a>
                 <a href="share-your-story.html" class="nav-link">Share Your Story</a>
                 <a href="https://superdoc.bg/" class="nav-link" target="_blank" rel="noopener noreferrer">Need a
