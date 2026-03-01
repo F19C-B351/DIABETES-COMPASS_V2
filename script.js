@@ -555,7 +555,7 @@ const chatbotData = {
             followUp: ["Other exercises?", "Exercise safety", "Group activities"]
         },
         "yoga diabetes": {
-            response: "Yoga offers multiple benefits for diabetes: Stress reduction (lower cortisol helps regulate blood sugar), improved flexibility with gentle movements, better sleep which improves insulin sensitivity, and increased body awareness. Visit our Yoga page for beginner-friendly video tutorials!",
+            response: "Yoga offers multiple benefits for diabetes: Stress reduction (lower cortisol helps regulate blood sugar), improved flexibility with gentle movements, better sleep which improves insulin sensitivity, and increased body awareness. Visit our Yoga page for beginner-friendly routines!",
             followUp: ["Other exercises?", "Exercise safety", "Swimming benefits"]
         },
         "exercise safety": {
