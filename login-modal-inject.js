@@ -36,7 +36,7 @@
     const modalHTML = `
     <div id="login-modal" class="modal-bg">
       <div class="modal-content login-modal-content">
-        <button type="button" id="close-login-modal" class="btn-close position-absolute end-0 top-0 m-3" aria-label="Close"></button>
+        <button type="button" id="close-login-modal" class="modal-close-btn" aria-label="Close">&times;</button>
         <h2 class="mb-4 text-center">Login</h2>
         <form id="login-form">
           <div class="mb-3">
@@ -55,7 +55,7 @@
     </div>
     <div id="register-modal" class="modal-bg">
       <div class="modal-content register-modal-content">
-        <button type="button" id="close-register-modal" class="btn-close position-absolute end-0 top-0 m-3" aria-label="Close"></button>
+        <button type="button" id="close-register-modal" class="modal-close-btn" aria-label="Close">&times;</button>
         <h2 class="mb-4 text-center">Register</h2>
         <form id="register-form">
           <div class="mb-3">
