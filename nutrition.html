@@ -777,59 +777,72 @@
                     <meta charset="UTF-8">
                     <style>
                         table { border-collapse: collapse; width: 100%; }
-                        th { background-color: #667eea; color: white; font-weight: bold; padding: 10px; border: 1px solid #ccc; }
+                        th { background-color: #667eea; color: white; font-weight: bold; padding: 10px; border: 1px solid #ccc; text-align: left; }
                         td { padding: 8px; border: 1px solid #ccc; }
                         .low { background-color: #e8f5e9; color: #2e7d32; }
                         .medium { background-color: #fff8e1; color: #ef6c00; }
                         .high { background-color: #ffebee; color: #c62828; }
+                        h1 { font-family: Arial, sans-serif; color: #667eea; }
                     </style>
                 </head>
                 <body>
+                    <h1>Glycemic Index & Insulin Response Chart</h1>
+                    <p>Generated on: ${new Date().toLocaleDateString()}</p>
+                    <br>
                     <table>
                         <tr>
                             <th>Food</th>
                             <th>GI Value</th>
+                            <th>GI Category</th>
                             <th>Insulin Response</th>
                         </tr>
-                        <tr><td>Eggs</td><td class="low">0</td><td>Very Low</td></tr>
-                        <tr><td>Lettuce/Spinach</td><td class="low">15</td><td>Very Low</td></tr>
-                        <tr><td>Peanuts</td><td class="low">14</td><td>Low</td></tr>
-                        <tr><td>Apples</td><td class="low">36</td><td>Low</td></tr>
-                        <tr><td>Lentils</td><td class="low">32</td><td>Low</td></tr>
-                        <tr><td>Whole Wheat Bread</td><td class="medium">62</td><td>Moderate</td></tr>
-                        <tr><td>Brown Rice</td><td class="medium">68</td><td>Moderate</td></tr>
-                        <tr><td>Banana (ripe)</td><td class="medium">62</td><td>Moderate</td></tr>
-                        <tr><td>Baked Potato</td><td class="high">85</td><td>High</td></tr>
-                        <tr><td>Cornflakes</td><td class="high">81</td><td>High</td></tr>
-                        <tr><td>White Bread</td><td class="high">75</td><td>High</td></tr>
-                        <tr><td>White Rice</td><td class="high">73</td><td>High</td></tr>
-                        <tr><td>Glucose</td><td class="high">100</td><td>Very High</td></tr>
+                        <tr><td>Eggs</td><td>0</td><td class="low">Low</td><td>Very Low</td></tr>
+                        <tr><td>Lettuce/Spinach</td><td>15</td><td class="low">Low</td><td>Very Low</td></tr>
+                        <tr><td>Peanuts</td><td>14</td><td class="low">Low</td><td>Low</td></tr>
+                        <tr><td>Apples</td><td>36</td><td class="low">Low</td><td>Low</td></tr>
+                        <tr><td>Lentils</td><td>32</td><td class="low">Low</td><td>Low</td></tr>
+                        <tr><td>Greek Yogurt</td><td>11</td><td class="low">Low</td><td>Low</td></tr>
+                        <tr><td>Chickpeas</td><td>28</td><td class="low">Low</td><td>Low</td></tr>
+                        <tr><td>Whole Wheat Bread</td><td>62</td><td class="medium">Medium</td><td>Moderate</td></tr>
+                        <tr><td>Brown Rice</td><td>68</td><td class="medium">Medium</td><td>Moderate</td></tr>
+                        <tr><td>Banana (ripe)</td><td>62</td><td class="medium">Medium</td><td>Moderate</td></tr>
+                        <tr><td>Sweet Potato</td><td>63</td><td class="medium">Medium</td><td>Moderate</td></tr>
+                        <tr><td>Oatmeal</td><td>55</td><td class="medium">Medium</td><td>Moderate</td></tr>
+                        <tr><td>Baked Potato</td><td>85</td><td class="high">High</td><td>High</td></tr>
+                        <tr><td>Cornflakes</td><td>81</td><td class="high">High</td><td>High</td></tr>
+                        <tr><td>White Bread</td><td>75</td><td class="high">High</td><td>High</td></tr>
+                        <tr><td>White Rice</td><td>73</td><td class="high">High</td><td>High</td></tr>
+                        <tr><td>Glucose</td><td>100</td><td class="high">High</td><td>Very High</td></tr>
+                        <tr><td>Watermelon</td><td>76</td><td class="high">High</td><td>Moderate</td></tr>
                     </table>
+                    <br>
+                    <p><strong>Legend:</strong></p>
+                    <p>Low GI: 0-55 | Medium GI: 56-69 | High GI: 70+</p>
                 </body>
-<!-- Load Supabase SDK from CDN -->
-                    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+                </html>
+            `;
+
+            // Create blob and download as .xls
+            const blob = new Blob([tableHTML], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'GI_Insulin_Response_Chart.xls');
+            link.style.visibility = 'hidden';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+
+    <!-- Load Supabase SDK from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
     <!-- Initialize Supabase -->
     <script src="supabase-init.js"></script>
     <!-- Inject Login/Register Modal -->
     <script src="login-modal-inject.js"></script>
-
-</html>
-`;
-
-// Create blob and download as .xls
-const blob = new Blob([tableHTML], { type: 'application/vnd.ms-excel;charset=utf-8;' });
-const link = document.createElement('a');
-const url = URL.createObjectURL(blob);
-
-link.setAttribute('href', url);
-link.setAttribute('download', 'GI_Insulin_Response_Chart.xls');
-link.style.visibility = 'hidden';
-
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
-}
-</script>
 </body>
 
 </html>
