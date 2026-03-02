@@ -434,12 +434,7 @@
                 // Sign out the user - they need to login manually
                 await supabase.auth.signOut();
 
-                // Show success message
-                const successMsg = document.getElementById('register-success');
-                if (successMsg) {
-                    successMsg.textContent = 'Registration successful! Please use the login page to sign in.';
-                    successMsg.style.display = 'block';
-                }
+                // Show success message (use only one element to avoid duplicates)
                 registerError.style.color = '#388e3c';
                 registerError.textContent = 'Registration successful! Please use the login page to sign in.';
                 registerError.style.display = 'block';
