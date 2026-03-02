@@ -71,6 +71,10 @@
             <input type="text" class="form-control" id="register-name" required />
           </div>
           <div class="mb-3">
+            <label for="register-phone" class="form-label">Phone Number (Optional)</label>
+            <input type="tel" class="form-control" id="register-phone" placeholder="e.g. +1 234 567 8900" />
+          </div>
+          <div class="mb-3">
             <label for="register-diabetes-type" class="form-label">Diabetes Type</label>
             <select class="form-select" id="register-diabetes-type" required>
               <option value="">Select type</option>
@@ -307,6 +311,7 @@
             const email = document.getElementById('register-email').value.trim();
             const password = document.getElementById('register-password').value;
             const name = document.getElementById('register-name').value.trim();
+            const phone = document.getElementById('register-phone').value.trim();
             const dtype = document.getElementById('register-diabetes-type').value;
             const gunit = document.getElementById('register-glucose-unit').value;
             let insulin = '';
@@ -379,6 +384,7 @@
                     .upsert({
                         user_id: userId,
                         name: name,
+                        phone_number: phone || null,
                         diabetes_type: dtype,
                         glucose_unit: gunit,
                         insulin_user: insulin

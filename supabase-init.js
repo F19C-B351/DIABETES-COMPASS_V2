@@ -62,7 +62,7 @@
         }
 
         // Profile management functions
-        window.getProfiles = async function() {
+        window.getProfiles = async function () {
             try {
                 const { data, error } = await supabase.from('profiles').select('*');
                 if (error) throw error;
@@ -73,7 +73,7 @@
             }
         };
 
-        window.getCurrentUserProfile = async function() {
+        window.getCurrentUserProfile = async function () {
             try {
                 const { data: { user } } = await supabase.auth.getUser();
                 if (!user) return null;
@@ -86,7 +86,7 @@
             }
         };
 
-        window.updateUserProfile = async function(profileData) {
+        window.updateUserProfile = async function (profileData) {
             try {
                 const { data: { user } } = await supabase.auth.getUser();
                 if (!user) throw new Error('Not logged in');
