@@ -63,12 +63,12 @@
             <input type="email" class="form-control" id="register-email" required />
           </div>
           <div class="mb-3">
-            <label for="register-email-confirm" class="form-label">Confirm Email</label>
-            <input type="email" class="form-control" id="register-email-confirm" required />
-          </div>
-          <div class="mb-3">
             <label for="register-password" class="form-label">Password</label>
             <input type="password" class="form-control" id="register-password" required />
+          </div>
+          <div class="mb-3">
+            <label for="register-password-confirm" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="register-password-confirm" required />
           </div>
           <div class="mb-3">
             <label for="register-name" class="form-label">Name</label>
@@ -313,8 +313,8 @@
             e.preventDefault();
             registerError.style.display = 'none';
             const email = document.getElementById('register-email').value.trim();
-            const emailConfirm = document.getElementById('register-email-confirm').value.trim();
             const password = document.getElementById('register-password').value;
+            const passwordConfirm = document.getElementById('register-password-confirm').value;
             const name = document.getElementById('register-name').value.trim();
             const phone = document.getElementById('register-phone').value.trim();
             const dtype = document.getElementById('register-diabetes-type').value;
@@ -324,13 +324,13 @@
             const insulinNo = document.getElementById('register-insulin-no');
             if (insulinYes && insulinYes.checked) insulin = 'Yes';
             else if (insulinNo && insulinNo.checked) insulin = 'No';
-            if (!email || !emailConfirm || !password || !name || !dtype || !gunit || !insulin) {
+            if (!email || !password || !passwordConfirm || !name || !dtype || !gunit || !insulin) {
                 registerError.textContent = 'All fields are required.';
                 registerError.style.display = 'block';
                 return;
             }
-            if (email !== emailConfirm) {
-                registerError.textContent = 'Email addresses do not match.';
+            if (password !== passwordConfirm) {
+                registerError.textContent = 'Passwords do not match.';
                 registerError.style.display = 'block';
                 return;
             }
