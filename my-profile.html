@@ -10,34 +10,113 @@
     <link rel="stylesheet" href="responsive.css">
     <link rel="stylesheet" href="modal-styles.css">
     <link rel="stylesheet" href="user-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .profile-container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
 
         .profile-header {
-            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
             margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .profile-header h1 {
+        .profile-photo-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            flex-shrink: 0;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #667eea;
+            background: #f0f0f0;
+        }
+
+        .photo-upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #667eea;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .photo-upload-btn:hover {
+            background: #5a6fd6;
+        }
+
+        .profile-info h1 {
             color: #2c3e50;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .profile-info p {
+            color: #666;
+            margin: 0.2rem 0;
+        }
+
+        .profile-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.7rem 1.2rem;
+            border: none;
+            background: #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            background: #dee2e6;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .profile-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .profile-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         .profile-card {
@@ -47,12 +126,19 @@
             padding: 1.5rem;
         }
 
+        .profile-card.full-width {
+            grid-column: 1 / -1;
+        }
+
         .profile-card h2 {
             color: #667eea;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .profile-field {
@@ -75,12 +161,14 @@
         }
 
         .profile-field input,
-        .profile-field select {
+        .profile-field select,
+        .profile-field textarea {
             width: 100%;
             padding: 0.6rem;
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 1rem;
+            box-sizing: border-box;
         }
 
         .profile-field input:focus,
@@ -108,65 +196,67 @@
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
-        .weight-tracker {
-            grid-column: 1 / -1;
+        .entry-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
         }
 
-        .weight-entry-form {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .weight-entry-form input {
-            flex: 1;
-            min-width: 120px;
+        .entry-form input,
+        .entry-form select {
             padding: 0.6rem;
             border: 1px solid #ddd;
             border-radius: 6px;
         }
 
-        .btn-add-weight {
+        .btn-add {
             background: #28a745;
             color: white;
             border: none;
-            padding: 0.6rem 1.2rem;
+            padding: 0.6rem 1rem;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
         }
 
-        .btn-add-weight:hover {
+        .btn-add:hover {
             background: #218838;
         }
 
-        .weight-history {
-            max-height: 300px;
+        .entries-list {
+            max-height: 250px;
             overflow-y: auto;
         }
 
-        .weight-entry {
+        .entry-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.8rem;
+            padding: 0.7rem;
             background: #f8f9fa;
             border-radius: 6px;
             margin-bottom: 0.5rem;
         }
 
-        .weight-entry .date {
-            color: #666;
-            font-size: 0.9rem;
+        .entry-item .entry-info {
+            flex: 1;
         }
 
-        .weight-entry .weight {
+        .entry-item .entry-date {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .entry-item .entry-value {
             font-weight: 600;
             color: #2c3e50;
         }
 
-        .weight-entry .btn-delete {
+        .entry-item .btn-delete {
             background: #dc3545;
             color: white;
             border: none;
@@ -176,30 +266,58 @@
             font-size: 0.8rem;
         }
 
-        .weight-entry .btn-delete:hover {
+        .entry-item .btn-delete:hover {
             background: #c82333;
         }
 
         .progress-bar {
             background: #e9ecef;
             border-radius: 10px;
-            height: 20px;
+            height: 24px;
             overflow: hidden;
-            margin-top: 0.5rem;
+            margin: 0.5rem 0;
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        .goal-info {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-box .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-box .stat-label {
+            font-size: 0.8rem;
             color: #666;
+        }
+
+        .chart-container {
+            height: 250px;
+            margin-top: 1rem;
         }
 
         .login-required {
@@ -213,11 +331,6 @@
         .login-required h2 {
             color: #667eea;
             margin-bottom: 1rem;
-        }
-
-        .login-required p {
-            margin-bottom: 1.5rem;
-            color: #666;
         }
 
         .btn-login {
@@ -254,6 +367,32 @@
             color: #888;
             padding: 2rem;
         }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .info-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-tabs {
+                justify-content: center;
+            }
+        }
+
+        #photo-input {
+            display: none;
+        }
     </style>
 </head>
 
@@ -265,8 +404,8 @@
         <div class="nav-container">
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">🏠 Home</a>
-                <a href="profiles.html" class="nav-link">👥 User Profiles</a>
-                <a href="dashboard.html" class="nav-link">📊 Analytics Dashboard</a>
+                <a href="my-profile.html" class="nav-link">👤 My Profile</a>
+                <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
                 <a href="faq.html" class="nav-link">❓ FAQ</a>
             </div>
         </div>
@@ -285,115 +424,292 @@
     </header>
 
     <main class="profile-container">
-        <!-- Login Required Message (shown when not logged in) -->
+        <!-- Login Required -->
         <div id="login-required" class="login-required" style="display: none;">
             <h2>🔒 Login Required</h2>
-            <p>Please log in to view and manage your profile.</p>
+            <p>Please log in to view your profile.</p>
             <a href="index.html" class="btn-login">Go to Login</a>
         </div>
 
-        <!-- Profile Content (shown when logged in) -->
+        <!-- Profile Content -->
         <div id="profile-content" style="display: none;">
+            <!-- Profile Header with Photo -->
             <div class="profile-header">
-                <h1>👤 My Profile</h1>
-                <p id="welcome-text">Welcome back!</p>
+                <div class="profile-photo-container">
+                    <img id="profile-photo" class="profile-photo" src="images/default-avatar.svg" alt="Profile Photo">
+                    <button class="photo-upload-btn" onclick="document.getElementById('photo-input').click()">📷</button>
+                    <input type="file" id="photo-input" accept="image/*">
+                </div>
+                <div class="profile-info">
+                    <h1 id="display-name">User</h1>
+                    <p id="display-email">email@example.com</p>
+                    <p id="display-member-since">Member since: -</p>
+                </div>
             </div>
 
             <div id="profile-message"></div>
 
-            <div class="profile-grid">
-                <!-- Personal Information Card -->
-                <div class="profile-card">
-                    <h2>📋 Personal Information</h2>
-                    <div class="profile-field">
-                        <label>Name</label>
-                        <div class="value" id="display-name">-</div>
+            <!-- Navigation Tabs -->
+            <div class="profile-tabs">
+                <button class="tab-btn active" data-tab="overview">📊 Overview</button>
+                <button class="tab-btn" data-tab="goals">🎯 Goals</button>
+                <button class="tab-btn" data-tab="glucose">🩸 Glucose</button>
+                <button class="tab-btn" data-tab="insulin">💉 Insulin</button>
+                <button class="tab-btn" data-tab="activity">🏃 Activity</button>
+                <button class="tab-btn" data-tab="weight">⚖️ Weight</button>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="tab-overview" class="tab-content active">
+                <div class="profile-grid">
+                    <!-- Personal Info Card -->
+                    <div class="profile-card">
+                        <h2>👤 Personal Information</h2>
+                        <div class="info-grid">
+                            <div class="profile-field">
+                                <label>Diabetes Type</label>
+                                <div class="value" id="display-diabetes-type">-</div>
+                            </div>
+                            <div class="profile-field">
+                                <label>Glucose Unit</label>
+                                <div class="value" id="display-glucose-unit">-</div>
+                            </div>
+                            <div class="profile-field">
+                                <label>Insulin User</label>
+                                <div class="value" id="display-insulin-user">-</div>
+                            </div>
+                            <div class="profile-field">
+                                <label>Phone</label>
+                                <div class="value" id="display-phone">-</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="profile-field">
-                        <label>Email</label>
-                        <div class="value" id="display-email">-</div>
+
+                    <!-- Goals Summary Card -->
+                    <div class="profile-card">
+                        <h2>🎯 Goals Summary</h2>
+                        <div class="info-grid">
+                            <div class="profile-field">
+                                <label>Current Weight</label>
+                                <div class="value" id="overview-current-weight">- kg</div>
+                            </div>
+                            <div class="profile-field">
+                                <label>Goal Weight</label>
+                                <div class="value" id="overview-goal-weight">- kg</div>
+                            </div>
+                            <div class="profile-field">
+                                <label>BMI</label>
+                                <div class="value" id="overview-bmi">-</div>
+                            </div>
+                            <div class="profile-field">
+                                <label>Daily Calories</label>
+                                <div class="value" id="overview-calories">- kcal</div>
+                            </div>
+                        </div>
+                        <label style="font-weight: 600; color: #555; font-size: 0.9rem;">Weight Progress</label>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="overview-progress" style="width: 0%">0%</div>
+                        </div>
                     </div>
-                    <div class="profile-field">
-                        <label>Phone Number</label>
-                        <div class="value" id="display-phone">-</div>
+
+                    <!-- Weekly Glucose Stats -->
+                    <div class="profile-card">
+                        <h2>🩸 This Week's Glucose</h2>
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-value" id="glucose-avg">-</div>
+                                <div class="stat-label">Average</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="glucose-min">-</div>
+                                <div class="stat-label">Lowest</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="glucose-max">-</div>
+                                <div class="stat-label">Highest</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="glucose-chart"></canvas>
+                        </div>
                     </div>
-                    <div class="profile-field">
-                        <label>Diabetes Type</label>
-                        <div class="value" id="display-diabetes-type">-</div>
+
+                    <!-- Weekly Insulin Stats -->
+                    <div class="profile-card">
+                        <h2>💉 This Week's Insulin</h2>
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-value" id="insulin-total">-</div>
+                                <div class="stat-label">Total Units</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="insulin-avg">-</div>
+                                <div class="stat-label">Daily Avg</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="insulin-entries">-</div>
+                                <div class="stat-label">Entries</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="insulin-chart"></canvas>
+                        </div>
                     </div>
-                    <div class="profile-field">
-                        <label>Glucose Unit</label>
-                        <div class="value" id="display-glucose-unit">-</div>
-                    </div>
-                    <div class="profile-field">
-                        <label>Insulin User</label>
-                        <div class="value" id="display-insulin-user">-</div>
-                    </div>
-                    <div class="profile-field">
-                        <label>Member Since</label>
-                        <div class="value" id="display-member-since">-</div>
+
+                    <!-- Weekly Activity Stats -->
+                    <div class="profile-card full-width">
+                        <h2>🏃 This Week's Activity</h2>
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-value" id="activity-total-mins">-</div>
+                                <div class="stat-label">Total Minutes</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="activity-total-cals">-</div>
+                                <div class="stat-label">Calories Burned</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="activity-sessions">-</div>
+                                <div class="stat-label">Sessions</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="activity-chart"></canvas>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Health Goals Card -->
+            <!-- Goals Tab -->
+            <div id="tab-goals" class="tab-content">
                 <div class="profile-card">
                     <h2>🎯 Health Goals</h2>
                     <form id="goals-form">
-                        <div class="profile-field">
-                            <label for="calories-intake">Daily Calories Intake (kcal)</label>
-                            <input type="number" id="calories-intake" placeholder="e.g., 2000" min="500" max="10000">
-                        </div>
-                        <div class="profile-field">
-                            <label for="current-bmi">Current BMI</label>
-                            <input type="number" id="current-bmi" step="0.1" placeholder="e.g., 25.5" min="10" max="60">
-                        </div>
-                        <div class="profile-field">
-                            <label for="current-weight">Current Weight (kg)</label>
-                            <input type="number" id="current-weight" step="0.1" placeholder="e.g., 75.5" min="20"
-                                max="500">
-                        </div>
-                        <div class="profile-field">
-                            <label for="desired-weight">Desired Weight (kg)</label>
-                            <input type="number" id="desired-weight" step="0.1" placeholder="e.g., 70.0" min="20"
-                                max="500">
-                        </div>
-                        <div class="profile-field">
-                            <label for="due-date">Target Date</label>
-                            <input type="date" id="due-date">
+                        <div class="profile-grid">
+                            <div class="profile-field">
+                                <label for="calories-intake">Daily Calories Intake (kcal)</label>
+                                <input type="number" id="calories-intake" placeholder="e.g., 2000" min="500" max="10000">
+                            </div>
+                            <div class="profile-field">
+                                <label for="current-bmi">Current BMI</label>
+                                <input type="number" id="current-bmi" step="0.1" placeholder="e.g., 25.5" min="10" max="60">
+                            </div>
+                            <div class="profile-field">
+                                <label for="current-weight">Current Weight (kg)</label>
+                                <input type="number" id="current-weight" step="0.1" placeholder="e.g., 75.5" min="20" max="500">
+                            </div>
+                            <div class="profile-field">
+                                <label for="desired-weight">Desired Weight (kg)</label>
+                                <input type="number" id="desired-weight" step="0.1" placeholder="e.g., 70.0" min="20" max="500">
+                            </div>
+                            <div class="profile-field">
+                                <label for="due-date">Target Date</label>
+                                <input type="date" id="due-date">
+                            </div>
                         </div>
                         <button type="submit" class="btn-save">💾 Save Goals</button>
                     </form>
                 </div>
+            </div>
 
-                <!-- Weight Progress Card -->
-                <div class="profile-card weight-tracker">
-                    <h2>⚖️ Weight Tracker</h2>
+            <!-- Glucose Tab -->
+            <div id="tab-glucose" class="tab-content">
+                <div class="profile-card">
+                    <h2>🩸 Glucose Tracking</h2>
+                    <div class="entry-form">
+                        <input type="date" id="glucose-date" required>
+                        <input type="time" id="glucose-time">
+                        <input type="number" id="glucose-value" step="0.1" placeholder="Glucose Level" required>
+                        <select id="glucose-type">
+                            <option value="">Select Type</option>
+                            <option value="fasting">Fasting</option>
+                            <option value="before_meal">Before Meal</option>
+                            <option value="after_meal">After Meal</option>
+                            <option value="bedtime">Bedtime</option>
+                        </select>
+                        <button type="button" class="btn-add" id="add-glucose-btn">+ Add</button>
+                    </div>
+                    <h3 style="font-size: 1rem; color: #555; margin: 1rem 0 0.5rem;">Recent Entries</h3>
+                    <div class="entries-list" id="glucose-entries">
+                        <div class="no-entries">No glucose entries yet.</div>
+                    </div>
+                </div>
+            </div>
 
-                    <!-- Progress towards goal -->
-                    <div id="weight-progress" style="margin-bottom: 1.5rem; display: none;">
-                        <label>Progress to Goal</label>
+            <!-- Insulin Tab -->
+            <div id="tab-insulin" class="tab-content">
+                <div class="profile-card">
+                    <h2>💉 Insulin Tracking</h2>
+                    <div class="entry-form">
+                        <input type="date" id="insulin-date" required>
+                        <input type="time" id="insulin-time">
+                        <input type="number" id="insulin-value" step="0.5" placeholder="Units" required>
+                        <select id="insulin-type">
+                            <option value="">Select Type</option>
+                            <option value="rapid">Rapid Acting</option>
+                            <option value="short">Short Acting</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="long">Long Acting</option>
+                        </select>
+                        <button type="button" class="btn-add" id="add-insulin-btn">+ Add</button>
+                    </div>
+                    <h3 style="font-size: 1rem; color: #555; margin: 1rem 0 0.5rem;">Recent Entries</h3>
+                    <div class="entries-list" id="insulin-entries-list">
+                        <div class="no-entries">No insulin entries yet.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Tab -->
+            <div id="tab-activity" class="tab-content">
+                <div class="profile-card">
+                    <h2>🏃 Physical Activity Tracking</h2>
+                    <div class="entry-form">
+                        <input type="date" id="activity-date" required>
+                        <select id="activity-type" required>
+                            <option value="">Select Activity</option>
+                            <option value="walking">🚶 Walking</option>
+                            <option value="running">🏃 Running</option>
+                            <option value="cycling">🚴 Cycling</option>
+                            <option value="swimming">🏊 Swimming</option>
+                            <option value="yoga">🧘 Yoga</option>
+                            <option value="gym">🏋️ Gym</option>
+                            <option value="other">📌 Other</option>
+                        </select>
+                        <input type="number" id="activity-duration" placeholder="Minutes" min="1" required>
+                        <input type="number" id="activity-calories" placeholder="Calories (opt)">
+                        <button type="button" class="btn-add" id="add-activity-btn">+ Add</button>
+                    </div>
+                    <h3 style="font-size: 1rem; color: #555; margin: 1rem 0 0.5rem;">Recent Activities</h3>
+                    <div class="entries-list" id="activity-entries-list">
+                        <div class="no-entries">No activity entries yet.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weight Tab -->
+            <div id="tab-weight" class="tab-content">
+                <div class="profile-card">
+                    <h2>⚖️ Weight Tracking</h2>
+                    <div id="weight-progress-section" style="margin-bottom: 1.5rem;">
+                        <label style="font-weight: 600;">Progress to Goal</label>
                         <div class="progress-bar">
-                            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                            <div class="progress-fill" id="weight-progress-fill" style="width: 0%">0%</div>
                         </div>
-                        <div class="goal-info">
-                            <span id="start-weight-label">Start: -</span>
-                            <span id="current-weight-label">Current: -</span>
-                            <span id="goal-weight-label">Goal: -</span>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #666; margin-top: 0.3rem;">
+                            <span id="weight-start-label">Start: -</span>
+                            <span id="weight-current-label">Current: -</span>
+                            <span id="weight-goal-label">Goal: -</span>
                         </div>
                     </div>
-
-                    <!-- Add new weight entry -->
-                    <div class="weight-entry-form">
+                    <div class="entry-form">
                         <input type="date" id="weight-date" required>
-                        <input type="number" id="weight-value" step="0.1" placeholder="Weight (kg)" min="20" max="500"
-                            required>
-                        <button type="button" class="btn-add-weight" id="add-weight-btn">+ Add Entry</button>
+                        <input type="number" id="weight-value" step="0.1" placeholder="Weight (kg)" min="20" max="500" required>
+                        <button type="button" class="btn-add" id="add-weight-btn">+ Add</button>
                     </div>
-
-                    <!-- Weight history -->
-                    <h3 style="font-size: 1rem; color: #555; margin-bottom: 0.5rem;">📅 Weight History</h3>
-                    <div class="weight-history" id="weight-history">
-                        <div class="no-entries">No weight entries yet. Start tracking!</div>
+                    <h3 style="font-size: 1rem; color: #555; margin: 1rem 0 0.5rem;">Weight History</h3>
+                    <div class="entries-list" id="weight-entries-list">
+                        <div class="no-entries">No weight entries yet.</div>
                     </div>
                 </div>
             </div>
@@ -407,7 +723,10 @@
     </footer>
 
     <script type="module">
-        // Wait for Supabase to initialize
+        let glucoseChart, insulinChart, activityChart;
+        let currentUser = null;
+
+        // Wait for Supabase
         async function waitForSupabase() {
             let attempts = 0;
             while (!window.supabaseClient && attempts < 100) {
@@ -424,7 +743,6 @@
                 return;
             }
 
-            // Check if user is logged in
             const { data: { user } } = await supabase.auth.getUser();
 
             if (!user) {
@@ -433,17 +751,25 @@
                 return;
             }
 
+            currentUser = user;
             document.getElementById('login-required').style.display = 'none';
             document.getElementById('profile-content').style.display = 'block';
 
-            // Load profile data
+            // Set default dates
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('glucose-date').value = today;
+            document.getElementById('insulin-date').value = today;
+            document.getElementById('activity-date').value = today;
+            document.getElementById('weight-date').value = today;
+
+            // Load all data
             await loadProfile(supabase, user);
-
-            // Load weight entries
-            await loadWeightEntries(supabase, user);
-
-            // Set up event handlers
-            setupEventHandlers(supabase, user);
+            await loadAllEntries(supabase, user);
+            
+            // Setup event handlers
+            setupTabHandlers();
+            setupFormHandlers(supabase, user);
+            setupPhotoUpload(supabase, user);
         }
 
         async function loadProfile(supabase, user) {
@@ -460,29 +786,41 @@
                 }
 
                 if (profile) {
-                    // Update welcome text
-                    document.getElementById('welcome-text').textContent =
-                        `Welcome back, ${profile.name || 'User'}!`;
-
-                    // Display personal info
-                    document.getElementById('display-name').textContent = profile.name || '-';
+                    // Header info
+                    document.getElementById('display-name').textContent = profile.name || 'User';
                     document.getElementById('display-email').textContent = profile.email || user.email || '-';
-                    document.getElementById('display-phone').textContent = profile.phone_number || 'Not provided';
+                    document.getElementById('display-member-since').textContent = 
+                        profile.created_at ? `Member since: ${new Date(profile.created_at).toLocaleDateString()}` : '';
+
+                    // Photo
+                    if (profile.photo_url) {
+                        document.getElementById('profile-photo').src = profile.photo_url;
+                    }
+
+                    // Personal info
                     document.getElementById('display-diabetes-type').textContent = profile.diabetes_type || '-';
                     document.getElementById('display-glucose-unit').textContent = profile.glucose_unit || '-';
-                    document.getElementById('display-insulin-user').textContent =
+                    document.getElementById('display-insulin-user').textContent = 
                         profile.insulin_user === true ? 'Yes' : (profile.insulin_user === false ? 'No' : '-');
-                    document.getElementById('display-member-since').textContent =
-                        profile.created_at ? new Date(profile.created_at).toLocaleDateString() : '-';
+                    document.getElementById('display-phone').textContent = profile.phone_number || '-';
 
-                    // Load health goals
+                    // Goals overview
+                    document.getElementById('overview-current-weight').textContent = 
+                        profile.current_weight ? `${profile.current_weight} kg` : '- kg';
+                    document.getElementById('overview-goal-weight').textContent = 
+                        profile.desired_weight ? `${profile.desired_weight} kg` : '- kg';
+                    document.getElementById('overview-bmi').textContent = profile.current_bmi || '-';
+                    document.getElementById('overview-calories').textContent = 
+                        profile.calories_intake ? `${profile.calories_intake} kcal` : '- kcal';
+
+                    // Goals form
                     document.getElementById('calories-intake').value = profile.calories_intake || '';
                     document.getElementById('current-bmi').value = profile.current_bmi || '';
                     document.getElementById('current-weight').value = profile.current_weight || '';
                     document.getElementById('desired-weight').value = profile.desired_weight || '';
                     document.getElementById('due-date').value = profile.due_date || '';
 
-                    // Update progress display
+                    // Update progress bars
                     updateWeightProgress(profile);
                 }
             } catch (err) {
@@ -490,70 +828,299 @@
             }
         }
 
-        async function loadWeightEntries(supabase, user) {
-            try {
-                const { data: entries, error } = await supabase
-                    .from('weight_entries')
-                    .select('*')
-                    .eq('user_id', user.id)
-                    .order('entry_date', { ascending: false });
+        async function loadAllEntries(supabase, user) {
+            await Promise.all([
+                loadGlucoseEntries(supabase, user),
+                loadInsulinEntries(supabase, user),
+                loadActivityEntries(supabase, user),
+                loadWeightEntries(supabase, user)
+            ]);
+        }
 
-                if (error) {
-                    console.error('Error loading weight entries:', error);
-                    return;
-                }
+        async function loadGlucoseEntries(supabase, user) {
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
 
-                const container = document.getElementById('weight-history');
+            const { data: entries, error } = await supabase
+                .from('glucose_entries')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('entry_date', { ascending: false })
+                .limit(50);
 
-                if (!entries || entries.length === 0) {
-                    container.innerHTML = '<div class="no-entries">No weight entries yet. Start tracking!</div>';
-                    return;
-                }
+            if (error) {
+                console.error('Error loading glucose:', error);
+                return;
+            }
 
-                container.innerHTML = entries.map(entry => `
-                    <div class="weight-entry" data-id="${entry.id}">
-                        <span class="date">${new Date(entry.entry_date).toLocaleDateString()}</span>
-                        <span class="weight">${entry.weight_kg} kg</span>
-                        <button class="btn-delete" onclick="deleteWeightEntry('${entry.id}')">🗑️</button>
+            // Display recent entries
+            const container = document.getElementById('glucose-entries');
+            if (!entries || entries.length === 0) {
+                container.innerHTML = '<div class="no-entries">No glucose entries yet.</div>';
+            } else {
+                container.innerHTML = entries.slice(0, 10).map(e => `
+                    <div class="entry-item">
+                        <div class="entry-info">
+                            <div class="entry-date">${new Date(e.entry_date).toLocaleDateString()} ${e.entry_time || ''}</div>
+                            <div class="entry-value">${e.glucose_level} ${e.measurement_type ? `(${e.measurement_type})` : ''}</div>
+                        </div>
+                        <button class="btn-delete" onclick="deleteEntry('glucose_entries', '${e.id}')">🗑️</button>
                     </div>
                 `).join('');
-            } catch (err) {
-                console.error('Error:', err);
+            }
+
+            // Weekly stats
+            const weekEntries = entries?.filter(e => new Date(e.entry_date) >= weekAgo) || [];
+            if (weekEntries.length > 0) {
+                const values = weekEntries.map(e => parseFloat(e.glucose_level));
+                document.getElementById('glucose-avg').textContent = (values.reduce((a,b) => a+b, 0) / values.length).toFixed(1);
+                document.getElementById('glucose-min').textContent = Math.min(...values).toFixed(1);
+                document.getElementById('glucose-max').textContent = Math.max(...values).toFixed(1);
+            }
+
+            // Chart
+            updateGlucoseChart(weekEntries);
+        }
+
+        async function loadInsulinEntries(supabase, user) {
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+
+            const { data: entries, error } = await supabase
+                .from('insulin_entries')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('entry_date', { ascending: false })
+                .limit(50);
+
+            if (error) {
+                console.error('Error loading insulin:', error);
+                return;
+            }
+
+            const container = document.getElementById('insulin-entries-list');
+            if (!entries || entries.length === 0) {
+                container.innerHTML = '<div class="no-entries">No insulin entries yet.</div>';
+            } else {
+                container.innerHTML = entries.slice(0, 10).map(e => `
+                    <div class="entry-item">
+                        <div class="entry-info">
+                            <div class="entry-date">${new Date(e.entry_date).toLocaleDateString()} ${e.entry_time || ''}</div>
+                            <div class="entry-value">${e.insulin_units} units ${e.insulin_type ? `(${e.insulin_type})` : ''}</div>
+                        </div>
+                        <button class="btn-delete" onclick="deleteEntry('insulin_entries', '${e.id}')">🗑️</button>
+                    </div>
+                `).join('');
+            }
+
+            // Weekly stats
+            const weekEntries = entries?.filter(e => new Date(e.entry_date) >= weekAgo) || [];
+            if (weekEntries.length > 0) {
+                const total = weekEntries.reduce((sum, e) => sum + parseFloat(e.insulin_units), 0);
+                document.getElementById('insulin-total').textContent = total.toFixed(1);
+                document.getElementById('insulin-avg').textContent = (total / 7).toFixed(1);
+                document.getElementById('insulin-entries').textContent = weekEntries.length;
+            }
+
+            updateInsulinChart(weekEntries);
+        }
+
+        async function loadActivityEntries(supabase, user) {
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+
+            const { data: entries, error } = await supabase
+                .from('activity_entries')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('entry_date', { ascending: false })
+                .limit(50);
+
+            if (error) {
+                console.error('Error loading activities:', error);
+                return;
+            }
+
+            const container = document.getElementById('activity-entries-list');
+            const activityEmojis = {walking:'🚶',running:'🏃',cycling:'🚴',swimming:'🏊',yoga:'🧘',gym:'🏋️',other:'📌'};
+            
+            if (!entries || entries.length === 0) {
+                container.innerHTML = '<div class="no-entries">No activity entries yet.</div>';
+            } else {
+                container.innerHTML = entries.slice(0, 10).map(e => `
+                    <div class="entry-item">
+                        <div class="entry-info">
+                            <div class="entry-date">${new Date(e.entry_date).toLocaleDateString()}</div>
+                            <div class="entry-value">${activityEmojis[e.activity_type] || '📌'} ${e.activity_type} - ${e.duration_minutes} min ${e.calories_burned ? `(${e.calories_burned} cal)` : ''}</div>
+                        </div>
+                        <button class="btn-delete" onclick="deleteEntry('activity_entries', '${e.id}')">🗑️</button>
+                    </div>
+                `).join('');
+            }
+
+            // Weekly stats
+            const weekEntries = entries?.filter(e => new Date(e.entry_date) >= weekAgo) || [];
+            const totalMins = weekEntries.reduce((sum, e) => sum + (e.duration_minutes || 0), 0);
+            const totalCals = weekEntries.reduce((sum, e) => sum + (e.calories_burned || 0), 0);
+            document.getElementById('activity-total-mins').textContent = totalMins;
+            document.getElementById('activity-total-cals').textContent = totalCals;
+            document.getElementById('activity-sessions').textContent = weekEntries.length;
+
+            updateActivityChart(weekEntries);
+        }
+
+        async function loadWeightEntries(supabase, user) {
+            const { data: entries, error } = await supabase
+                .from('weight_entries')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('entry_date', { ascending: false });
+
+            if (error) {
+                console.error('Error loading weight:', error);
+                return;
+            }
+
+            const container = document.getElementById('weight-entries-list');
+            if (!entries || entries.length === 0) {
+                container.innerHTML = '<div class="no-entries">No weight entries yet.</div>';
+            } else {
+                container.innerHTML = entries.map(e => `
+                    <div class="entry-item">
+                        <div class="entry-info">
+                            <div class="entry-date">${new Date(e.entry_date).toLocaleDateString()}</div>
+                            <div class="entry-value">${e.weight_kg} kg</div>
+                        </div>
+                        <button class="btn-delete" onclick="deleteEntry('weight_entries', '${e.id}')">🗑️</button>
+                    </div>
+                `).join('');
             }
         }
 
         function updateWeightProgress(profile) {
-            const progressContainer = document.getElementById('weight-progress');
-            const currentWeight = parseFloat(profile.current_weight);
-            const desiredWeight = parseFloat(profile.desired_weight);
+            const current = parseFloat(profile.current_weight);
+            const goal = parseFloat(profile.desired_weight);
+            const start = parseFloat(profile.start_weight) || current;
 
-            if (!currentWeight || !desiredWeight) {
-                progressContainer.style.display = 'none';
-                return;
-            }
+            if (!current || !goal) return;
 
-            progressContainer.style.display = 'block';
+            const total = Math.abs(start - goal);
+            const achieved = Math.abs(start - current);
+            let percent = total > 0 ? (achieved / total) * 100 : 0;
+            percent = Math.max(0, Math.min(100, percent));
 
-            // Get starting weight from first entry or current weight
-            const startWeight = profile.start_weight || currentWeight;
+            // Overview progress
+            document.getElementById('overview-progress').style.width = percent + '%';
+            document.getElementById('overview-progress').textContent = percent.toFixed(0) + '%';
 
-            // Calculate progress
-            const totalToLose = startWeight - desiredWeight;
-            const lostSoFar = startWeight - currentWeight;
-            let progressPercent = totalToLose > 0 ? (lostSoFar / totalToLose) * 100 : 0;
-            progressPercent = Math.max(0, Math.min(100, progressPercent));
-
-            document.getElementById('progress-fill').style.width = progressPercent + '%';
-            document.getElementById('start-weight-label').textContent = `Start: ${startWeight} kg`;
-            document.getElementById('current-weight-label').textContent = `Current: ${currentWeight} kg`;
-            document.getElementById('goal-weight-label').textContent = `Goal: ${desiredWeight} kg`;
+            // Weight tab progress
+            document.getElementById('weight-progress-fill').style.width = percent + '%';
+            document.getElementById('weight-progress-fill').textContent = percent.toFixed(0) + '%';
+            document.getElementById('weight-start-label').textContent = `Start: ${start} kg`;
+            document.getElementById('weight-current-label').textContent = `Current: ${current} kg`;
+            document.getElementById('weight-goal-label').textContent = `Goal: ${goal} kg`;
         }
 
-        function setupEventHandlers(supabase, user) {
-            // Save goals form
+        function updateGlucoseChart(entries) {
+            const ctx = document.getElementById('glucose-chart').getContext('2d');
+            if (glucoseChart) glucoseChart.destroy();
+
+            const grouped = groupByDate(entries, 'glucose_level');
+            glucoseChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: grouped.labels,
+                    datasets: [{
+                        label: 'Glucose Level',
+                        data: grouped.values,
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function updateInsulinChart(entries) {
+            const ctx = document.getElementById('insulin-chart').getContext('2d');
+            if (insulinChart) insulinChart.destroy();
+
+            const grouped = groupByDate(entries, 'insulin_units');
+            insulinChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: grouped.labels,
+                    datasets: [{
+                        label: 'Insulin Units',
+                        data: grouped.values,
+                        backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                        borderColor: '#667eea',
+                        borderWidth: 1
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function updateActivityChart(entries) {
+            const ctx = document.getElementById('activity-chart').getContext('2d');
+            if (activityChart) activityChart.destroy();
+
+            const grouped = groupByDate(entries, 'duration_minutes');
+            activityChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: grouped.labels,
+                    datasets: [{
+                        label: 'Activity (minutes)',
+                        data: grouped.values,
+                        backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                        borderColor: '#28a745',
+                        borderWidth: 1
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function groupByDate(entries, valueField) {
+            const days = {};
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                days[d.toISOString().split('T')[0]] = [];
+            }
+
+            entries.forEach(e => {
+                const date = e.entry_date;
+                if (days[date]) {
+                    days[date].push(parseFloat(e[valueField]));
+                }
+            });
+
+            return {
+                labels: Object.keys(days).map(d => new Date(d).toLocaleDateString('en', { weekday: 'short' })),
+                values: Object.values(days).map(arr => arr.length ? arr.reduce((a,b) => a+b, 0) / arr.length : 0)
+            };
+        }
+
+        function setupTabHandlers() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+                });
+            });
+        }
+
+        function setupFormHandlers(supabase, user) {
+            // Goals form
             document.getElementById('goals-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
-
                 const updates = {
                     calories_intake: parseFloat(document.getElementById('calories-intake').value) || null,
                     current_bmi: parseFloat(document.getElementById('current-bmi').value) || null,
@@ -562,91 +1129,133 @@
                     due_date: document.getElementById('due-date').value || null
                 };
 
-                const { error } = await supabase
-                    .from('profiles')
-                    .update(updates)
-                    .eq('user_id', user.id);
+                const { error } = await supabase.from('profiles').update(updates).eq('user_id', user.id);
+                showMessage(error ? 'Failed to save.' : 'Goals saved!', !error);
+                if (!error) await loadProfile(supabase, user);
+            });
 
-                const messageDiv = document.getElementById('profile-message');
-                if (error) {
-                    messageDiv.innerHTML = '<div class="message error">Failed to save goals. Please try again.</div>';
-                    console.error('Error saving goals:', error);
-                } else {
-                    messageDiv.innerHTML = '<div class="message success">Goals saved successfully!</div>';
-                    // Reload profile to update progress
+            // Glucose
+            document.getElementById('add-glucose-btn').addEventListener('click', async () => {
+                const data = {
+                    user_id: user.id,
+                    entry_date: document.getElementById('glucose-date').value,
+                    entry_time: document.getElementById('glucose-time').value || null,
+                    glucose_level: parseFloat(document.getElementById('glucose-value').value),
+                    measurement_type: document.getElementById('glucose-type').value || null
+                };
+                if (!data.entry_date || !data.glucose_level) return alert('Date and glucose level required');
+                
+                const { error } = await supabase.from('glucose_entries').insert(data);
+                if (!error) {
+                    document.getElementById('glucose-value').value = '';
+                    await loadGlucoseEntries(supabase, user);
+                }
+            });
+
+            // Insulin
+            document.getElementById('add-insulin-btn').addEventListener('click', async () => {
+                const data = {
+                    user_id: user.id,
+                    entry_date: document.getElementById('insulin-date').value,
+                    entry_time: document.getElementById('insulin-time').value || null,
+                    insulin_units: parseFloat(document.getElementById('insulin-value').value),
+                    insulin_type: document.getElementById('insulin-type').value || null
+                };
+                if (!data.entry_date || !data.insulin_units) return alert('Date and units required');
+                
+                const { error } = await supabase.from('insulin_entries').insert(data);
+                if (!error) {
+                    document.getElementById('insulin-value').value = '';
+                    await loadInsulinEntries(supabase, user);
+                }
+            });
+
+            // Activity
+            document.getElementById('add-activity-btn').addEventListener('click', async () => {
+                const data = {
+                    user_id: user.id,
+                    entry_date: document.getElementById('activity-date').value,
+                    activity_type: document.getElementById('activity-type').value,
+                    duration_minutes: parseInt(document.getElementById('activity-duration').value),
+                    calories_burned: parseInt(document.getElementById('activity-calories').value) || null
+                };
+                if (!data.entry_date || !data.activity_type || !data.duration_minutes) return alert('Date, activity and duration required');
+                
+                const { error } = await supabase.from('activity_entries').insert(data);
+                if (!error) {
+                    document.getElementById('activity-duration').value = '';
+                    document.getElementById('activity-calories').value = '';
+                    await loadActivityEntries(supabase, user);
+                }
+            });
+
+            // Weight
+            document.getElementById('add-weight-btn').addEventListener('click', async () => {
+                const data = {
+                    user_id: user.id,
+                    entry_date: document.getElementById('weight-date').value,
+                    weight_kg: parseFloat(document.getElementById('weight-value').value)
+                };
+                if (!data.entry_date || !data.weight_kg) return alert('Date and weight required');
+                
+                const { error } = await supabase.from('weight_entries').insert(data);
+                if (!error) {
+                    document.getElementById('weight-value').value = '';
+                    await supabase.from('profiles').update({ current_weight: data.weight_kg }).eq('user_id', user.id);
+                    await loadWeightEntries(supabase, user);
                     await loadProfile(supabase, user);
                 }
-
-                setTimeout(() => messageDiv.innerHTML = '', 3000);
             });
-
-            // Add weight entry
-            document.getElementById('add-weight-btn').addEventListener('click', async () => {
-                const dateInput = document.getElementById('weight-date');
-                const weightInput = document.getElementById('weight-value');
-
-                const date = dateInput.value;
-                const weight = parseFloat(weightInput.value);
-
-                if (!date || !weight) {
-                    alert('Please enter both date and weight');
-                    return;
-                }
-
-                const { error } = await supabase
-                    .from('weight_entries')
-                    .insert({
-                        user_id: user.id,
-                        entry_date: date,
-                        weight_kg: weight
-                    });
-
-                if (error) {
-                    console.error('Error adding weight entry:', error);
-                    alert('Failed to add weight entry');
-                    return;
-                }
-
-                // Clear inputs
-                dateInput.value = '';
-                weightInput.value = '';
-
-                // Reload entries
-                await loadWeightEntries(supabase, user);
-
-                // Update current weight in profile
-                await supabase
-                    .from('profiles')
-                    .update({ current_weight: weight })
-                    .eq('user_id', user.id);
-            });
-
-            // Set default date to today
-            document.getElementById('weight-date').value = new Date().toISOString().split('T')[0];
         }
 
-        // Global function for deleting weight entries
-        window.deleteWeightEntry = async function (entryId) {
-            if (!confirm('Delete this weight entry?')) return;
+        function setupPhotoUpload(supabase, user) {
+            document.getElementById('photo-input').addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
 
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Image must be under 2MB');
+                    return;
+                }
+
+                // Convert to base64 data URL for simple storage
+                const reader = new FileReader();
+                reader.onload = async (event) => {
+                    const dataUrl = event.target.result;
+                    const { error } = await supabase
+                        .from('profiles')
+                        .update({ photo_url: dataUrl })
+                        .eq('user_id', user.id);
+
+                    if (error) {
+                        alert('Failed to upload photo');
+                        console.error(error);
+                    } else {
+                        document.getElementById('profile-photo').src = dataUrl;
+                        showMessage('Photo updated!', true);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function showMessage(text, success) {
+            const div = document.getElementById('profile-message');
+            div.innerHTML = `<div class="message ${success ? 'success' : 'error'}">${text}</div>`;
+            setTimeout(() => div.innerHTML = '', 3000);
+        }
+
+        // Global delete function
+        window.deleteEntry = async function(table, id) {
+            if (!confirm('Delete this entry?')) return;
             const supabase = window.supabaseClient;
-            const { error } = await supabase
-                .from('weight_entries')
-                .delete()
-                .eq('id', entryId);
-
-            if (error) {
-                console.error('Error deleting entry:', error);
-                alert('Failed to delete entry');
-                return;
+            const { error } = await supabase.from(table).delete().eq('id', id);
+            if (!error) {
+                const { data: { user } } = await supabase.auth.getUser();
+                await loadAllEntries(supabase, user);
             }
-
-            // Reload entries
-            const { data: { user } } = await supabase.auth.getUser();
-            await loadWeightEntries(supabase, user);
         };
 
-        // Initialize when DOM is ready
         init();
     </script>
 
