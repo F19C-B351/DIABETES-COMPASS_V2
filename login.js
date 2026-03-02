@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         registerError.style.display = 'none';
         const email = document.getElementById('register-email').value.trim();
+        const emailConfirm = document.getElementById('register-email-confirm')?.value?.trim() || '';
         const password = document.getElementById('register-password').value;
         const name = document.getElementById('register-name').value.trim();
         const phone = document.getElementById('register-phone')?.value?.trim() || '';
@@ -74,8 +75,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const insulinNo = document.getElementById('register-insulin-no');
         if (insulinYes && insulinYes.checked) insulin = 'Yes';
         else if (insulinNo && insulinNo.checked) insulin = 'No';
-        if (!email || !password || !name || !dtype || !gunit || !insulin) {
+        if (!email || !emailConfirm || !password || !name || !dtype || !gunit || !insulin) {
             registerError.textContent = 'All fields are required.';
+            registerError.style.display = 'block';
+            return;
+        }
+        if (email !== emailConfirm) {
+            registerError.textContent = 'Email addresses do not match.';
             registerError.style.display = 'block';
             return;
         }

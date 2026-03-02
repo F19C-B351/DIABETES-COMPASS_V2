@@ -63,6 +63,10 @@
             <input type="email" class="form-control" id="register-email" required />
           </div>
           <div class="mb-3">
+            <label for="register-email-confirm" class="form-label">Confirm Email</label>
+            <input type="email" class="form-control" id="register-email-confirm" required />
+          </div>
+          <div class="mb-3">
             <label for="register-password" class="form-label">Password</label>
             <input type="password" class="form-control" id="register-password" required />
           </div>
@@ -309,6 +313,7 @@
             e.preventDefault();
             registerError.style.display = 'none';
             const email = document.getElementById('register-email').value.trim();
+            const emailConfirm = document.getElementById('register-email-confirm').value.trim();
             const password = document.getElementById('register-password').value;
             const name = document.getElementById('register-name').value.trim();
             const phone = document.getElementById('register-phone').value.trim();
@@ -319,8 +324,13 @@
             const insulinNo = document.getElementById('register-insulin-no');
             if (insulinYes && insulinYes.checked) insulin = 'Yes';
             else if (insulinNo && insulinNo.checked) insulin = 'No';
-            if (!email || !password || !name || !dtype || !gunit || !insulin) {
+            if (!email || !emailConfirm || !password || !name || !dtype || !gunit || !insulin) {
                 registerError.textContent = 'All fields are required.';
+                registerError.style.display = 'block';
+                return;
+            }
+            if (email !== emailConfirm) {
+                registerError.textContent = 'Email addresses do not match.';
                 registerError.style.display = 'block';
                 return;
             }
