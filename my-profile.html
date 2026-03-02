@@ -424,6 +424,12 @@
     </header>
 
     <main class="profile-container">
+        <!-- Loading State -->
+        <div id="loading-state" class="login-required">
+            <h2>⏳ Loading...</h2>
+            <p>Please wait while we load your profile.</p>
+        </div>
+
         <!-- Login Required -->
         <div id="login-required" class="login-required" style="display: none;">
             <h2>🔒 Login Required</h2>
@@ -737,39 +743,62 @@
         }
 
         async function init() {
-            const supabase = await waitForSupabase();
-            if (!supabase) {
-                console.error('Supabase not initialized');
-                return;
+            console.log('Profile page init starting...');
+            const loadingDiv = document.getElementById('loading-state');
+            const loginReqDiv = document.getElementById('login-required');
+            const profileDiv = document.getElementById('profile-content');
+
+            try {
+                const supabase = await waitForSupabase();
+                if (!supabase) {
+                    console.error('Supabase not initialized');
+                    loadingDiv.innerHTML = '<h2>❌ Error</h2><p>Could not connect to the server. Please refresh the page.</p>';
+                    return;
+                }
+
+                console.log('Supabase ready, checking auth...');
+                const { data: { user }, error: authError } = await supabase.auth.getUser();
+                
+                if (authError) {
+                    console.error('Auth error:', authError);
+                }
+
+                console.log('User:', user ? user.email : 'not logged in');
+
+                // Hide loading
+                loadingDiv.style.display = 'none';
+
+                if (!user) {
+                    loginReqDiv.style.display = 'block';
+                    profileDiv.style.display = 'none';
+                    return;
+                }
+
+                currentUser = user;
+                loginReqDiv.style.display = 'none';
+                profileDiv.style.display = 'block';
+
+                // Set default dates
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('glucose-date').value = today;
+                document.getElementById('insulin-date').value = today;
+                document.getElementById('activity-date').value = today;
+                document.getElementById('weight-date').value = today;
+
+                // Load all data
+                await loadProfile(supabase, user);
+                await loadAllEntries(supabase, user);
+                
+                // Setup event handlers
+                setupTabHandlers();
+                setupFormHandlers(supabase, user);
+                setupPhotoUpload(supabase, user);
+
+                console.log('Profile page loaded successfully');
+            } catch (err) {
+                console.error('Init error:', err);
+                document.getElementById('loading-state').innerHTML = '<h2>❌ Error</h2><p>Something went wrong. Please refresh the page.</p>';
             }
-
-            const { data: { user } } = await supabase.auth.getUser();
-
-            if (!user) {
-                document.getElementById('login-required').style.display = 'block';
-                document.getElementById('profile-content').style.display = 'none';
-                return;
-            }
-
-            currentUser = user;
-            document.getElementById('login-required').style.display = 'none';
-            document.getElementById('profile-content').style.display = 'block';
-
-            // Set default dates
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('glucose-date').value = today;
-            document.getElementById('insulin-date').value = today;
-            document.getElementById('activity-date').value = today;
-            document.getElementById('weight-date').value = today;
-
-            // Load all data
-            await loadProfile(supabase, user);
-            await loadAllEntries(supabase, user);
-            
-            // Setup event handlers
-            setupTabHandlers();
-            setupFormHandlers(supabase, user);
-            setupPhotoUpload(supabase, user);
         }
 
         async function loadProfile(supabase, user) {
