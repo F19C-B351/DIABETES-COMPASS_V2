@@ -101,6 +101,31 @@
     line-height: 1.5;
 }
 
+/* Sidebar Video Section */
+.sidebar-video {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin-bottom: 20px;
+}
+
+.sidebar-video video {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+}
+
+.sidebar-video .video-caption {
+    text-align: center;
+    color: #667eea;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 10px 0 0 0;
+}
+
 .sidebar-content {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
