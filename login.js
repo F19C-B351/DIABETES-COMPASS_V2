@@ -83,7 +83,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const { data, error } = await supabase.auth.signUp({
             email,
             password,
-            options: { data: { name } }
+            options: {
+                data: {
+                    name: name,
+                    phone_number: phone || null,
+                    diabetes_type: dtype,
+                    glucose_unit: gunit,
+                    insulin_user: insulin
+                }
+            }
         });
         if (error) {
             registerError.textContent = error.message;

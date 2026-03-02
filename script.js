@@ -102,7 +102,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     const { data, error } = await supabase.auth.signUp({
                         email: regEmail,
                         password: regPassword,
-                        options: { data: { name: regName } }
+                        options: {
+                            data: {
+                                name: regName,
+                                phone_number: regPhone || null,
+                                diabetes_type: regDiabetesType,
+                                glucose_unit: regGlucoseUnit,
+                                insulin_user: regInsulinUser
+                            }
+                        }
                     });
                     if (error) {
                         alert('Registration failed: ' + error.message);

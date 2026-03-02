@@ -342,7 +342,13 @@
                     email,
                     password,
                     options: {
-                        data: { name }
+                        data: {
+                            name: name,
+                            phone_number: phone || null,
+                            diabetes_type: dtype,
+                            glucose_unit: gunit,
+                            insulin_user: insulin
+                        }
                     }
                 });
 
