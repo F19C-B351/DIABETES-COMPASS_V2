@@ -349,11 +349,13 @@
                         </div>
                         <div class="profile-field">
                             <label for="current-weight">Current Weight (kg)</label>
-                            <input type="number" id="current-weight" step="0.1" placeholder="e.g., 75.5" min="20" max="500">
+                            <input type="number" id="current-weight" step="0.1" placeholder="e.g., 75.5" min="20"
+                                max="500">
                         </div>
                         <div class="profile-field">
                             <label for="desired-weight">Desired Weight (kg)</label>
-                            <input type="number" id="desired-weight" step="0.1" placeholder="e.g., 70.0" min="20" max="500">
+                            <input type="number" id="desired-weight" step="0.1" placeholder="e.g., 70.0" min="20"
+                                max="500">
                         </div>
                         <div class="profile-field">
                             <label for="due-date">Target Date</label>
@@ -366,7 +368,7 @@
                 <!-- Weight Progress Card -->
                 <div class="profile-card weight-tracker">
                     <h2>⚖️ Weight Tracker</h2>
-                    
+
                     <!-- Progress towards goal -->
                     <div id="weight-progress" style="margin-bottom: 1.5rem; display: none;">
                         <label>Progress to Goal</label>
@@ -383,7 +385,8 @@
                     <!-- Add new weight entry -->
                     <div class="weight-entry-form">
                         <input type="date" id="weight-date" required>
-                        <input type="number" id="weight-value" step="0.1" placeholder="Weight (kg)" min="20" max="500" required>
+                        <input type="number" id="weight-value" step="0.1" placeholder="Weight (kg)" min="20" max="500"
+                            required>
                         <button type="button" class="btn-add-weight" id="add-weight-btn">+ Add Entry</button>
                     </div>
 
@@ -423,7 +426,7 @@
 
             // Check if user is logged in
             const { data: { user } } = await supabase.auth.getUser();
-            
+
             if (!user) {
                 document.getElementById('login-required').style.display = 'block';
                 document.getElementById('profile-content').style.display = 'none';
@@ -435,7 +438,7 @@
 
             // Load profile data
             await loadProfile(supabase, user);
-            
+
             // Load weight entries
             await loadWeightEntries(supabase, user);
 
@@ -458,7 +461,7 @@
 
                 if (profile) {
                     // Update welcome text
-                    document.getElementById('welcome-text').textContent = 
+                    document.getElementById('welcome-text').textContent =
                         `Welcome back, ${profile.name || 'User'}!`;
 
                     // Display personal info
@@ -467,9 +470,9 @@
                     document.getElementById('display-phone').textContent = profile.phone_number || 'Not provided';
                     document.getElementById('display-diabetes-type').textContent = profile.diabetes_type || '-';
                     document.getElementById('display-glucose-unit').textContent = profile.glucose_unit || '-';
-                    document.getElementById('display-insulin-user').textContent = 
+                    document.getElementById('display-insulin-user').textContent =
                         profile.insulin_user === true ? 'Yes' : (profile.insulin_user === false ? 'No' : '-');
-                    document.getElementById('display-member-since').textContent = 
+                    document.getElementById('display-member-since').textContent =
                         profile.created_at ? new Date(profile.created_at).toLocaleDateString() : '-';
 
                     // Load health goals
@@ -501,7 +504,7 @@
                 }
 
                 const container = document.getElementById('weight-history');
-                
+
                 if (!entries || entries.length === 0) {
                     container.innerHTML = '<div class="no-entries">No weight entries yet. Start tracking!</div>';
                     return;
@@ -523,17 +526,17 @@
             const progressContainer = document.getElementById('weight-progress');
             const currentWeight = parseFloat(profile.current_weight);
             const desiredWeight = parseFloat(profile.desired_weight);
-            
+
             if (!currentWeight || !desiredWeight) {
                 progressContainer.style.display = 'none';
                 return;
             }
 
             progressContainer.style.display = 'block';
-            
+
             // Get starting weight from first entry or current weight
             const startWeight = profile.start_weight || currentWeight;
-            
+
             // Calculate progress
             const totalToLose = startWeight - desiredWeight;
             const lostSoFar = startWeight - currentWeight;
@@ -550,7 +553,7 @@
             // Save goals form
             document.getElementById('goals-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
-                
+
                 const updates = {
                     calories_intake: parseFloat(document.getElementById('calories-intake').value) || null,
                     current_bmi: parseFloat(document.getElementById('current-bmi').value) || null,
@@ -581,7 +584,7 @@
             document.getElementById('add-weight-btn').addEventListener('click', async () => {
                 const dateInput = document.getElementById('weight-date');
                 const weightInput = document.getElementById('weight-value');
-                
+
                 const date = dateInput.value;
                 const weight = parseFloat(weightInput.value);
 
@@ -623,7 +626,7 @@
         }
 
         // Global function for deleting weight entries
-        window.deleteWeightEntry = async function(entryId) {
+        window.deleteWeightEntry = async function (entryId) {
             if (!confirm('Delete this weight entry?')) return;
 
             const supabase = window.supabaseClient;
