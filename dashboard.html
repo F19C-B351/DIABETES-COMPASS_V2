@@ -296,26 +296,26 @@
 
     <!-- Dashboard Content (admin only) -->
     <div id="dashboard-content" style="display: none;">
-    <div class="dashboard-container">
-        <div class="dashboard-header">
-            <h1>📊 Analytics Dashboard</h1>
-            <p>Real-time data from Supabase</p>
-        </div>
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h1>📊 Analytics Dashboard</h1>
+                <p>Real-time data from Supabase</p>
+            </div>
 
-        <div class="action-buttons">
-            <button class="btn-action" onclick="loadAnalytics()">🔄 Refresh Analytics</button>
-            <button class="btn-action secondary" onclick="window.location.href='/'">← Back Home</button>
-        </div>
+            <div class="action-buttons">
+                <button class="btn-action" onclick="loadAnalytics()">🔄 Refresh Analytics</button>
+                <button class="btn-action secondary" onclick="window.location.href='/'">← Back Home</button>
+            </div>
 
-        <div id="message"></div>
-        <div id="loading" class="loading" style="display:none;">
-            <div class="spinner"></div>
-            <span>Loading analytics from Supabase...</span>
-        </div>
+            <div id="message"></div>
+            <div id="loading" class="loading" style="display:none;">
+                <div class="spinner"></div>
+                <span>Loading analytics from Supabase...</span>
+            </div>
 
-        <div id="metricsContainer"></div>
-        <div id="chartsContainer"></div>
-    </div>
+            <div id="metricsContainer"></div>
+            <div id="chartsContainer"></div>
+        </div>
     </div>
 
     <!-- Supabase Scripts -->
@@ -516,7 +516,7 @@
 
             // Check if user is logged in
             const { data: { user } } = await window.supabase.auth.getUser();
-            
+
             if (!user) {
                 checkingDiv.style.display = 'none';
                 deniedDiv.innerHTML = `

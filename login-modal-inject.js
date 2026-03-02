@@ -420,6 +420,18 @@
 
                 console.log('Profile saved successfully');
 
+                // Create user_role entry (default role: 'user')
+                const { error: roleError } = await supabase
+                    .from('user_roles')
+                    .upsert({ user_id: userId, role: 'user' }, { onConflict: 'user_id' });
+
+                if (roleError) {
+                    console.warn('Could not create user role:', roleError);
+                    // Non-blocking - continue with registration
+                } else {
+                    console.log('User role created successfully');
+                }
+
                 // Verify the data was saved
                 const { data: verifyData, error: verifyError } = await supabase
                     .from('profiles')
@@ -485,7 +497,7 @@
 
         try {
             const { data: { user } } = await window.supabase.auth.getUser();
-            
+
             if (!user) {
                 // Not logged in - hide admin links
                 adminLinks.forEach(link => link.style.display = 'none');
@@ -500,7 +512,7 @@
                 .single();
 
             const isAdmin = roleData?.user_role === 'admin';
-            
+
             adminLinks.forEach(link => {
                 link.style.display = isAdmin ? '' : 'none';
             });
