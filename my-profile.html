@@ -733,9 +733,11 @@
                 <div class="profile-grid">
                     <div class="profile-card">
                         <h2>📊 Export to Excel</h2>
-                        <p style="color: #666; margin-bottom: 1rem;">Download your health data as an Excel file for personal records or to share with your healthcare provider.</p>
+                        <p style="color: #666; margin-bottom: 1rem;">Download your health data as an Excel file for
+                            personal records or to share with your healthcare provider.</p>
                         <div style="display: flex; flex-direction: column; gap: 0.8rem;">
-                            <button class="btn-save" id="export-all-btn" style="background: #28a745;">📥 Export All Data</button>
+                            <button class="btn-save" id="export-all-btn" style="background: #28a745;">📥 Export All
+                                Data</button>
                             <button class="btn-save" id="export-glucose-btn">📥 Export Glucose Data</button>
                             <button class="btn-save" id="export-insulin-btn">📥 Export Insulin Data</button>
                             <button class="btn-save" id="export-activity-btn">📥 Export Activity Data</button>
@@ -744,7 +746,8 @@
                     </div>
                     <div class="profile-card">
                         <h2>📧 Email Report</h2>
-                        <p style="color: #666; margin-bottom: 1rem;">Send your health summary to yourself or your doctor via email.</p>
+                        <p style="color: #666; margin-bottom: 1rem;">Send your health summary to yourself or your doctor
+                            via email.</p>
                         <div class="profile-field">
                             <label for="email-recipient">Recipient Email</label>
                             <input type="email" id="email-recipient" placeholder="doctor@example.com">
@@ -755,7 +758,8 @@
                         </div>
                         <div class="profile-field">
                             <label for="email-message">Additional Message (optional)</label>
-                            <textarea id="email-message" rows="3" placeholder="Add any notes for your doctor..." style="width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 6px;"></textarea>
+                            <textarea id="email-message" rows="3" placeholder="Add any notes for your doctor..."
+                                style="width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 6px;"></textarea>
                         </div>
                         <button class="btn-save" id="send-email-btn">📧 Send Email Report</button>
                     </div>
@@ -1409,7 +1413,7 @@
                 ]);
 
                 const profile = profileRes.data;
-                const glucoseAvg = glucoseRes.data?.length ? 
+                const glucoseAvg = glucoseRes.data?.length ?
                     (glucoseRes.data.reduce((s, e) => s + parseFloat(e.glucose_level), 0) / glucoseRes.data.length).toFixed(1) : 'N/A';
                 const insulinTotal = insulinRes.data?.reduce((s, e) => s + parseFloat(e.insulin_units), 0) || 0;
                 const currentWeight = weightRes.data?.[0]?.weight_kg || 'N/A';
