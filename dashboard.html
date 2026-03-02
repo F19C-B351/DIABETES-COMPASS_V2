@@ -277,6 +277,286 @@
             text-align: center;
             padding: 4rem;
         }
+
+        /* User Admin Table Styles */
+        .admin-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            margin-top: 30px;
+        }
+
+        .admin-section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .user-table th,
+        .user-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .user-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .user-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .role-badge.admin {
+            background: #667eea20;
+            color: #667eea;
+        }
+
+        .role-badge.user {
+            background: #28a74520;
+            color: #28a745;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit, .btn-delete {
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background: #ffc10720;
+            color: #e0a800;
+        }
+
+        .btn-edit:hover {
+            background: #ffc107;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #dc354520;
+            color: #dc3545;
+        }
+
+        .btn-delete:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-cancel:hover, .btn-save:hover, .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .confirm-message {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .confirm-message p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .confirm-message strong {
+            color: #333;
+        }
+
+        .modal-error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .modal-success {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 
@@ -315,6 +595,179 @@
 
             <div id="metricsContainer"></div>
             <div id="chartsContainer"></div>
+
+            <!-- User Admin Section -->
+            <div class="admin-section">
+                <h3>
+                    <span>👥 User Administration</span>
+                    <button class="btn-add" onclick="openAddUserModal()">+ Add User</button>
+                </h3>
+                <div id="userTableLoading" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <span>Loading users...</span>
+                </div>
+                <div id="userTableContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="admin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>➕ Create New User</h3>
+                <button class="modal-close" onclick="closeModal('addUserModal')">&times;</button>
+            </div>
+            <div id="addUserError" class="modal-error" style="display: none;"></div>
+            <form id="addUserForm" onsubmit="handleAddUser(event)">
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required placeholder="user@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" name="password" required placeholder="Minimum 6 characters" minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="John Doe">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Role *</label>
+                        <select name="role" required>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Diabetes Type</label>
+                        <select name="diabetes_type">
+                            <option value="">-- Select --</option>
+                            <option value="Type 1">Type 1</option>
+                            <option value="Type 2">Type 2</option>
+                            <option value="Gestational">Gestational</option>
+                            <option value="Pre-diabetes">Pre-diabetes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Glucose Unit</label>
+                        <select name="glucose_unit">
+                            <option value="mg/dL">mg/dL</option>
+                            <option value="mmol/L">mmol/L</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Insulin User</label>
+                        <select name="insulin_user">
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" name="phone_number" placeholder="+1234567890">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal('addUserModal')">Cancel</button>
+                    <button type="submit" class="btn-save">Create User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="admin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Edit User</h3>
+                <button class="modal-close" onclick="closeModal('editUserModal')">&times;</button>
+            </div>
+            <div id="editUserError" class="modal-error" style="display: none;"></div>
+            <form id="editUserForm" onsubmit="handleEditUser(event)">
+                <input type="hidden" name="user_id">
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required placeholder="user@example.com">
+                </div>
+                <div class="form-group">
+                    <label>New Password (leave blank to keep current)</label>
+                    <input type="password" name="password" placeholder="Minimum 6 characters" minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="John Doe">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Role *</label>
+                        <select name="role" required>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Diabetes Type</label>
+                        <select name="diabetes_type">
+                            <option value="">-- Select --</option>
+                            <option value="Type 1">Type 1</option>
+                            <option value="Type 2">Type 2</option>
+                            <option value="Gestational">Gestational</option>
+                            <option value="Pre-diabetes">Pre-diabetes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Glucose Unit</label>
+                        <select name="glucose_unit">
+                            <option value="mg/dL">mg/dL</option>
+                            <option value="mmol/L">mmol/L</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Insulin User</label>
+                        <select name="insulin_user">
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" name="phone_number" placeholder="+1234567890">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal('editUserModal')">Cancel</button>
+                    <button type="submit" class="btn-save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteUserModal" class="admin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🗑️ Delete User</h3>
+                <button class="modal-close" onclick="closeModal('deleteUserModal')">&times;</button>
+            </div>
+            <div id="deleteUserError" class="modal-error" style="display: none;"></div>
+            <div class="confirm-message">
+                <p>Are you sure you want to delete this user?</p>
+                <p><strong id="deleteUserEmail"></strong></p>
+                <p style="color: #dc3545; font-size: 0.85rem; margin-top: 15px;">
+                    ⚠️ This action cannot be undone. All user data will be permanently removed.
+                </p>
+            </div>
+            <input type="hidden" id="deleteUserId">
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeModal('deleteUserModal')">Cancel</button>
+                <button type="button" class="btn-danger" onclick="handleDeleteUser()">Delete User</button>
+            </div>
         </div>
     </div>
 
@@ -547,6 +1000,284 @@
             checkingDiv.style.display = 'none';
             contentDiv.style.display = 'block';
             loadAnalytics();
+            loadUserTable();
+        }
+
+        // Load User Admin Table
+        async function loadUserTable() {
+            const loading = document.getElementById('userTableLoading');
+            const container = document.getElementById('userTableContainer');
+
+            loading.style.display = 'block';
+            container.innerHTML = '';
+
+            try {
+                // Fetch profiles with roles
+                const { data: profiles, error: profilesError } = await window.supabase
+                    .from('profiles')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (profilesError) throw profilesError;
+
+                // Fetch roles
+                const { data: roles, error: rolesError } = await window.supabase
+                    .from('user_roles')
+                    .select('*');
+
+                if (rolesError) throw rolesError;
+
+                // Merge data
+                const roleMap = {};
+                roles.forEach(r => roleMap[r.user_id] = r.user_role);
+
+                loading.style.display = 'none';
+
+                if (!profiles || profiles.length === 0) {
+                    container.innerHTML = '<p style="color: #666; text-align: center;">No users found.</p>';
+                    return;
+                }
+
+                let tableHtml = `
+                    <table class="user-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Diabetes Type</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                profiles.forEach(profile => {
+                    const role = roleMap[profile.user_id] || 'user';
+                    const createdDate = profile.created_at ? new Date(profile.created_at).toLocaleDateString() : 'N/A';
+                    
+                    tableHtml += `
+                        <tr>
+                            <td>${escapeHtml(profile.name || '-')}</td>
+                            <td>${escapeHtml(profile.email || '-')}</td>
+                            <td><span class="role-badge ${role}">${role}</span></td>
+                            <td>${escapeHtml(profile.diabetes_type || '-')}</td>
+                            <td>${createdDate}</td>
+                            <td class="action-btns">
+                                <button class="btn-edit" onclick='openEditUserModal(${JSON.stringify(profile).replace(/'/g, "&#39;")}, "${role}")'>✏️ Edit</button>
+                                <button class="btn-delete" onclick='openDeleteUserModal("${profile.user_id}", "${escapeHtml(profile.email || profile.name || 'this user')}")'>🗑️ Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                tableHtml += '</tbody></table>';
+                container.innerHTML = tableHtml;
+
+            } catch (error) {
+                loading.style.display = 'none';
+                console.error('Error loading users:', error);
+                container.innerHTML = `<div class="error-message">Error loading users: ${error.message}</div>`;
+            }
+        }
+
+        // Escape HTML entities
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Modal functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function openAddUserModal() {
+            document.getElementById('addUserForm').reset();
+            document.getElementById('addUserError').style.display = 'none';
+            document.getElementById('addUserModal').classList.add('active');
+        }
+
+        function openEditUserModal(profile, role) {
+            const form = document.getElementById('editUserForm');
+            form.reset();
+            document.getElementById('editUserError').style.display = 'none';
+            
+            form.querySelector('[name="user_id"]').value = profile.user_id;
+            form.querySelector('[name="email"]').value = profile.email || '';
+            form.querySelector('[name="name"]').value = profile.name || '';
+            form.querySelector('[name="role"]').value = role || 'user';
+            form.querySelector('[name="diabetes_type"]').value = profile.diabetes_type || '';
+            form.querySelector('[name="glucose_unit"]').value = profile.glucose_unit || 'mg/dL';
+            form.querySelector('[name="insulin_user"]').value = profile.insulin_user || 'No';
+            form.querySelector('[name="phone_number"]').value = profile.phone_number || '';
+            
+            document.getElementById('editUserModal').classList.add('active');
+        }
+
+        function openDeleteUserModal(userId, email) {
+            document.getElementById('deleteUserId').value = userId;
+            document.getElementById('deleteUserEmail').textContent = email;
+            document.getElementById('deleteUserError').style.display = 'none';
+            document.getElementById('deleteUserModal').classList.add('active');
+        }
+
+        // Get current session token
+        async function getAccessToken() {
+            const { data: { session } } = await window.supabase.auth.getSession();
+            return session?.access_token;
+        }
+
+        // Handle Add User
+        async function handleAddUser(event) {
+            event.preventDefault();
+            const form = event.target;
+            const errorDiv = document.getElementById('addUserError');
+            const submitBtn = form.querySelector('.btn-save');
+            
+            errorDiv.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating...';
+
+            try {
+                const token = await getAccessToken();
+                const response = await fetch(`${SUPABASE_URL}/functions/v1/create-user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        email: form.email.value,
+                        password: form.password.value,
+                        name: form.name.value || null,
+                        role: form.role.value,
+                        diabetes_type: form.diabetes_type.value || null,
+                        glucose_unit: form.glucose_unit.value,
+                        insulin_user: form.insulin_user.value,
+                        phone_number: form.phone_number.value || null
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to create user');
+                }
+
+                closeModal('addUserModal');
+                loadUserTable();
+                loadAnalytics();
+
+            } catch (error) {
+                console.error('Create user error:', error);
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create User';
+            }
+        }
+
+        // Handle Edit User
+        async function handleEditUser(event) {
+            event.preventDefault();
+            const form = event.target;
+            const errorDiv = document.getElementById('editUserError');
+            const submitBtn = form.querySelector('.btn-save');
+            
+            errorDiv.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+
+            try {
+                const token = await getAccessToken();
+                const payload = {
+                    user_id: form.user_id.value,
+                    email: form.email.value,
+                    name: form.name.value || null,
+                    role: form.role.value,
+                    diabetes_type: form.diabetes_type.value || null,
+                    glucose_unit: form.glucose_unit.value,
+                    insulin_user: form.insulin_user.value,
+                    phone_number: form.phone_number.value || null
+                };
+
+                // Only include password if provided
+                if (form.password.value) {
+                    payload.password = form.password.value;
+                }
+
+                const response = await fetch(`${SUPABASE_URL}/functions/v1/update-user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to update user');
+                }
+
+                closeModal('editUserModal');
+                loadUserTable();
+
+            } catch (error) {
+                console.error('Update user error:', error);
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Save Changes';
+            }
+        }
+
+        // Handle Delete User
+        async function handleDeleteUser() {
+            const userId = document.getElementById('deleteUserId').value;
+            const errorDiv = document.getElementById('deleteUserError');
+            const deleteBtn = document.querySelector('#deleteUserModal .btn-danger');
+            
+            errorDiv.style.display = 'none';
+            deleteBtn.disabled = true;
+            deleteBtn.textContent = 'Deleting...';
+
+            try {
+                const token = await getAccessToken();
+                const response = await fetch(`${SUPABASE_URL}/functions/v1/delete-user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ user_id: userId })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to delete user');
+                }
+
+                closeModal('deleteUserModal');
+                loadUserTable();
+                loadAnalytics();
+
+            } catch (error) {
+                console.error('Delete user error:', error);
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = 'block';
+            } finally {
+                deleteBtn.disabled = false;
+                deleteBtn.textContent = 'Delete User';
+            }
         }
 
         // Load on page ready
