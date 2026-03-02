@@ -379,6 +379,10 @@
                             <span class="detail-label">Insulin User:</span>
                             <span class="detail-value">${profile.insulin_user || 'N/A'}</span>
                         </div>
+                        <div class="profile-detail">
+                            <span class="detail-label">Phone:</span>
+                            <span class="detail-value">${profile.phone_number || 'Not provided'}</span>
+                        </div>
                         <div class="profile-detail" style="font-size: 0.85rem; color: #999; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
                             <span class="detail-label" style="color: #999;">Created:</span>
                             <span class="detail-value">${new Date(profile.created_at).toLocaleDateString()}</span>

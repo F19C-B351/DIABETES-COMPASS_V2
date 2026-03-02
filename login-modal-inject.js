@@ -388,7 +388,7 @@
                     insulin_user: insulin
                 };
                 console.log('Saving profile data:', profileData);
-                
+
                 const { error: profileError } = await supabase
                     .from('profiles')
                     .upsert(profileData, {
