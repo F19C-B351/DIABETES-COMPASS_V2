@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const email = document.getElementById('register-email').value.trim();
         const password = document.getElementById('register-password').value;
         const name = document.getElementById('register-name').value.trim();
+        const phone = document.getElementById('register-phone')?.value?.trim() || '';
         const dtype = document.getElementById('register-diabetes-type').value;
         const gunit = document.getElementById('register-glucose-unit').value;
         let insulin = '';
@@ -95,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const { error: profileErrorUpsert } = await supabase.from('profiles').upsert({
                 user_id: user.id,
                 name,
+                phone_number: phone || null,
                 diabetes_type: dtype,
                 glucose_unit: gunit,
                 insulin_user: insulin

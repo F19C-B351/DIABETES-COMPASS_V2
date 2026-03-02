@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (regGlucoseUnit === null) return;
                 const regInsulinUser = prompt('Register\n\nAre you an insulin user? (Yes/No):');
                 if (regInsulinUser === null) return;
+                const regPhone = prompt('Register\n\nEnter phone number (optional, press Enter to skip):') || '';
                 // Register with Supabase
                 try {
                     const { supabase } = await import('./supabaseClient.js');
@@ -113,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const { error: profileErrorUpsert } = await supabase.from('profiles').upsert({
                             user_id: user.id,
                             name: regName,
+                            phone_number: regPhone || null,
                             diabetes_type: regDiabetesType,
                             glucose_unit: regGlucoseUnit,
                             insulin_user: regInsulinUser

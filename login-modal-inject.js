@@ -326,7 +326,7 @@
             }
 
             try {
-                console.log('Attempting registration with:', { email, name, dtype, gunit, insulin });
+                console.log('Attempting registration with:', { email, name, phone, dtype, gunit, insulin });
 
                 // Verify supabase is available
                 if (!supabase) {
@@ -379,16 +379,19 @@
 
                 // Update the profile with additional info using upsert
                 // The profile should be auto-created by the trigger, so we're updating it
+                const profileData = {
+                    user_id: userId,
+                    name: name,
+                    phone_number: phone || null,
+                    diabetes_type: dtype,
+                    glucose_unit: gunit,
+                    insulin_user: insulin
+                };
+                console.log('Saving profile data:', profileData);
+                
                 const { error: profileError } = await supabase
                     .from('profiles')
-                    .upsert({
-                        user_id: userId,
-                        name: name,
-                        phone_number: phone || null,
-                        diabetes_type: dtype,
-                        glucose_unit: gunit,
-                        insulin_user: insulin
-                    }, {
+                    .upsert(profileData, {
                         onConflict: 'user_id'
                     });
 
