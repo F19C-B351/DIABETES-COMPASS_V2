@@ -289,10 +289,10 @@
 
                 console.log('Fetching profiles from Supabase...');
 
-                // Fetch profiles from database - explicitly include phone_number
+                // Fetch profiles from database - include all fields
                 const { data: profilesData, error } = await window.supabase
                     .from('profiles')
-                    .select('user_id, name, phone_number, diabetes_type, glucose_unit, insulin_user, created_at')
+                    .select('user_id, name, email, phone_number, diabetes_type, glucose_unit, insulin_user, created_at')
                     .order('created_at', { ascending: false });
 
                 console.log('Profiles data received:', profilesData);
