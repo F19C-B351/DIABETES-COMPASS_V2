@@ -240,10 +240,62 @@
         .btn-action.secondary:hover {
             background: #5a6268;
         }
+
+        .access-denied {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 4rem auto;
+        }
+
+        .access-denied h2 {
+            color: #dc3545;
+            margin-bottom: 1rem;
+        }
+
+        .access-denied p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .access-denied .btn-home {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .loading-access {
+            text-align: center;
+            padding: 4rem;
+        }
     </style>
 </head>
 
 <body>
+    <!-- Loading/Checking Access -->
+    <div id="checking-access" class="loading-access">
+        <div class="spinner"></div>
+        <p>Checking access permissions...</p>
+    </div>
+
+    <!-- Access Denied -->
+    <div id="access-denied" class="access-denied" style="display: none;">
+        <h2>🚫 Access Denied</h2>
+        <p>This page is only accessible to administrators.</p>
+        <a href="index.html" class="btn-home">🏠 Go to Home</a>
+    </div>
+
+    <!-- Dashboard Content (admin only) -->
+    <div id="dashboard-content" style="display: none;">
     <div class="dashboard-container">
         <div class="dashboard-header">
             <h1>📊 Analytics Dashboard</h1>
@@ -263,6 +315,7 @@
 
         <div id="metricsContainer"></div>
         <div id="chartsContainer"></div>
+    </div>
     </div>
 
     <!-- Supabase Scripts -->
@@ -443,9 +496,62 @@
             }
         }
 
-        // Load analytics when page loads
+        // Check admin access and load analytics
+        async function checkAccessAndLoad() {
+            const checkingDiv = document.getElementById('checking-access');
+            const deniedDiv = document.getElementById('access-denied');
+            const contentDiv = document.getElementById('dashboard-content');
+
+            // Wait for Supabase to be ready
+            let attempts = 0;
+            while (!window.supabaseReady && attempts < 100) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+
+            if (!window.supabase) {
+                checkingDiv.innerHTML = '<p>Error: Could not connect to server. Please refresh.</p>';
+                return;
+            }
+
+            // Check if user is logged in
+            const { data: { user } } = await window.supabase.auth.getUser();
+            
+            if (!user) {
+                checkingDiv.style.display = 'none';
+                deniedDiv.innerHTML = `
+                    <h2>🔒 Login Required</h2>
+                    <p>Please log in as an administrator to view this page.</p>
+                    <a href="index.html" class="btn-home">🏠 Go to Home</a>
+                `;
+                deniedDiv.style.display = 'block';
+                return;
+            }
+
+            // Check if user is admin
+            const { data: roleData, error: roleError } = await window.supabase
+                .from('user_roles')
+                .select('user_role')
+                .eq('user_id', user.id)
+                .single();
+
+            const isAdmin = roleData?.user_role === 'admin';
+
+            if (!isAdmin) {
+                checkingDiv.style.display = 'none';
+                deniedDiv.style.display = 'block';
+                return;
+            }
+
+            // User is admin - show dashboard
+            checkingDiv.style.display = 'none';
+            contentDiv.style.display = 'block';
+            loadAnalytics();
+        }
+
+        // Load on page ready
         window.addEventListener('load', () => {
-            setTimeout(loadAnalytics, 500);
+            setTimeout(checkAccessAndLoad, 300);
         });
     </script>
 </body>
