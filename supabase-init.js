@@ -61,6 +61,47 @@
             console.warn('⚠ Auth check resulted in:', e.message);
         }
 
+        // Profile management functions
+        window.getProfiles = async function() {
+            try {
+                const { data, error } = await supabase.from('profiles').select('*');
+                if (error) throw error;
+                return data;
+            } catch (error) {
+                console.error('Error fetching profiles:', error);
+                return [];
+            }
+        };
+
+        window.getCurrentUserProfile = async function() {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return null;
+                const { data, error } = await supabase.from('profiles').select('*').eq('user_id', user.id).single();
+                if (error) throw error;
+                return data;
+            } catch (error) {
+                console.error('Error fetching current user profile:', error);
+                return null;
+            }
+        };
+
+        window.updateUserProfile = async function(profileData) {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) throw new Error('Not logged in');
+                const { data, error } = await supabase.from('profiles').upsert({
+                    user_id: user.id,
+                    ...profileData
+                }, { onConflict: 'user_id' });
+                if (error) throw error;
+                return { success: true, data };
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                return { success: false, error: error.message };
+            }
+        };
+
         // Mark as ready
         window.supabaseReady = true;
         window.dispatchEvent(new CustomEvent('supabaseReady'));
