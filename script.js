@@ -132,8 +132,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             return;
                         }
                     }
-                    alert('Registration successful! Please check your email to confirm your account.');
-                    window.location.reload();
+                    // Sign out - user needs to login manually
+                    await supabase.auth.signOut();
+                    alert('Registration successful! Please use the Login button to sign in.');
                 } catch (err) {
                     alert('Registration error: ' + err.message);
                 }

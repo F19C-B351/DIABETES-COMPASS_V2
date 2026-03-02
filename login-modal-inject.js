@@ -431,16 +431,24 @@
                     console.log('Verified saved profile:', verifyData);
                 }
 
+                // Sign out the user - they need to login manually
+                await supabase.auth.signOut();
+
                 // Show success message
+                const successMsg = document.getElementById('register-success');
+                if (successMsg) {
+                    successMsg.textContent = 'Registration successful! Please use the login page to sign in.';
+                    successMsg.style.display = 'block';
+                }
                 registerError.style.color = '#388e3c';
-                registerError.textContent = 'Registration successful! Redirecting...';
+                registerError.textContent = 'Registration successful! Please use the login page to sign in.';
                 registerError.style.display = 'block';
 
-                // Close modal and reload page after a short delay
+                // Close register modal and open login modal after a short delay
                 setTimeout(() => {
                     registerModal.classList.remove('active');
-                    window.location.reload();
-                }, 1500);
+                    loginModal.classList.add('active');
+                }, 2500);
 
             } catch (error) {
                 console.error('Unexpected error during registration:', error);
