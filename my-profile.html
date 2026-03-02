@@ -729,11 +729,11 @@
         // Wait for Supabase
         async function waitForSupabase() {
             let attempts = 0;
-            while (!window.supabaseClient && attempts < 100) {
+            while (!window.supabaseReady && attempts < 100) {
                 await new Promise(resolve => setTimeout(resolve, 100));
                 attempts++;
             }
-            return window.supabaseClient;
+            return window.supabase;
         }
 
         async function init() {
@@ -1248,7 +1248,7 @@
         // Global delete function
         window.deleteEntry = async function(table, id) {
             if (!confirm('Delete this entry?')) return;
-            const supabase = window.supabaseClient;
+            const supabase = window.supabase;
             const { error } = await supabase.from(table).delete().eq('id', id);
             if (!error) {
                 const { data: { user } } = await supabase.auth.getUser();
