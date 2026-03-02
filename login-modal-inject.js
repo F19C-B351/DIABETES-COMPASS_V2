@@ -469,4 +469,48 @@
         });
     }
 
+    // Hide/show admin-only links based on user role
+    async function updateAdminLinks() {
+        // Wait for Supabase to be ready
+        let attempts = 0;
+        while (!window.supabaseReady && attempts < 50) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+
+        if (!window.supabase) return;
+
+        const adminLinks = document.querySelectorAll('.admin-only-link');
+        if (adminLinks.length === 0) return;
+
+        try {
+            const { data: { user } } = await window.supabase.auth.getUser();
+            
+            if (!user) {
+                // Not logged in - hide admin links
+                adminLinks.forEach(link => link.style.display = 'none');
+                return;
+            }
+
+            // Check if user is admin
+            const { data: roleData } = await window.supabase
+                .from('user_roles')
+                .select('user_role')
+                .eq('user_id', user.id)
+                .single();
+
+            const isAdmin = roleData?.user_role === 'admin';
+            
+            adminLinks.forEach(link => {
+                link.style.display = isAdmin ? '' : 'none';
+            });
+        } catch (error) {
+            console.error('Error checking admin status:', error);
+            adminLinks.forEach(link => link.style.display = 'none');
+        }
+    }
+
+    // Run admin check
+    updateAdminLinks();
+
 })();
