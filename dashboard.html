@@ -363,7 +363,8 @@
             gap: 8px;
         }
 
-        .btn-edit, .btn-delete {
+        .btn-edit,
+        .btn-delete {
             border: none;
             padding: 6px 12px;
             border-radius: 4px;
@@ -521,7 +522,9 @@
             font-weight: 600;
         }
 
-        .btn-cancel:hover, .btn-save:hover, .btn-danger:hover {
+        .btn-cancel:hover,
+        .btn-save:hover,
+        .btn-danger:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
@@ -1056,7 +1059,7 @@
                 profiles.forEach(profile => {
                     const role = roleMap[profile.user_id] || 'user';
                     const createdDate = profile.created_at ? new Date(profile.created_at).toLocaleDateString() : 'N/A';
-                    
+
                     tableHtml += `
                         <tr>
                             <td>${escapeHtml(profile.name || '-')}</td>
@@ -1105,7 +1108,7 @@
             const form = document.getElementById('editUserForm');
             form.reset();
             document.getElementById('editUserError').style.display = 'none';
-            
+
             form.querySelector('[name="user_id"]').value = profile.user_id;
             form.querySelector('[name="email"]').value = profile.email || '';
             form.querySelector('[name="name"]').value = profile.name || '';
@@ -1114,7 +1117,7 @@
             form.querySelector('[name="glucose_unit"]').value = profile.glucose_unit || 'mg/dL';
             form.querySelector('[name="insulin_user"]').value = profile.insulin_user || 'No';
             form.querySelector('[name="phone_number"]').value = profile.phone_number || '';
-            
+
             document.getElementById('editUserModal').classList.add('active');
         }
 
@@ -1137,7 +1140,7 @@
             const form = event.target;
             const errorDiv = document.getElementById('addUserError');
             const submitBtn = form.querySelector('.btn-save');
-            
+
             errorDiv.style.display = 'none';
             submitBtn.disabled = true;
             submitBtn.textContent = 'Creating...';
@@ -1188,7 +1191,7 @@
             const form = event.target;
             const errorDiv = document.getElementById('editUserError');
             const submitBtn = form.querySelector('.btn-save');
-            
+
             errorDiv.style.display = 'none';
             submitBtn.disabled = true;
             submitBtn.textContent = 'Saving...';
@@ -1244,7 +1247,7 @@
             const userId = document.getElementById('deleteUserId').value;
             const errorDiv = document.getElementById('deleteUserError');
             const deleteBtn = document.querySelector('#deleteUserModal .btn-danger');
-            
+
             errorDiv.style.display = 'none';
             deleteBtn.disabled = true;
             deleteBtn.textContent = 'Deleting...';
