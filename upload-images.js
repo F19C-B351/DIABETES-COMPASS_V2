@@ -54,7 +54,7 @@ async function main() {
 
     // Collect all images
     const imagesToUpload = [];
-    
+
     for (const dir of IMAGE_DIRS) {
         const dirPath = path.join(__dirname, dir);
         if (!fs.existsSync(dirPath)) {
@@ -84,7 +84,7 @@ async function main() {
     for (const img of imagesToUpload) {
         try {
             const fileBuffer = fs.readFileSync(img.localPath);
-            
+
             const { data, error } = await supabase.storage
                 .from('images')
                 .upload(img.storagePath, fileBuffer, {
