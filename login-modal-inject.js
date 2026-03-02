@@ -447,6 +447,9 @@
                 // Close register modal and open login modal after a short delay
                 setTimeout(() => {
                     registerModal.classList.remove('active');
+                    // Clear login form before showing
+                    document.getElementById('login-email').value = '';
+                    document.getElementById('login-password').value = '';
                     loginModal.classList.add('active');
                 }, 2500);
 

@@ -123,12 +123,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         // Sign out the user - they need to login manually
         await supabase.auth.signOut();
-        
+
         // Registration success: show message and redirect to login
         registerError.style.color = '#388e3c';
         registerError.textContent = 'Registration successful! Please use the login form to sign in.';
         registerError.style.display = 'block';
-        
+
         setTimeout(() => {
             registerModal.classList.remove('active');
             loginModal.classList.add('active');
