@@ -102,6 +102,34 @@
             }
         };
 
+        // User role functions
+        window.getUserRole = async function () {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return null;
+                const { data, error } = await supabase.from('user_roles').select('user_role').eq('user_id', user.id).single();
+                if (error) return 'user';
+                return data?.user_role || 'user';
+            } catch (error) {
+                console.error('Error fetching user role:', error);
+                return 'user';
+            }
+        };
+
+        window.isAdmin = async function () {
+            const role = await window.getUserRole();
+            return role === 'admin';
+        };
+
+        window.isLoggedIn = async function () {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                return !!user;
+            } catch {
+                return false;
+            }
+        };
+
         // Mark as ready
         window.supabaseReady = true;
         window.dispatchEvent(new CustomEvent('supabaseReady'));
