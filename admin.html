@@ -21,9 +21,15 @@
     <div id="toast-container" style="position:fixed;top:20px;right:20px;z-index:100001;"></div>
     <style>
         @keyframes spinner-bar {
-            0% { width: 0; }
-            100% { width: 100vw; }
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100vw;
+            }
         }
+
         .toast {
             background: #333;
             color: #fff;
@@ -65,7 +71,7 @@
                 <h2>Articles Management</h2>
                 <button class="btn btn-primary" id="add-article-btn">+ Add Article</button>
             </div>
-            
+
             <div class="table-container">
                 <table class="admin-table" id="articles-table">
                     <thead>
@@ -92,7 +98,7 @@
             <div class="tab-header">
                 <h2>User Management</h2>
             </div>
-            
+
             <div class="table-container">
                 <table class="admin-table" id="users-table">
                     <thead>

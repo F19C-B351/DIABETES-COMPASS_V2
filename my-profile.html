@@ -397,7 +397,7 @@
 </head>
 
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
     <script src="supabase-init.js"></script>
 
     <nav class="navbar">
@@ -405,7 +405,9 @@
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">🏠 Home</a>
                 <a href="my-profile.html" class="nav-link">👤 My Profile</a>
-                <a href="dashboard.html" class="nav-link admin-only-link" style="display: none;">📊 Dashboard</a>
+                <a href="dashboard.html" class="nav-link admin-only-link" style="display: none;">📊 Analytics
+                    Dashboard</a>
+                <a href="admin.html" class="nav-link admin-only-link" style="display: none;">🛡️ Admin Panel</a>
                 <a href="faq.html" class="nav-link">❓ FAQ</a>
             </div>
         </div>
@@ -850,6 +852,7 @@
 
         async function loadProfile(supabase, user) {
             try {
+                console.log('📝 Loading profile for user:', user.id);
                 const { data: profile, error } = await supabase
                     .from('profiles')
                     .select('*')
@@ -857,9 +860,11 @@
                     .single();
 
                 if (error) {
-                    console.error('Error loading profile:', error);
+                    console.error('❌ Error loading profile:', error);
                     return;
                 }
+
+                console.log('✅ Profile loaded:', profile);
 
                 if (profile) {
                     // Header info
@@ -873,11 +878,16 @@
                         document.getElementById('profile-photo').src = profile.photo_url;
                     }
 
-                    // Personal info
+                    // Personal info - log the values being set
+                    console.log('📋 Setting profile fields:');
+                    console.log('  - name:', profile.name);
+                    console.log('  - email:', profile.email);
+                    console.log('  - phone:', profile.phone_number);
+                    console.log('  - diabetes_type:', profile.diabetes_type);
+
                     document.getElementById('display-diabetes-type').textContent = profile.diabetes_type || '-';
                     document.getElementById('display-glucose-unit').textContent = profile.glucose_unit || '-';
-                    document.getElementById('display-insulin-user').textContent =
-                        profile.insulin_user === true ? 'Yes' : (profile.insulin_user === false ? 'No' : '-');
+                    document.getElementById('display-insulin-user').textContent = profile.insulin_user || '-';
                     document.getElementById('display-phone').textContent = profile.phone_number || '-';
 
                     // Goals overview

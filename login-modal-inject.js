@@ -483,6 +483,8 @@
 
     // Hide/show admin-only links and admin button based on user role
     async function updateAdminLinks() {
+        console.log('🔍 updateAdminLinks called');
+
         // Wait for Supabase to be ready
         let attempts = 0;
         while (!window.supabaseReady && attempts < 50) {
@@ -490,12 +492,17 @@
             attempts++;
         }
 
-        if (!window.supabase) return;
+        if (!window.supabase) {
+            console.log('❌ Supabase not available for admin check');
+            return;
+        }
 
         const adminLinks = document.querySelectorAll('.admin-only-link');
+        console.log(`📋 Found ${adminLinks.length} admin-only-link elements`);
 
         try {
             const { data: { user } } = await window.supabase.auth.getUser();
+            console.log('👤 Current user:', user?.email || 'not logged in');
 
             if (!user) {
                 // Not logged in - hide admin links and button
@@ -506,22 +513,34 @@
             }
 
             // Check if user is admin
-            const { data: roleData } = await window.supabase
+            const { data: roleData, error: roleError } = await window.supabase
                 .from('user_roles')
                 .select('user_role')
                 .eq('user_id', user.id)
                 .single();
 
+            if (roleError) {
+                console.log('⚠️ Role check error:', roleError.message);
+            }
+
             const isAdmin = roleData?.user_role === 'admin';
+            console.log('🔑 User role:', roleData?.user_role, '| isAdmin:', isAdmin);
 
             // Update admin links visibility
             adminLinks.forEach(link => {
-                link.style.display = isAdmin ? '' : 'none';
+                if (isAdmin) {
+                    // Remove the inline style to show the element
+                    link.removeAttribute('style');
+                    console.log('👁️ Showing admin link:', link.textContent.trim());
+                } else {
+                    link.style.display = 'none';
+                }
             });
+            console.log(`✅ Updated ${adminLinks.length} admin links visibility`);
 
             // Add or remove Admin button in header
-            const btnContainer = document.getElementById('show-login-btn')?.parentElement || 
-                                 document.getElementById('logout-btn')?.parentElement;
+            const btnContainer = document.getElementById('show-login-btn')?.parentElement ||
+                document.getElementById('logout-btn')?.parentElement;
             const existingAdminBtn = document.getElementById('admin-panel-btn');
 
             if (isAdmin && btnContainer && !existingAdminBtn) {
@@ -534,7 +553,7 @@
                 adminBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
                 adminBtn.style.textDecoration = 'none';
                 adminBtn.style.display = 'inline-block';
-                
+
                 // Insert before the welcome text or first element
                 const welcomeText = document.getElementById('user-welcome-text');
                 if (welcomeText) {
@@ -554,7 +573,24 @@
         }
     }
 
-    // Run admin check
+    // Run admin check immediately
     updateAdminLinks();
+
+    // Also run when supabaseReady event fires
+    window.addEventListener('supabaseReady', () => {
+        console.log('🔄 supabaseReady event - running updateAdminLinks');
+        updateAdminLinks();
+    });
+
+    // Also run on auth state change
+    const checkAuthListener = setInterval(() => {
+        if (window.supabase && window.supabase.auth) {
+            clearInterval(checkAuthListener);
+            window.supabase.auth.onAuthStateChange((event, session) => {
+                console.log('🔄 Auth state changed:', event);
+                updateAdminLinks();
+            });
+        }
+    }, 200);
 
 })();
