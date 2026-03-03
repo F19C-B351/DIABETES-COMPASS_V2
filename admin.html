@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Compass - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="modal-styles.css">
+    <link rel="stylesheet" href="user-styles.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner"
+        style="display:none;position:fixed;top:0;left:0;width:100vw;height:6px;z-index:100000;background:linear-gradient(90deg,#667eea 0%,#764ba2 100%);animation:spinner-bar 1s linear infinite;">
+    </div>
+    <!-- Toast Notifications -->
+    <div id="toast-container" style="position:fixed;top:20px;right:20px;z-index:100001;"></div>
+    <style>
+        @keyframes spinner-bar {
+            0% { width: 0; }
+            100% { width: 100vw; }
+        }
+        .toast {
+            background: #333;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            font-size: 1rem;
+            opacity: 0.95;
+            transition: opacity 0.3s;
+        }
+    </style>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">🏠 Home</a>
+                <a href="my-profile.html" class="nav-link">👤 My Profile</a>
+                <a href="dashboard.html" class="nav-link">📊 Analytics Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>🛡️ Admin Panel</h1>
+            <p>Manage articles and users</p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="articles">📝 Article Admin</button>
+            <button class="admin-tab" data-tab="users">👥 User Admin</button>
+        </div>
+
+        <!-- Article Admin Tab -->
+        <div id="articles-tab" class="tab-content active">
+            <div class="tab-header">
+                <h2>Articles Management</h2>
+                <button class="btn btn-primary" id="add-article-btn">+ Add Article</button>
+            </div>
+            
+            <div class="table-container">
+                <table class="admin-table" id="articles-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Author</th>
+                            <th>Published</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="articles-tbody">
+                        <tr>
+                            <td colspan="6" class="loading-row">Loading articles...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- User Admin Tab -->
+        <div id="users-tab" class="tab-content">
+            <div class="tab-header">
+                <h2>User Management</h2>
+            </div>
+            
+            <div class="table-container">
+                <table class="admin-table" id="users-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Diabetes Type</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <tr>
+                            <td colspan="6" class="loading-row">Loading users...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Article Modal -->
+    <div id="article-modal" class="modal-bg">
+        <div class="modal-content admin-modal-content">
+            <button type="button" class="modal-close-btn" id="close-article-modal">&times;</button>
+            <h2 id="article-modal-title">Add Article</h2>
+            <form id="article-form">
+                <input type="hidden" id="article-id">
+                <div class="mb-3">
+                    <label for="article-title" class="form-label">Title *</label>
+                    <input type="text" class="form-control" id="article-title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="article-category" class="form-label">Category</label>
+                    <select class="form-select" id="article-category">
+                        <option value="">Select category</option>
+                        <option value="treatments">Treatments</option>
+                        <option value="nutrition">Nutrition</option>
+                        <option value="activities">Physical Activities</option>
+                        <option value="news">News</option>
+                        <option value="research">Research</option>
+                        <option value="tips">Tips & Advice</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="article-author" class="form-label">Author</label>
+                    <input type="text" class="form-control" id="article-author">
+                </div>
+                <div class="mb-3">
+                    <label for="article-image" class="form-label">Image URL</label>
+                    <input type="url" class="form-control" id="article-image" placeholder="https://...">
+                </div>
+                <div class="mb-3">
+                    <label for="article-content" class="form-label">Content *</label>
+                    <textarea class="form-control" id="article-content" rows="8" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-check-label">
+                        <input type="checkbox" id="article-published" checked>
+                        Published
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-article-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Article</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Article Confirmation Modal -->
+    <div id="delete-article-modal" class="modal-bg">
+        <div class="modal-content confirm-modal-content">
+            <button type="button" class="modal-close-btn" id="close-delete-article-modal">&times;</button>
+            <h2>Delete Article</h2>
+            <p>Are you sure you want to delete "<span id="delete-article-title"></span>"?</p>
+            <p class="text-danger">This action cannot be undone.</p>
+            <input type="hidden" id="delete-article-id">
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancel-delete-article-btn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-article-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Role Change Modal -->
+    <div id="role-modal" class="modal-bg">
+        <div class="modal-content confirm-modal-content">
+            <button type="button" class="modal-close-btn" id="close-role-modal">&times;</button>
+            <h2 id="role-modal-title">Change User Role</h2>
+            <p id="role-modal-message"></p>
+            <input type="hidden" id="role-user-id">
+            <input type="hidden" id="role-new-value">
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancel-role-btn">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirm-role-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Access Denied Message (shown to non-admins) -->
+    <div id="access-denied" style="display: none;">
+        <div class="access-denied-container">
+            <h1>🚫 Access Denied</h1>
+            <p>You do not have permission to access the Admin Panel.</p>
+            <p>This area is restricted to administrators only.</p>
+            <a href="index.html" class="btn btn-primary">Return to Home</a>
+        </div>
+    </div>
+
+    <script src="supabaseClient.js" type="module"></script>
+    <script src="admin.js" type="module"></script>
+</body>
+
+</html>

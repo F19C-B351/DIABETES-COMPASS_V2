@@ -481,7 +481,7 @@
         });
     }
 
-    // Hide/show admin-only links based on user role
+    // Hide/show admin-only links and admin button based on user role
     async function updateAdminLinks() {
         // Wait for Supabase to be ready
         let attempts = 0;
@@ -493,14 +493,15 @@
         if (!window.supabase) return;
 
         const adminLinks = document.querySelectorAll('.admin-only-link');
-        if (adminLinks.length === 0) return;
 
         try {
             const { data: { user } } = await window.supabase.auth.getUser();
 
             if (!user) {
-                // Not logged in - hide admin links
+                // Not logged in - hide admin links and button
                 adminLinks.forEach(link => link.style.display = 'none');
+                const existingAdminBtn = document.getElementById('admin-panel-btn');
+                if (existingAdminBtn) existingAdminBtn.remove();
                 return;
             }
 
@@ -513,12 +514,43 @@
 
             const isAdmin = roleData?.user_role === 'admin';
 
+            // Update admin links visibility
             adminLinks.forEach(link => {
                 link.style.display = isAdmin ? '' : 'none';
             });
+
+            // Add or remove Admin button in header
+            const btnContainer = document.getElementById('show-login-btn')?.parentElement || 
+                                 document.getElementById('logout-btn')?.parentElement;
+            const existingAdminBtn = document.getElementById('admin-panel-btn');
+
+            if (isAdmin && btnContainer && !existingAdminBtn) {
+                // Create Admin button
+                const adminBtn = document.createElement('a');
+                adminBtn.id = 'admin-panel-btn';
+                adminBtn.href = 'admin.html';
+                adminBtn.className = 'login-btn-topright';
+                adminBtn.textContent = '🛡️ Admin';
+                adminBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                adminBtn.style.textDecoration = 'none';
+                adminBtn.style.display = 'inline-block';
+                
+                // Insert before the welcome text or first element
+                const welcomeText = document.getElementById('user-welcome-text');
+                if (welcomeText) {
+                    btnContainer.insertBefore(adminBtn, welcomeText);
+                } else {
+                    btnContainer.insertBefore(adminBtn, btnContainer.firstChild);
+                }
+            } else if (!isAdmin && existingAdminBtn) {
+                // Remove Admin button if user is not admin
+                existingAdminBtn.remove();
+            }
         } catch (error) {
             console.error('Error checking admin status:', error);
             adminLinks.forEach(link => link.style.display = 'none');
+            const existingAdminBtn = document.getElementById('admin-panel-btn');
+            if (existingAdminBtn) existingAdminBtn.remove();
         }
     }
 
