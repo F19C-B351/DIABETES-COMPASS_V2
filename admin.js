@@ -1,5 +1,19 @@
-// Admin Panel JavaScript
-import { supabase } from './supabaseClient.js';
+// Admin Panel JavaScript (uses window.supabase for non-module loading)
+let supabase = window.supabase;
+
+console.log('🔌 admin.js loaded, supabase (initial):', supabase ? 'available' : 'NOT AVAILABLE');
+
+// Wait briefly for module script to initialize window.supabase if not present
+async function ensureSupabaseReady(timeout = 3000) {
+    const start = Date.now();
+    while (!window.supabase && (Date.now() - start) < timeout) {
+        await new Promise(r => setTimeout(r, 100));
+    }
+    supabase = window.supabase;
+    console.log('🔌 supabase after wait:', supabase ? 'available' : 'NOT AVAILABLE');
+}
+
+const SUPABASE_URL = 'https://uzwinhyzipndpjxmprns.supabase.co';
 
 // Utility functions
 function showSpinner() {
@@ -36,16 +50,50 @@ async function checkAdminAccess() {
         }
 
         // Check if user is admin
-        const { data: roleData, error } = await supabase
-            .from('user_roles')
-            .select('user_role')
-            .eq('user_id', user.id)
-            .single();
+        try {
+            const { data: roleData, error } = await supabase
+                .from('user_roles')
+                .select('user_role')
+                .eq('user_id', user.id)
+                .single();
 
-        if (error || roleData?.user_role !== 'admin') {
-            showAccessDenied();
-            return false;
+            if (!error && roleData?.user_role === 'admin') {
+                // User is admin - show admin panel
+                document.querySelector('.admin-container').style.display = 'block';
+                hideSpinner();
+                return true;
+            }
+        } catch (selErr) {
+            console.warn('Direct select of user_roles failed (may be RLS). Falling back to function check.', selErr);
         }
+
+        // Fallback: call Edge Function `list-users` with user's JWT to verify role server-side
+        try {
+            const token = await getAccessToken();
+            if (token) {
+                const res = await fetch(`${SUPABASE_URL}/functions/v1/list-users`, {
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
+                });
+
+                if (res.ok) {
+                    const list = await res.json();
+                    const me = (list || []).find(u => u.user_id === user.id && u.role === 'admin');
+                    if (me) {
+                        document.querySelector('.admin-container').style.display = 'block';
+                        hideSpinner();
+                        return true;
+                    }
+                } else {
+                    console.warn('Fallback list-users call returned', res.status);
+                }
+            }
+        } catch (fnErr) {
+            console.error('Error calling list-users function for admin check:', fnErr);
+        }
+
+        // Not admin
+        showAccessDenied();
+        return false;
 
         // User is admin - show admin panel
         document.querySelector('.admin-container').style.display = 'block';
@@ -92,7 +140,7 @@ let articles = [];
 
 async function loadArticles() {
     const tbody = document.getElementById('articles-tbody');
-    tbody.innerHTML = '<tr><td colspan="6" class="loading-row">Loading articles...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" class="loading-row">Loading articles...</td></tr>';
 
     try {
         const { data, error } = await supabase
@@ -116,13 +164,13 @@ function renderArticlesTable() {
     const tbody = document.getElementById('articles-tbody');
 
     if (articles.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="no-data-row">No articles found. Click "Add Article" to create one.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="no-data-row">No articles found. Click "Add Article" to create one.</td></tr>';
         return;
     }
-
     tbody.innerHTML = articles.map(article => `
         <tr data-id="${article.id}">
             <td class="truncate" title="${escapeHtml(article.title)}">${escapeHtml(article.title)}</td>
+            <td class="truncate" title="${escapeHtml(article.excerpt || '')}">${escapeHtml((article.excerpt || '').slice(0, 120))}</td>
             <td>${escapeHtml(article.category || '-')}</td>
             <td class="truncate-sm">${escapeHtml(article.author || '-')}</td>
             <td>
@@ -159,6 +207,8 @@ function openArticleModal(isEdit = false, article = null) {
         document.getElementById('article-image').value = article.image_url || '';
         document.getElementById('article-content').value = article.content || '';
         document.getElementById('article-published').checked = article.published !== false;
+        document.getElementById('article-slug').value = article.slug || '';
+        document.getElementById('article-excerpt').value = article.excerpt || '';
     } else {
         title.textContent = 'Add Article';
     }
@@ -180,6 +230,8 @@ async function saveArticle(e) {
         category: document.getElementById('article-category').value || null,
         author: document.getElementById('article-author').value.trim() || null,
         image_url: document.getElementById('article-image').value.trim() || null,
+        slug: document.getElementById('article-slug').value.trim() || null,
+        excerpt: document.getElementById('article-excerpt').value.trim() || null,
         content: document.getElementById('article-content').value.trim(),
         published: document.getElementById('article-published').checked
     };
@@ -260,49 +312,72 @@ async function confirmDeleteArticle() {
 let users = [];
 
 async function loadUsers() {
+    console.log('📋 loadUsers() (via Edge Function) called');
     const tbody = document.getElementById('users-tbody');
     tbody.innerHTML = '<tr><td colspan="6" class="loading-row">Loading users...</td></tr>';
 
     try {
-        // Get all profiles with their roles
-        const { data: profiles, error: profilesError } = await supabase
-            .from('profiles')
-            .select('*')
-            .order('created_at', { ascending: false });
+        const token = await getAccessToken();
+        if (!token) throw new Error('No access token');
 
-        if (profilesError) throw profilesError;
-
-        // Get all roles
-        const { data: roles, error: rolesError } = await supabase
-            .from('user_roles')
-            .select('*');
-
-        if (rolesError) throw rolesError;
-
-        // Combine data
-        users = (profiles || []).map(profile => {
-            const roleRecord = roles?.find(r => r.user_id === profile.user_id);
-            return {
-                ...profile,
-                role: roleRecord?.user_role || 'user',
-                role_id: roleRecord?.id
-            };
+        const res = await fetch(`${SUPABASE_URL}/functions/v1/list-users`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
         });
 
+        if (!res.ok) {
+            const text = await res.text();
+            throw new Error(text || `HTTP ${res.status}`);
+        }
+
+        const data = await res.json();
+        users = data || [];
+        console.log('📋 Users received from function:', users.length);
         renderUsersTable();
 
     } catch (error) {
-        console.error('Error loading users:', error);
-        tbody.innerHTML = '<tr><td colspan="6" class="no-data-row">Error loading users</td></tr>';
-        showToast('Error loading users: ' + error.message);
+        console.error('Error loading users via function:', error);
+        // Fallback: try direct Supabase query in dev mode
+        if (window.location.protocol === 'file:' || new URLSearchParams(window.location.search).get('force_admin') === '1') {
+            try {
+                // Get profiles and roles separately, then merge
+                const { data: profiles, error: profilesError } = await supabase
+                    .from('profiles')
+                    .select('user_id, name, email, diabetes_type, created_at');
+                if (profilesError) throw profilesError;
+                const { data: roles, error: rolesError } = await supabase
+                    .from('user_roles')
+                    .select('user_id, user_role');
+                if (rolesError) throw rolesError;
+                // Merge roles into profiles
+                const rolesMap = {};
+                (roles || []).forEach(r => { rolesMap[r.user_id] = r.user_role; });
+                users = (profiles || []).map(u => ({
+                    ...u,
+                    role: rolesMap[u.user_id] || 'user'
+                }));
+                console.log('📋 Users received from Supabase direct:', users.length);
+                renderUsersTable();
+            } catch (fallbackError) {
+                console.error('Error loading users via Supabase direct:', fallbackError);
+                tbody.innerHTML = '<tr><td colspan="6" class="no-data-row">Error loading users</td></tr>';
+                showToast('Error loading users: ' + (fallbackError.message || fallbackError));
+            }
+        } else {
+            tbody.innerHTML = '<tr><td colspan="6" class="no-data-row">Error loading users</td></tr>';
+            showToast('Error loading users: ' + (error.message || error));
+        }
     }
 }
 
 function renderUsersTable() {
+    console.log('📋 renderUsersTable() called with', users.length, 'users');
     const tbody = document.getElementById('users-tbody');
 
     if (users.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="no-data-row">No users found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="no-data-row">No users found. Click "Add User" to create one.</td></tr>';
         return;
     }
 
@@ -317,10 +392,8 @@ function renderUsersTable() {
             <td>${formatDate(user.created_at)}</td>
             <td>
                 <div class="action-btns">
-                    ${user.role === 'admin'
-            ? `<button class="btn-remove-admin" onclick="changeRole('${user.user_id}', 'user', '${escapeHtml(user.name || user.email || 'this user')}')">Remove Admin</button>`
-            : `<button class="btn-make-admin" onclick="changeRole('${user.user_id}', 'admin', '${escapeHtml(user.name || user.email || 'this user')}')">Make Admin</button>`
-        }
+                    <button class="btn-edit" onclick="editUser('${user.user_id}')">Edit</button>
+                    <button class="btn-delete" onclick="deleteUser('${user.user_id}', '${escapeHtml(user.email || user.name || 'this user')}')">Delete</button>
                 </div>
             </td>
         </tr>
@@ -392,6 +465,175 @@ async function confirmRoleChange() {
 }
 
 // =====================
+// USER CRUD OPERATIONS
+// =====================
+
+
+async function getAccessToken() {
+    const { data: { session } } = await supabase.auth.getSession();
+    return session?.access_token;
+}
+
+function openUserModal(isEdit = false, user = null) {
+    const modal = document.getElementById('user-modal');
+    const title = document.getElementById('user-modal-title');
+    const form = document.getElementById('user-form');
+    const passwordInput = document.getElementById('user-password');
+    const passwordHint = document.getElementById('password-hint');
+    const saveBtn = document.getElementById('save-user-btn');
+    const errorDiv = document.getElementById('user-modal-error');
+
+    // Reset form
+    form.reset();
+    errorDiv.style.display = 'none';
+    document.getElementById('user-id').value = '';
+
+    if (isEdit && user) {
+        title.textContent = 'Edit User';
+        saveBtn.textContent = 'Save Changes';
+        passwordInput.required = false;
+        passwordHint.textContent = '(leave blank to keep current)';
+
+        document.getElementById('user-id').value = user.user_id;
+        document.getElementById('user-email').value = user.email || '';
+        document.getElementById('user-name').value = user.name || '';
+        document.getElementById('user-role').value = user.role || 'user';
+        document.getElementById('user-diabetes-type').value = user.diabetes_type || '';
+        document.getElementById('user-glucose-unit').value = user.glucose_unit || 'mg/dL';
+        document.getElementById('user-insulin-user').value = user.insulin_user || 'No';
+        document.getElementById('user-phone').value = user.phone_number || '';
+    } else {
+        title.textContent = 'Add User';
+        saveBtn.textContent = 'Create User';
+        passwordInput.required = true;
+        passwordHint.textContent = '(min 6 characters)';
+    }
+
+    modal.classList.add('active');
+}
+
+function closeUserModal() {
+    document.getElementById('user-modal').classList.remove('active');
+}
+
+async function saveUser(e) {
+    e.preventDefault();
+    showSpinner();
+
+    const userId = document.getElementById('user-id').value;
+    const errorDiv = document.getElementById('user-modal-error');
+    const saveBtn = document.getElementById('save-user-btn');
+
+    errorDiv.style.display = 'none';
+    saveBtn.disabled = true;
+
+    const formData = {
+        email: document.getElementById('user-email').value.trim(),
+        name: document.getElementById('user-name').value.trim() || null,
+        role: document.getElementById('user-role').value,
+        diabetes_type: document.getElementById('user-diabetes-type').value || null,
+        glucose_unit: document.getElementById('user-glucose-unit').value,
+        insulin_user: document.getElementById('user-insulin-user').value,
+        phone_number: document.getElementById('user-phone').value.trim() || null
+    };
+
+    const password = document.getElementById('user-password').value;
+    if (password) {
+        formData.password = password;
+    }
+
+    try {
+        const token = await getAccessToken();
+        const endpoint = userId ? 'update-user' : 'create-user';
+
+        if (userId) {
+            formData.user_id = userId;
+        }
+
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || `Failed to ${userId ? 'update' : 'create'} user`);
+        }
+
+        closeUserModal();
+        showToast(userId ? 'User updated successfully!' : 'User created successfully!');
+        await loadUsers();
+
+    } catch (error) {
+        console.error('Error saving user:', error);
+        errorDiv.textContent = error.message;
+        errorDiv.style.display = 'block';
+    } finally {
+        hideSpinner();
+        saveBtn.disabled = false;
+    }
+}
+
+window.editUser = function (userId) {
+    const user = users.find(u => u.user_id === userId);
+    if (user) {
+        openUserModal(true, user);
+    }
+};
+
+window.deleteUser = function (userId, email) {
+    document.getElementById('delete-user-id').value = userId;
+    document.getElementById('delete-user-email').textContent = email;
+    document.getElementById('delete-user-error').style.display = 'none';
+    document.getElementById('delete-user-modal').classList.add('active');
+};
+
+async function confirmDeleteUser() {
+    showSpinner();
+    const userId = document.getElementById('delete-user-id').value;
+    const errorDiv = document.getElementById('delete-user-error');
+    const deleteBtn = document.getElementById('confirm-delete-user-btn');
+
+    errorDiv.style.display = 'none';
+    deleteBtn.disabled = true;
+
+    try {
+        const token = await getAccessToken();
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/delete-user`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ user_id: userId })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || 'Failed to delete user');
+        }
+
+        document.getElementById('delete-user-modal').classList.remove('active');
+        showToast('User deleted successfully!');
+        await loadUsers();
+
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        errorDiv.textContent = error.message;
+        errorDiv.style.display = 'block';
+    } finally {
+        hideSpinner();
+        deleteBtn.disabled = false;
+    }
+}
+
+// =====================
 // UTILITY FUNCTIONS
 // =====================
 
@@ -447,6 +689,27 @@ function initEventListeners() {
     });
     document.getElementById('confirm-role-btn').addEventListener('click', confirmRoleChange);
 
+    // Add User button
+    document.getElementById('add-user-btn').addEventListener('click', () => {
+        openUserModal(false);
+    });
+
+    // User form submit
+    document.getElementById('user-form').addEventListener('submit', saveUser);
+
+    // Close user modal
+    document.getElementById('close-user-modal').addEventListener('click', closeUserModal);
+    document.getElementById('cancel-user-btn').addEventListener('click', closeUserModal);
+
+    // Delete user modal
+    document.getElementById('close-delete-user-modal').addEventListener('click', () => {
+        document.getElementById('delete-user-modal').classList.remove('active');
+    });
+    document.getElementById('cancel-delete-user-btn').addEventListener('click', () => {
+        document.getElementById('delete-user-modal').classList.remove('active');
+    });
+    document.getElementById('confirm-delete-user-btn').addEventListener('click', confirmDeleteUser);
+
     // Close modals on background click
     document.querySelectorAll('.modal-bg').forEach(modal => {
         modal.addEventListener('click', (e) => {
@@ -471,23 +734,49 @@ function initEventListeners() {
 // =====================
 
 async function init() {
+    console.log('🚀 Admin panel init() starting...');
+    // Ensure Supabase client is ready, then check admin access
+    await ensureSupabaseReady();
+    // Developer/file-mode override: if page is opened via file:// or ?force_admin=1, show panel for local testing
+    const urlParams = new URLSearchParams(window.location.search);
+    const isFileProtocol = window.location.protocol === 'file:' || urlParams.get('force_admin') === '1';
+    if (isFileProtocol) {
+        console.warn('Developer mode: forcing admin panel visible (file:// or ?force_admin=1)');
+        document.querySelector('.admin-container').classList.add('dev-visible');
+        // initialize UI but still attempt to load data if possible
+        initTabs();
+        initEventListeners();
+        await loadArticles().catch(e => console.warn('loadArticles failed in dev mode:', e));
+        await loadUsers().catch(e => console.warn('loadUsers failed in dev mode:', e));
+        console.log('🚀 Dev-mode init complete');
+        return;
+    }
+
     // First check admin access
     const isAdmin = await checkAdminAccess();
+    console.log('🚀 isAdmin:', isAdmin);
 
     if (!isAdmin) {
+        console.log('🚀 Not admin, returning');
         return;
     }
 
     // Initialize tabs
+    console.log('🚀 Initializing tabs...');
     initTabs();
 
     // Initialize event listeners
+    console.log('🚀 Initializing event listeners...');
     initEventListeners();
 
     // Load initial data
+    console.log('🚀 Loading articles...');
     await loadArticles();
+    console.log('🚀 Loading users...');
     await loadUsers();
+    console.log('🚀 Init complete');
 }
 
 // Start the app
+console.log('🚀 Starting admin.js module...');
 init();

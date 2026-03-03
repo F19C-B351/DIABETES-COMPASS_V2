@@ -14,34 +14,9 @@
 
 <body>
     <!-- Loading Spinner -->
-    <div id="loading-spinner"
-        style="display:none;position:fixed;top:0;left:0;width:100vw;height:6px;z-index:100000;background:linear-gradient(90deg,#667eea 0%,#764ba2 100%);animation:spinner-bar 1s linear infinite;">
-    </div>
+    <div id="loading-spinner"></div>
     <!-- Toast Notifications -->
-    <div id="toast-container" style="position:fixed;top:20px;right:20px;z-index:100001;"></div>
-    <style>
-        @keyframes spinner-bar {
-            0% {
-                width: 0;
-            }
-
-            100% {
-                width: 100vw;
-            }
-        }
-
-        .toast {
-            background: #333;
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            font-size: 1rem;
-            opacity: 0.95;
-            transition: opacity 0.3s;
-        }
-    </style>
+    <div id="toast-container"></div>
 
     <nav class="navbar">
         <div class="nav-container">
@@ -61,11 +36,11 @@
 
         <!-- Tab Navigation -->
         <div class="admin-tabs">
-            <button class="admin-tab active" data-tab="articles">📝 Article Admin</button>
-            <button class="admin-tab" data-tab="users">👥 User Admin</button>
+            <button class="admin-tab active" data-tab="articles">📝 Content Admin</button>
+            <button class="admin-tab" data-tab="users">👥 User Administration</button>
         </div>
 
-        <!-- Article Admin Tab -->
+        <!-- Content Admin Tab -->
         <div id="articles-tab" class="tab-content active">
             <div class="tab-header">
                 <h2>Articles Management</h2>
@@ -77,6 +52,7 @@
                     <thead>
                         <tr>
                             <th>Title</th>
+                            <th>Excerpt</th>
                             <th>Category</th>
                             <th>Author</th>
                             <th>Published</th>
@@ -86,7 +62,7 @@
                     </thead>
                     <tbody id="articles-tbody">
                         <tr>
-                            <td colspan="6" class="loading-row">Loading articles...</td>
+                            <td colspan="7" class="loading-row">Loading articles...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -97,6 +73,7 @@
         <div id="users-tab" class="tab-content">
             <div class="tab-header">
                 <h2>User Management</h2>
+                <button class="btn btn-primary" id="add-user-btn">+ Add User</button>
             </div>
 
             <div class="table-container">
@@ -114,6 +91,36 @@
                     <tbody id="users-tbody">
                         <tr>
                             <td colspan="6" class="loading-row">Loading users...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Site Pages (simple list placeholder) -->
+        <div id="site-pages" class="tab-content">
+            <div class="tab-header">
+                <h2>Site Pages</h2>
+            </div>
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Page</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>index.html</td>
+                            <td>Homepage content (use Articles for posts)</td>
+                            <td><button class="btn-secondary" disabled>Edit (repo)</button></td>
+                        </tr>
+                        <tr>
+                            <td>nutrition.html</td>
+                            <td>Nutrition guidance page</td>
+                            <td><button class="btn-secondary" disabled>Edit (repo)</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -151,6 +158,14 @@
                 <div class="mb-3">
                     <label for="article-image" class="form-label">Image URL</label>
                     <input type="url" class="form-control" id="article-image" placeholder="https://...">
+                </div>
+                <div class="mb-3">
+                    <label for="article-slug" class="form-label">Slug (optional)</label>
+                    <input type="text" class="form-control" id="article-slug" placeholder="my-article-slug">
+                </div>
+                <div class="mb-3">
+                    <label for="article-excerpt" class="form-label">Excerpt</label>
+                    <textarea class="form-control" id="article-excerpt" rows="3" placeholder="Short summary"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="article-content" class="form-label">Content *</label>
@@ -200,8 +215,94 @@
         </div>
     </div>
 
+    <!-- Add/Edit User Modal -->
+    <div id="user-modal" class="modal-bg">
+        <div class="modal-content admin-modal-content">
+            <button type="button" class="modal-close-btn" id="close-user-modal">&times;</button>
+            <h2 id="user-modal-title">Add User</h2>
+            <div id="user-modal-error" class="modal-error"></div>
+            <form id="user-form">
+                <input type="hidden" id="user-id">
+                <div class="mb-3">
+                    <label for="user-email" class="form-label">Email *</label>
+                    <input type="email" class="form-control" id="user-email" required placeholder="user@example.com">
+                </div>
+                <div class="mb-3">
+                    <label for="user-password" class="form-label">Password <span id="password-hint">(min 6
+                            characters)</span></label>
+                    <input type="password" class="form-control" id="user-password" minlength="6"
+                        placeholder="Minimum 6 characters">
+                </div>
+                <div class="mb-3">
+                    <label for="user-name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="user-name" placeholder="John Doe">
+                </div>
+                <div class="form-row">
+                    <div class="mb-3">
+                        <label for="user-role" class="form-label">Role *</label>
+                        <select class="form-select" id="user-role" required>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="user-diabetes-type" class="form-label">Diabetes Type</label>
+                        <select class="form-select" id="user-diabetes-type">
+                            <option value="">-- Select --</option>
+                            <option value="Type 1">Type 1</option>
+                            <option value="Type 2">Type 2</option>
+                            <option value="Gestational">Gestational</option>
+                            <option value="Pre-diabetes">Pre-diabetes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="mb-3">
+                        <label for="user-glucose-unit" class="form-label">Glucose Unit</label>
+                        <select class="form-select" id="user-glucose-unit">
+                            <option value="mg/dL">mg/dL</option>
+                            <option value="mmol/L">mmol/L</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="user-insulin-user" class="form-label">Insulin User</label>
+                        <select class="form-select" id="user-insulin-user">
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="user-phone" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="user-phone" placeholder="+1234567890">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-user-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-user-btn">Create User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete User Confirmation Modal -->
+    <div id="delete-user-modal" class="modal-bg">
+        <div class="modal-content confirm-modal-content">
+            <button type="button" class="modal-close-btn" id="close-delete-user-modal">&times;</button>
+            <h2>Delete User</h2>
+            <div id="delete-user-error" class="modal-error"></div>
+            <p>Are you sure you want to delete this user?</p>
+            <p><strong id="delete-user-email"></strong></p>
+            <p class="text-danger">⚠️ This action cannot be undone. All user data will be permanently removed.</p>
+            <input type="hidden" id="delete-user-id">
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancel-delete-user-btn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-user-btn">Delete User</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Access Denied Message (shown to non-admins) -->
-    <div id="access-denied" style="display: none;">
+    <div id="access-denied">
         <div class="access-denied-container">
             <h1>🚫 Access Denied</h1>
             <p>You do not have permission to access the Admin Panel.</p>
@@ -210,8 +311,8 @@
         </div>
     </div>
 
-    <script src="supabaseClient.js" type="module"></script>
-    <script src="admin.js" type="module"></script>
+    <script src="supabaseClient.js"></script>
+    <script defer src="admin.js"></script>
 </body>
 
 </html>

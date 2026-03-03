@@ -6,6 +6,59 @@
     padding: 20px;
 }
 
+/* Hidden by default until admin access is verified */
+.admin-container {
+    display: none;
+}
+
+/* Developer override to show admin panel when running from file:// or using ?force_admin=1 */
+.admin-container.dev-visible {
+    display: block;
+}
+
+/* Loading spinner (top thin progress bar) */
+#loading-spinner {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 6px;
+    z-index: 100000;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    animation: spinner-bar 1s linear infinite;
+}
+
+@keyframes spinner-bar {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 100vw;
+    }
+}
+
+/* Toast notifications container */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100001;
+}
+
+.toast {
+    background: #333;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-size: 1rem;
+    opacity: 0.95;
+    transition: opacity 0.3s;
+}
+
 .admin-header {
     text-align: center;
     margin-bottom: 30px;
@@ -373,6 +426,11 @@ textarea.form-control {
     margin: 0 auto;
 }
 
+/* Hidden by default; shown when non-admin */
+#access-denied {
+    display: none;
+}
+
 .access-denied-container h1 {
     color: #dc3545;
     font-size: 2.5rem;
@@ -476,4 +534,45 @@ textarea.form-control {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Form Row (side-by-side fields) */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+@media (max-width: 500px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Modal Error/Success Messages */
+.modal-error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    border: 1px solid #f5c6cb;
+}
+
+.modal-success {
+    background: #d4edda;
+    color: #155724;
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    border: 1px solid #c3e6cb;
+}
+
+/* Text Danger */
+.text-danger {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 10px;
 }
